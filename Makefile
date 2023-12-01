@@ -17,8 +17,7 @@ CFLAGS := -Wall -Werror -Wextra #-g
 HDR_FILES :=	cub3d.h
 
 # Libft
-LIBFT_DIR		:= $(LIB_DIR)/libft
-LIB				:= $(LIBFT_DIR)/libft.a
+LIB				:= $(LIB_DIR)/libft.a
 
 
 # Files
@@ -38,12 +37,14 @@ RESET	:= \033[0m
 # Rules
 all: ${NAME}
 
-$(NAME): $(OBJ)
+$(NAME): $(OBJ) $(LIB)
 	@printf "%b%s%b" "$(YELLOW)$(BOLD)" "Compiling $(NICKNAME)..." "$(RESET)"
-	@gcc $(CFLAGS) $(OBJ) -o $@ MLX42/build/libmlx42.a -ldl -lglfw -lm -pthread -I MLX42/include
+	@gcc $(CFLAGS) $(OBJ) $(LIB) -o $@ MLX42/build/libmlx42.a -ldl -lglfw -lm -pthread -I MLX42/include
 	@printf "\t\t%b%s%b\n" "$(GREEN)$(BOLD)" "[OK]" "$(RESET)"
 	# @gcc $(CFLAGS) $(OBJ) -o $(NAME) -lpthread
 
+$(LIB):
+	@ make -C $(LIB_DIR)
 
 $(OBJ_DIR)/%.o: src/%.c $(HDR)
 	@mkdir -p obj
@@ -59,12 +60,16 @@ clean:
 	@echo "$(RED)$(BOLD)Cleaning $(NICKNAME)...$(RESET)"
 	@rm -rf $(OBJ)
 	@rm -rf $(OBJ_DIR)
+	@ make $(MAKEFLAGS) clean -C $(LIB_DIR)
+
 
 fclean:
 	@echo "$(RED)$(BOLD)Fully cleaning $(NICKNAME)...$(RESET)"
 	@rm -rf ${NAME}
 	@rm -rf $(OBJ)
 	@rm -rf $(OBJ_DIR)
+	@ make $(MAKEFLAGS) fclean -C $(LIB_DIR)
+
 
 
 re: fclean ${NAME}
