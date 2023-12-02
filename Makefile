@@ -9,7 +9,7 @@ LIB_DIR := libft
 
 # Compiler flags
 CC := cc
-CFLAGS := -Wall -Werror -Wextra #-g 
+CFLAGS := -Wall -Werror -Wextra -g 
 #CFLAGS +=	-fsanitize=address
 # CFLAGS +=	-fsanitize=thread
 
@@ -21,7 +21,7 @@ LIB				:= $(LIB_DIR)/libft.a
 
 
 # Files
-SRC_FILES :=	main.c 
+SRC_FILES :=	main.c parse.c test_parse_data.c
 
 SRC := $(addprefix $(SRC_DIR)/, $(SRC_FILES))
 OBJ := ${addprefix ${OBJ_DIR}/, ${SRC_FILES:.c=.o}}

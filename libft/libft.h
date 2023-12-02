@@ -6,12 +6,16 @@
 /*   By: kkalika <kkalika@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/11 15:52:35 by kkalika           #+#    #+#             */
-/*   Updated: 2022/02/12 16:48:34 by kkalika          ###   ########.fr       */
+/*   Updated: 2023/12/02 14:25:11 by kkalika          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LIBFT_H
 # define LIBFT_H
+
+# ifndef BUFFERSIZE
+#  define BUFFERSIZE 42
+# endif
 
 # include <stdlib.h>
 # include <unistd.h>
@@ -50,5 +54,15 @@ void	ft_putchar_fd(char c, int fd);
 void	ft_putstr_fd(char *s, int fd);
 void	ft_putendl_fd(char *s, int fd);
 void	ft_putnbr_fd(int n, int fd);
+char	*get_next_line(int fd);
+char	*strljoin(char *s1, char *s2, int length, int x);
+char	*freegnl(char *s);
+int		nl(const char *s);
+int		lookend(const char *s);
+
+
+
+
+
 
 #endif
