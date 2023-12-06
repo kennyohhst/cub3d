@@ -9,9 +9,10 @@ LIB_DIR := libft
 
 # Compiler flags
 CC := cc
-CFLAGS := -Wall -Werror -Wextra -g 
-#CFLAGS +=	-fsanitize=address
-# CFLAGS +=	-fsanitize=thread
+CFLAGS := -Wall -Werror -Wextra
+ifeq ($(DEBUG), 1)
+    CFLAGS += -g
+endif
 
 # Includes
 HDR_FILES :=	cub3d.h
@@ -39,16 +40,26 @@ all: ${NAME}
 
 $(NAME): $(OBJ) $(LIB)
 	@printf "%b%s%b" "$(YELLOW)$(BOLD)" "Compiling $(NICKNAME)..." "$(RESET)"
-	@gcc $(CFLAGS) $(OBJ) $(LIB) -o $@ MLX42/build/libmlx42.a -ldl -lglfw -lm -pthread -I MLX42/include
+	@$(CC) $(CFLAGS) $(OBJ) $(LIB) -o $@ MLX42/build/libmlx42.a -ldl -lglfw -lm -pthread -I MLX42/include
 	@printf "\t\t%b%s%b\n" "$(GREEN)$(BOLD)" "[OK]" "$(RESET)"
-	# @gcc $(CFLAGS) $(OBJ) -o $(NAME) -lpthread
 
 $(LIB):
 	@ make -C $(LIB_DIR)
 
 $(OBJ_DIR)/%.o: src/%.c $(HDR)
 	@mkdir -p obj
-	@gcc $(CFLAGS) -I $(HDR_DIR) -c $< -o $@
+	@$(CC) $(CFLAGS) -I $(HDR_DIR) -c $< -o $@
+
+run: all
+	@printf "$(GREEN)--------------\n RUN $(NAME) \n--------------\n$(RESET)"
+	@./$(NAME)	
+
+valgrind: all
+	@printf "$(GREEN)------------------\n RUN $(NAME) with VALGRIND \n------------------\n$(RESET)"
+	@valgrind --leak-check=full ./$(NAME)
+
+debug:
+	@$(MAKE) DEBUG=1 all
 
 open: $(NAME)
 	@./$(NAME)
@@ -74,4 +85,4 @@ fclean:
 
 re: fclean ${NAME}
 
-.PHONY: all norminette clean fclean re
+.PHONY: all norminette run debug valgrind open clean fclean re
