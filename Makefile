@@ -22,7 +22,9 @@ LIB				:= $(LIB_DIR)/libft.a
 
 
 # Files
-SRC_FILES :=	main.c parse.c test_parse_data.c
+SRC_FILES :=	main.c parse.c test_parse_data.c render_main.c \
+				./structs/init.c
+				./textures/init.c
 
 SRC := $(addprefix $(SRC_DIR)/, $(SRC_FILES))
 OBJ := ${addprefix ${OBJ_DIR}/, ${SRC_FILES:.c=.o}}
