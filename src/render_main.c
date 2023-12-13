@@ -6,7 +6,7 @@
 /*   By: juliusdebaaij <juliusdebaaij@student.co      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/12/08 16:13:57 by juliusdebaa   #+#    #+#                 */
-/*   Updated: 2023/12/08 16:51:37 by juliusdebaa   ########   odam.nl         */
+/*   Updated: 2023/12/13 15:49:04 by jde-baai      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 bool	game(t_god *data)
 {
+	char str[10] = {"11111", "10001", "10001", "10101", "10001", "10N01",
+		"10001", "11111", ""};
 	// data->mlx = mlx_init();
 	// if (!data->mlx)
 	// 	return (false);
