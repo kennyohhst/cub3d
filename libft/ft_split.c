@@ -6,13 +6,13 @@
 /*   By: code <code@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/12 14:49:31 by kkalika           #+#    #+#             */
-/*   Updated: 2022/12/27 15:01:56 by code             ###   ########.fr       */
+/*   Updated: 2023/12/10 16:11:00 by code             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static char	**ft_free(char **str)
+char	**ft_free(char **str)
 {
 	int	i;
 

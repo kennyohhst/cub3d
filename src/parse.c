@@ -3,22 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kkalika <kkalika@student.42.fr>            +#+  +:+       +#+        */
+/*   By: code <code@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/02 14:14:43 by kkalika           #+#    #+#             */
-/*   Updated: 2023/12/02 14:45:07 by kkalika          ###   ########.fr       */
+/*   Updated: 2023/12/13 14:05:50 by code             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/cub3d.h"
 
-char	**parse(char ***temp, char *map_input)
+char	**parse(char *map_input, t_god *data)
 {
 	int		fd;
 	char	*temp_str;
 	char	*str;
-	char	**full_map;
-
+	char	**no_spaces_file;
+	
 	str = NULL;
 	fd = open(map_input, O_RDONLY);
 	if (fd < 0)
@@ -30,9 +30,9 @@ char	**parse(char ***temp, char *map_input)
 		free(temp_str);
 		temp_str = get_next_line(fd);
 	}
-	full_map = ft_split(str, '\n');
-	(*temp) = ft_split(str, '\n');
+	no_spaces_file = ft_split(str, '\n');
+	data->full_map = &no_spaces_file[6];
 	free(str);
 	close(fd);
-	return (full_map);
+	return (no_spaces_file);
 }

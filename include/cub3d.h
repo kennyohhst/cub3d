@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kkalika <kkalika@student.42.fr>            +#+  +:+       +#+        */
+/*   By: code <code@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/01 16:01:38 by code              #+#    #+#             */
-/*   Updated: 2023/12/02 14:45:47 by kkalika          ###   ########.fr       */
+/*   Updated: 2023/12/13 14:07:29 by code             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,10 @@ typedef struct game_textures
 
 typedef struct g_struct
 {
+	char	**no_spaces_file;
 	char	**full_map;
+	char	*textures_path[5];
+	char	*floor_ceiling[3];
 	int		line_number_map;
 	int		line_number_c_f;
 	int		line_number_texture_path;
@@ -60,7 +63,10 @@ typedef struct g_struct
 
 
 void    test_parse_data(t_god *data);
-char	**parse(char ***temp, char *map_input);
+char	**parse(char *map_input, t_god *data);
+void	one_of_each(char **full_map, char *c);
+void	free_all(t_god *data);
+
 
 
 
