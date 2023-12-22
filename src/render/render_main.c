@@ -6,16 +6,39 @@
 /*   By: juliusdebaaij <juliusdebaaij@student.co      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/12/08 16:13:57 by juliusdebaa   #+#    #+#                 */
-/*   Updated: 2023/12/13 15:49:04 by jde-baai      ########   odam.nl         */
+/*   Updated: 2023/12/22 17:33:46 by jde-baai      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/cub3d.h"
 
-bool	game(t_god *data)
+int	main(void)
 {
-	char str[10] = {"11111", "10001", "10001", "10101", "10001", "10N01",
+	t_render	game;
+
+	char *set_map[] = {"11111", "10001", "10001", "10101", "10001", "10N01",
 		"10001", "11111", ""};
+	game.text.ceiling_color = (255 << 24) | (173 << 16) | (216 << 8) | 230;
+	// alpha is 255(opacity), r is 173, g 216, b = 230
+	game.text.floor_color = (255 << 24) | (76 << 16) | (28 << 8) | 36;
+	game.map = set_map;
+	run_game(game);
+	return (0);
+}
+
+bool	run_game(t_render game)
+{
+	game.player.px = 2;
+	game.player.py = 5;
+	if (game.map[game.player.py][game.player.px] == 'N')
+		game.player.pd = 0 * PI;
+	if (game.map[game.player.py][game.player.px] == 'E')
+		game.player.pd = 0.5 * PI;
+	if (game.map[game.player.py][game.player.px] == 'S')
+		game.player.pd = 1 * PI;
+	if (game.map[game.player.py][game.player.px] == 'W')
+		game.player.pd = 1.5 * PI;
+
 	// data->mlx = mlx_init();
 	// if (!data->mlx)
 	// 	return (false);
