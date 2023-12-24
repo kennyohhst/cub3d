@@ -6,7 +6,7 @@
 /*   By: juliusdebaaij <juliusdebaaij@student.co      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/12/08 16:13:57 by juliusdebaa   #+#    #+#                 */
-/*   Updated: 2023/12/22 17:33:46 by jde-baai      ########   odam.nl         */
+/*   Updated: 2023/12/24 15:53:32 by juliusdebaa   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,9 @@
 int	main(void)
 {
 	t_render	game;
+	char		*set_map[] = {"11111", "10001", "10001", "10101", "10001", "10N01", "10001", "11111", ""};
 
-	char *set_map[] = {"11111", "10001", "10001", "10101", "10001", "10N01",
-		"10001", "11111", ""};
+
 	game.text.ceiling_color = (255 << 24) | (173 << 16) | (216 << 8) | 230;
 	// alpha is 255(opacity), r is 173, g 216, b = 230
 	game.text.floor_color = (255 << 24) | (76 << 16) | (28 << 8) | 36;
@@ -38,21 +38,18 @@ bool	run_game(t_render game)
 		game.player.pd = 1 * PI;
 	if (game.map[game.player.py][game.player.px] == 'W')
 		game.player.pd = 1.5 * PI;
+	game.mlx = mlx_init(WIDTH, HEIGHT, "cub3D", false);
+	if (!game.mlx)
+		exit(EXIT_FAILURE);
 
-	// data->mlx = mlx_init();
-	// if (!data->mlx)
-	// 	return (false);
-	// data->textures = init_textures(data->mlx);
-	// if (!data->textures)
-	// 	return (false);
-	// data->collectables = 0;
-	// data->moves = 0;
-	// data->p_x = data->map->player_x;
-	// data->p_y = data->map->player_y;
-	// if (!render(data))
-	// 	return (false);
-	// mlx_hook(data->mlx->window, 2, 1L << 0, key_press, data);
-	// mlx_hook(data->mlx->window, 17, 1L << 17, close_window, data);
-	// mlx_loop(data->mlx->mlx);
+	mlx_image_t *img_floor = mlx_new_image(game.mlx, WIDTH, HEIGHT / 2);
+	memset(img_floor->pixels, game.text.ceiling_color, img_floor->width * img_floor->height * BPP);
+
+	mlx_image_t *img_ceiling = mlx_new_image(game.mlx, WIDTH, HEIGHT / 2);
+	memset(img_ceiling->pixels, game.text.ceiling_color, img_ceiling->width * img_ceiling->height * BPP);
+	mlx_image_to_window(game.mlx, img_floor, 0, HEIGHT / 2);
+
+	mlx_loop(game.mlx);
+	mlx_terminate(game.mlx);
 	return (true);
 }

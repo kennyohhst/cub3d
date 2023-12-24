@@ -6,7 +6,7 @@
 /*   By: jde-baai <jde-baai@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/12/22 13:21:17 by jde-baai      #+#    #+#                 */
-/*   Updated: 2023/12/22 17:04:33 by jde-baai      ########   odam.nl         */
+/*   Updated: 2023/12/24 13:39:49 by juliusdebaa   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,3 +15,6 @@
 #define FOV 60
 #define ROTATE 0.1
 #define MS 0.2
+#define WIDTH 640
+#define HEIGHT 480
+#define BPP sizeof(int32_t)
