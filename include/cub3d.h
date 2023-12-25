@@ -6,7 +6,7 @@
 /*   By: code <code@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/01 16:01:38 by code              #+#    #+#             */
-/*   Updated: 2023/12/13 14:07:29 by code             ###   ########.fr       */
+/*   Updated: 2023/12/25 16:49:19 by code             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,12 @@ void    test_parse_data(t_god *data);
 char	**parse(char *map_input, t_god *data);
 void	one_of_each(char **full_map, char *c);
 void	free_all(t_god *data);
+bool	check_game_data(t_god *data);
+void	check_file_extension(char *str);
+void	double_data(t_god *game_data);
+int		search_correct_type(t_god *data);
+int		dp_strlen(char **str);
+
 
 
 

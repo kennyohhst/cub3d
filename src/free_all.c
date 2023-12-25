@@ -6,7 +6,7 @@
 /*   By: code <code@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/10 16:08:11 by code              #+#    #+#             */
-/*   Updated: 2023/12/10 18:12:05 by code             ###   ########.fr       */
+/*   Updated: 2023/12/25 17:03:50 by code             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,17 +21,13 @@ void	free_all(t_god *data)
 	{
 		while (data->no_spaces_file[i])
 			free(data->no_spaces_file[i++]);
-
 		free(data->no_spaces_file);
 		free(data->floor_ceiling[0]);
 		free(data->floor_ceiling[1]);
-
 		free(data->textures_path[0]);
 		free(data->textures_path[1]);
 		free(data->textures_path[2]);
 		free(data->textures_path[3]);
-
 	}
 	free(data);
-	// printf("hi\n");
 }

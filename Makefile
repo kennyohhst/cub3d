@@ -9,7 +9,7 @@ LIB_DIR := libft
 
 # Compiler flags
 CC := cc
-CFLAGS := -Wall -Werror -Wextra -fsanitize=address -g
+CFLAGS := -Wall -Werror -Wextra #-fsanitize=address -g
 ifeq ($(DEBUG), 1)
     CFLAGS += -g
 endif
@@ -22,7 +22,8 @@ LIB				:= $(LIB_DIR)/libft.a
 
 
 # Files
-SRC_FILES :=	main.c parse.c test_parse_data.c one_of_each.c free_all.c
+SRC_FILES :=	main.c parse.c test_parse_data.c search_correct_type.c free_all.c check_game_data.c \
+				check_file_extension.c
 
 SRC := $(addprefix $(SRC_DIR)/, $(SRC_FILES))
 OBJ := ${addprefix ${OBJ_DIR}/, ${SRC_FILES:.c=.o}}

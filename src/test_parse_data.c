@@ -6,12 +6,11 @@
 /*   By: code <code@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/02 13:59:46 by kkalika           #+#    #+#             */
-/*   Updated: 2023/12/13 14:04:22 by code             ###   ########.fr       */
+/*   Updated: 2023/12/25 17:01:21 by code             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/cub3d.h"
-
 
 void	run_floor_ceiling(char **f_c)
 {
@@ -27,7 +26,6 @@ void	run_floor_ceiling(char **f_c)
 	while (f_c[i])
 		printf("			%s\n", f_c[i++]);
 	printf("\n---------------------------------------------------------------------\n");
-	
 }
 
 void	run_textures_path(char **t_p)
@@ -57,7 +55,7 @@ void	run_only_map(char **om)
 		return ;
 	}
 	printf("----------------------------Only map:--------------------------------\n\n");
-	while (om[i])
+	while (om && om[i])
 		printf("			%s\n", om[i++]);
 	printf("\n---------------------------------------------------------------------\n");
 }
@@ -80,7 +78,7 @@ void	run_no_spaces_file(char **nsf)
 
 void    test_parse_data(t_god *data)
 {
-    t_god   *temp;
+	t_god   *temp;
 
     if (!data)
 	{
