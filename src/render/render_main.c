@@ -6,7 +6,7 @@
 /*   By: juliusdebaaij <juliusdebaaij@student.co      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/12/08 16:13:57 by juliusdebaa   #+#    #+#                 */
-/*   Updated: 2023/12/27 16:33:59 by jde-baai      ########   odam.nl         */
+/*   Updated: 2023/12/27 16:40:25 by jde-baai      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,10 @@ bool	run_game(t_render game)
 	if (!game.mlx)
 		exit(EXIT_FAILURE);
 	set_background(game);
+	game.text.img_walls = mlx_new_image(game.mlx, WIDTH, HEIGHT / 2);
+	// walls to be rendered on the floor
+	// function to put pixels in the image
+	mlx_image_to_window(game.mlx, game.text.img_walls, 0, 0);
 	mlx_key_hook(game.mlx, &sl_hooks, &game);
 	mlx_loop(game.mlx);
 	mlx_terminate(game.mlx);
