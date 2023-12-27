@@ -6,7 +6,7 @@
 /*   By: jde-baai <jde-baai@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/12/22 13:21:17 by jde-baai      #+#    #+#                 */
-/*   Updated: 2023/12/24 13:39:49 by juliusdebaa   ########   odam.nl         */
+/*   Updated: 2023/12/27 15:03:05 by jde-baai      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,3 +18,5 @@
 #define WIDTH 640
 #define HEIGHT 480
 #define BPP sizeof(int32_t)
+
+void	sl_hooks(mlx_key_data_t keydata, void *param);

@@ -6,7 +6,7 @@
 /*   By: juliusdebaaij <juliusdebaaij@student.co      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/12/08 16:15:49 by juliusdebaa   #+#    #+#                 */
-/*   Updated: 2023/12/22 17:32:53 by jde-baai      ########   odam.nl         */
+/*   Updated: 2023/12/27 14:51:11 by jde-baai      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,12 +35,12 @@ typedef struct s_game_textures
 	mlx_texture_t	*t_wall_w;
 }					t_text;
 
-typedef struct s_live_data
+typedef struct s_player_data
 {
 	int				px;
 	int				py;
 	double			pd;
-}					t_plyaer;
+}					t_player;
 
 typedef struct s_screen
 {

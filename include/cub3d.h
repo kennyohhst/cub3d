@@ -6,7 +6,7 @@
 /*   By: kkalika <kkalika@student.42.fr>              +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/12/01 16:01:38 by code          #+#    #+#                 */
-/*   Updated: 2023/12/22 15:06:13 by jde-baai      ########   odam.nl         */
+/*   Updated: 2023/12/27 14:51:22 by jde-baai      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
 # include <sys/stat.h>
 # include <unistd.h>
 
-void	test_parse_data(t_god *data);
-char	**parse(char ***temp, char *map_input);
+// void	test_parse_data(t_god *data);
+// char	**parse(char ***temp, char *map_input);
 
 #endif

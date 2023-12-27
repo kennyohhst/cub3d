@@ -22,8 +22,7 @@ LIB				:= $(LIB_DIR)/libft.a
 
 
 # Files
-# SRC_FILES :=	main.c parse.c test_parse_data.c
-				render/render_main.c render/key_hooks.c calc_fov.c
+SRC_FILES :=	render/render_main.c render/key_hooks.c
 
 SRC := $(addprefix $(SRC_DIR)/, $(SRC_FILES))
 OBJ := ${addprefix ${OBJ_DIR}/, ${SRC_FILES:.c=.o}}
@@ -48,7 +47,7 @@ $(LIB):
 	@ make -C $(LIB_DIR)
 
 $(OBJ_DIR)/%.o: src/%.c $(HDR)
-	@mkdir -p obj
+	@mkdir -p $(dir $@)
 	@$(CC) $(CFLAGS) -I $(HDR_DIR) -c $< -o $@
 
 run: all
