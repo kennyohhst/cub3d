@@ -1,22 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   render.h                                           :+:    :+:            */
+/*   utils.c                                            :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: jde-baai <jde-baai@student.codam.nl>         +#+                     */
+/*   By: julius <julius@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2023/12/22 13:21:17 by jde-baai      #+#    #+#                 */
-/*   Updated: 2023/12/29 11:53:13 by julius        ########   odam.nl         */
+/*   Created: 2023/12/29 12:19:43 by julius        #+#    #+#                 */
+/*   Updated: 2023/12/29 12:19:56 by julius        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#define PIXEL 64
-#define PI 3.1415926535
-#define FOV 60
-#define ROTATE 0.1
-#define MS 0.2
-#define WIDTH 4000
-#define HEIGHT 2000
-#define BPP sizeof(int32_t)
+#include "../include/cub3d.h"
 
-void	sl_hooks(mlx_key_data_t keydata, void *param);
+int32_t	get_RGB(int r, int g, int b)
+{
+	return ((255 << 24) | (b << 16) | (g << 8) | r);
+}

@@ -6,6 +6,9 @@
 /*   By: jde-baai <jde-baai@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/12/13 15:49:56 by jde-baai      #+#    #+#                 */
-/*   Updated: 2023/12/13 15:49:57 by jde-baai      ########   odam.nl         */
+/*   Updated: 2023/12/29 12:19:18 by julius        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
+
+#include "../include/cub3d.h"
+
