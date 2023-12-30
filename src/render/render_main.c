@@ -6,7 +6,7 @@
 /*   By: juliusdebaaij <juliusdebaaij@student.co      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/12/08 16:13:57 by juliusdebaa   #+#    #+#                 */
-/*   Updated: 2023/12/29 12:19:54 by julius        ########   odam.nl         */
+/*   Updated: 2023/12/30 17:40:01 by jde-baai      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,16 +31,16 @@ int	main(void)
 
 bool	set_background(t_render *game)
 {
-	mlx_image_t	*img_background;
-	int			total_pixels;
-	int			half_pixels;
-	int32_t		*pixels;
-	int			i;
+	int		total_pixels;
+	int		half_pixels;
+	int32_t	*pixels;
+	int		i;
 
-	img_background = mlx_new_image(game->mlx, WIDTH, HEIGHT);
-	total_pixels = img_background->width * img_background->height;
+	game->text.img_background = mlx_new_image(game->mlx, WIDTH, HEIGHT);
+	total_pixels = game->text.img_background->width
+		* game->text.img_background->height;
 	half_pixels = total_pixels / 2;
-	pixels = (int32_t *)img_background->pixels;
+	pixels = (int32_t *)game->text.img_background->pixels;
 	i = 0;
 	while (i < half_pixels)
 	{
@@ -52,7 +52,8 @@ bool	set_background(t_render *game)
 		pixels[i] = game->text.floor_color;
 		i++;
 	}
-	mlx_image_to_window(game->mlx, img_background, 0, 0);
+	mlx_delete_image(game->mlx, game->text.img_background);
+	mlx_image_to_window(game->mlx, game->text.img_background, 0, 0);
 	return (true);
 }
 

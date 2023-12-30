@@ -54,7 +54,7 @@ run: all
 	@printf "$(GREEN)--------------\n RUN $(NAME) \n--------------\n$(RESET)"
 	@./$(NAME)	
 
-valgrind: all
+valgrind: debug
 	@printf "$(GREEN)------------------\n RUN $(NAME) with VALGRIND \n------------------\n$(RESET)"
 	@valgrind --leak-check=full ./$(NAME)
 
