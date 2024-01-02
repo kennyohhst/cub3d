@@ -6,7 +6,7 @@
 /*   By: kkalika <kkalika@student.42.fr>              +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/12/01 16:01:38 by code          #+#    #+#                 */
-/*   Updated: 2023/12/29 12:20:04 by julius        ########   odam.nl         */
+/*   Updated: 2024/01/02 14:50:46 by julius        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,6 @@
 // void	test_parse_data(t_god *data);
 // char	**parse(char ***temp, char *map_input);
 
-int32_t	get_RGB(int r, int g, int b);
+int32_t	get_RGB(int a, int r, int g, int b);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: jde-baai <jde-baai@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/12/22 14:59:19 by jde-baai      #+#    #+#                 */
-/*   Updated: 2023/12/27 15:05:29 by jde-baai      ########   odam.nl         */
+/*   Updated: 2024/01/02 15:03:34 by julius        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,15 +44,15 @@ static void	change_view(t_render *game, enum keys key)
 {
 	if (key == MLX_KEY_LEFT)
 	{
-		game->player.pd -= ROTATE;
-		if (game->player.pd < 0)
-			game->player.pd += 2 * PI;
+		game->player.rad -= ROTATE;
+		if (game->player.rad < 0)
+			game->player.rad += 2 * PI;
 	}
 	else
 	{
-		game->player.pd += ROTATE;
-		if (game->player.pd > 2 * PI)
-			game->player.pd -= 2 * PI;
+		game->player.rad += ROTATE;
+		if (game->player.rad > 2 * PI)
+			game->player.rad -= 2 * PI;
 	}
 }
 

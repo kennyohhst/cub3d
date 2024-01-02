@@ -6,7 +6,7 @@
 /*   By: juliusdebaaij <juliusdebaaij@student.co      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/12/08 16:15:49 by juliusdebaa   #+#    #+#                 */
-/*   Updated: 2023/12/30 16:55:22 by jde-baai      ########   odam.nl         */
+/*   Updated: 2024/01/02 15:03:48 by julius        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ typedef struct s_player_data
 {
 	int				px;
 	int				py;
-	double			pd;
+	double			rad;
 }					t_player;
 
 typedef struct s_screen

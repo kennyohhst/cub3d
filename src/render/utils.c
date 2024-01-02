@@ -6,13 +6,13 @@
 /*   By: julius <julius@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/12/29 12:19:43 by julius        #+#    #+#                 */
-/*   Updated: 2023/12/29 12:19:56 by julius        ########   odam.nl         */
+/*   Updated: 2024/01/02 14:50:21 by julius        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/cub3d.h"
 
-int32_t	get_RGB(int r, int g, int b)
+int32_t	get_RGB(int a, int r, int g, int b)
 {
-	return ((255 << 24) | (b << 16) | (g << 8) | r);
+	return ((a << 24) | (b << 16) | (g << 8) | r);
 }
