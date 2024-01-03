@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   test_parse_data.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: code <code@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: kkalika <kkalika@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/02 13:59:46 by kkalika           #+#    #+#             */
-/*   Updated: 2023/12/25 17:01:21 by code             ###   ########.fr       */
+/*   Updated: 2024/01/03 19:30:15 by kkalika          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +47,11 @@ void	run_textures_path(char **t_p)
 void	run_only_map(char **om)
 {
 	int	i;
-
+	int	x;
+	
 	i = 0;
+	x = 0;
+	int	count = 0;
 	if (!om)
 	{
 		printf("NSF is nothing\n");
@@ -56,7 +59,24 @@ void	run_only_map(char **om)
 	}
 	printf("----------------------------Only map:--------------------------------\n\n");
 	while (om && om[i])
-		printf("			%s\n", om[i++]);
+	{
+		while (om[i][x])
+		{
+			if (om[i][x] == '\t')
+			{
+				count = tabs - count;
+				printf("    ");
+				x++;
+			}
+			else
+				printf("%c", om[i][x]);
+			x++;
+			count++;
+		}
+		printf("\n");
+		i++;
+		x = 0;
+	}
 	printf("\n---------------------------------------------------------------------\n");
 }
 
@@ -86,9 +106,9 @@ void    test_parse_data(t_god *data)
         return ;
 	}
     temp = data;
-	run_no_spaces_file(temp->no_spaces_file);
+	// run_no_spaces_file(temp->no_spaces_file);
 	run_only_map(temp->full_map);
-	run_floor_ceiling(data->floor_ceiling);
-	run_textures_path(data->textures_path);
+	// run_floor_ceiling(data->floor_ceiling);
+	// run_textures_path(data->textures_path);
 
 }
