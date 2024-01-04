@@ -6,102 +6,93 @@
 /*   By: kkalika <kkalika@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/13 15:21:43 by code              #+#    #+#             */
-/*   Updated: 2024/01/03 19:19:08 by kkalika          ###   ########.fr       */
+/*   Updated: 2024/01/04 20:15:10 by kkalika          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/cub3d.h"
 
-// void	tabs_to_spaces(char **full_map)
-// {
-// 	size_t	i;
-// 	size_t	x;
-// 	int		count;
+char	*replace_instance(char	*src, char	*dst, size_t si, size_t di)
+{
+	while (src[si] && dst[di])
+	{
+		dst[di] = src[si];
+		di++;
+		si++;
+	}
+	dst[di] = '\0';
+	return (dst);
+}
+
+char	*convert_tab_to_space(char *str, size_t i, size_t count)
+{
+	char	*temp;
+	size_t		x;
 	
-// 	count = 0;
-// 	x = 0;
-// 	i = 0;
-// 	while (full_map[i])
-// 	{
-// 		while (full_map[i][x])
-// 		{
-// 			if (full_map[i][x] == '\t')
-// 				count = replace_tab(full_map[i]);
-// 			x++;
-// 			count++;
-// 		}
-// 		i++;
-// 	}
-// }
-
-bool	r_side_walls(char *str)
-{
-	size_t	i;
-
-	i = ft_strlen(str) - 1;
-	while (str[i])
+	x = 0;
+	if (count <= 0)
+		count = 4;
+	temp = malloc(ft_strlen(str) + count);
+	if (!temp)
+		return (free(str), NULL);
+	while (str[x])
 	{
-		while (str[i] == '\t' || str[i] == ' ')
-			i--;
-		if (str[i] == '1')
-			return (false);
-		else
-			break;
-	}
-	return (true);
-}
-
-void	check_what_came_before(char *str, size_t x)
-{
-	while (x != 0)
-	{
-		if (str[x] != '1' || str[x] != ' ' || str[x] != '\t')
+		if (x == i)
 		{
-			printf("wtf man\n");
-			break ;
+			i++;
+			while (count--)
+				temp[x++] = ' ';
+			temp = replace_instance(str, temp, i, x);
+			return (free(str), temp);
 		}
-		x--;
+		temp[x] = str[x];
+		x++; 
 	}
+	return (temp);
 }
 
-size_t	l_side_walls(char *str, size_t x)
+
+char	*scan_for_tabs(char *str)
 {
 	size_t	i;
+	size_t	count;
 
-	if (x > 0)
-	{
-		check_what_came_before(str, x);
-		i = x;
-	}
-	else
-		i = 0;
-	while (str[i])
+	i = 0;
+	count = 4;
+	while (str && str[i])
 	{
 		if (str[i] == '\t')
 		{
-			x = x + 4;
-			i++;
-			continue ;
+			str = convert_tab_to_space(str, i, count);
+			if (!str)
+				return (NULL);
+			count = 4;
+			i = 0;
 		}
-		if (str[i] == '1')
-			return (x);
+		if (count <= 0)
+			count = 4;
 		else
-			break;
+			count--;
+		i++;
 	}
-	return (x);
+	return (str);
 }
 
-bool	garbage_map(t_god *data, bool err)
+bool	tabs_spaces_check_map(t_god *data, bool err)
 {
 	size_t	i;
 	size_t	x;
+	char	**temp;
 
+	temp = data->full_map;
 	i = 0;
 	x = 0;
-	while (data->full_map && data->full_map[i])
+	while (temp && temp[i])
 	{
-		x = l_side_walls(data->full_map[i], x);
-		i++;
+		temp[i] = scan_for_tabs(temp[i]);
+		if (!temp[i])
+			return (err);
+		i++;		
 	}
 	return (err);
 }
@@ -133,10 +124,7 @@ bool	map_data(t_god *data, bool err)
 
 bool	flood_fill(t_god *data, bool err)
 {
-	(void) data;
-	if (!err)
-		return (err);
-	
+	prep_flood(data->full_map);
 	return (err);
 }
 
@@ -145,10 +133,11 @@ bool	check_game_data(t_god *data)
 	bool	err = false;
 
 	// tabs_to_spaces(data->full_map);
-	err = garbage_map(data, err);
-	err = floor_ceiling_data(data, err);
-	err = texture_path_data(data, err);
-	err = map_data(data, err);
-	err = flood_fill(data, err);
+	err = tabs_spaces_check_map(data, err);
+	
+	// err = flood_fill(data, err);
+	// err = floor_ceiling_data(data, err);
+	// err = texture_path_data(data, err);
+	// err = map_data(data, err);
 	return (err);
 }

@@ -6,7 +6,7 @@
 /*   By: kkalika <kkalika@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/01 16:02:31 by code              #+#    #+#             */
-/*   Updated: 2024/01/03 19:19:17 by kkalika          ###   ########.fr       */
+/*   Updated: 2024/01/04 19:52:09 by kkalika          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@ int	main(int argc, char **argv)
 	check_file_extension(argv[1]);
 	game_data = malloc(sizeof(t_god));
 	game_data->no_spaces_file = parse(argv[1], game_data);
-	// if (check_game_data(game_data))
-		// printf("this should error\n");
+	if (check_game_data(game_data))
+		exit(2);
 	if (!search_correct_type(game_data))
 		exit (2);
 	test_parse_data(game_data);

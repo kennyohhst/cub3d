@@ -6,7 +6,7 @@
 /*   By: kkalika <kkalika@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/02 13:59:46 by kkalika           #+#    #+#             */
-/*   Updated: 2024/01/03 19:30:15 by kkalika          ###   ########.fr       */
+/*   Updated: 2024/01/04 19:55:39 by kkalika          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ void	run_only_map(char **om)
 	
 	i = 0;
 	x = 0;
+	int	tabs = 0;
 	int	count = 0;
 	if (!om)
 	{
@@ -67,6 +68,7 @@ void	run_only_map(char **om)
 				count = tabs - count;
 				printf("    ");
 				x++;
+				continue ;
 			}
 			else
 				printf("%c", om[i][x]);
@@ -106,9 +108,9 @@ void    test_parse_data(t_god *data)
         return ;
 	}
     temp = data;
-	// run_no_spaces_file(temp->no_spaces_file);
+	run_no_spaces_file(temp->no_spaces_file);
 	run_only_map(temp->full_map);
-	// run_floor_ceiling(data->floor_ceiling);
-	// run_textures_path(data->textures_path);
+	run_floor_ceiling(data->floor_ceiling);
+	run_textures_path(data->textures_path);
 
 }

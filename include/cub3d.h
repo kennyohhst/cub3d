@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: code <code@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: kkalika <kkalika@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/01 16:01:38 by code              #+#    #+#             */
-/*   Updated: 2023/12/25 16:49:19 by code             ###   ########.fr       */
+/*   Updated: 2024/01/04 20:05:00 by kkalika          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,10 @@ void	check_file_extension(char *str);
 void	double_data(t_god *game_data);
 int		search_correct_type(t_god *data);
 int		dp_strlen(char **str);
+int		prep_flood(char **full_map);
+void	run_only_map(char **om);
+
+
 
 
 
