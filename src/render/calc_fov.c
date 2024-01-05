@@ -6,7 +6,7 @@
 /*   By: jde-baai <jde-baai@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/12/13 15:49:56 by jde-baai      #+#    #+#                 */
-/*   Updated: 2024/01/05 16:28:39 by jde-baai      ########   odam.nl         */
+/*   Updated: 2024/01/05 19:37:46 by jde-baai      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,12 +54,13 @@ typedef struct s_local_dda
 	double		sidedisty;
 }				t_dda;
 
-void			calc_dda(t_render *game, t_raycasting *cast, t_dda *dda);
+void			calc_dda(t_render *game, t_dda *dda);
 void			calc_distance(t_render *game, t_raycasting *cast, t_dda dda);
 bool			calculations(t_render *game, t_raycasting *dda);
-void			straight_lines(t_render *game, t_raycasting *cast, t_dda *dda);
+void			straight_lines(t_render *game, t_dda *dda);
 void			calc_pixels(t_render *game, t_raycasting *cast);
 void			clear_pixels(t_render *game);
+void			place_pixels(t_render *game, t_raycasting *cast);
 
 t_raycasting	*init_cast(t_render *game)
 {
@@ -89,9 +90,10 @@ bool	dda_main(t_render *game)
 	// gives all pixels in img_walls empty color
 	place_pixels(game, cast);
 	// places pixels_buffer into img_walls
+	return (true);
 }
 
-int32_t combined_texel(int32_t a, int32_t b, float t)
+int32_t get_texel(int32_t a, int32_t b, float t)
 {
     return a * (1 - t) + b * t;
 }
@@ -215,25 +217,26 @@ bool	calculations(t_render *game, t_raycasting *cast)
 	dda.mapy = (int)game->player.py;
 	while (dda.cast_n < WIDTH)
 	{
-		calc_dda(game, cast, &dda);
+		calc_dda(game, &dda);
 		cast->wall_h[dda.cast_n] = dda.wall_h;
 		calc_distance(game, cast, dda);
 		dda.radian += cast->ray_steps;
 		dda.cast_n++;
 	}
+	return (true);
 }
 
 /**
  * @brief sets wallx, wally, wall_hit and wall_side
  */
-void	calc_dda(t_render *game, t_raycasting *cast, t_dda *dda)
+void	calc_dda(t_render *game, t_dda *dda)
 {
 	double	deltaX;
 	double	deltaY;
 
 	if (dda->radian == 0 || dda->radian == 0.5 * PI || dda->radian == PI
 		|| dda->radian == 1.5 * PI)
-		straight_lines(game, cast, dda);
+		straight_lines(game, dda);
 	deltaX = fabs(1 / cos(dda->radian));
 	deltaY = fabs(1 / sin(dda->radian));
 	// calculate step and initial sideDist
@@ -295,7 +298,7 @@ void	calc_dda(t_render *game, t_raycasting *cast, t_dda *dda)
 	}
 }
 
-void	straight_lines(t_render *game, t_raycasting *cast, t_dda *dda)
+void	straight_lines(t_render *game, t_dda *dda)
 {
 	if (dda->radian == 0)
 	{
@@ -303,37 +306,37 @@ void	straight_lines(t_render *game, t_raycasting *cast, t_dda *dda)
 		{
 			dda->mapy--;
 		}
-		dda->sidedisty = fabs(game->player.py - dda->mapy);
+		dda->sidedisty = abs(game->player.py - dda->mapy);
 		dda->wall_side = SOUTH;
 		dda->wall_h = game->player.py - (int)game->player.py;
 	}
-	if (game->player.rad = 1 * PI)
+	if (game->player.rad == 1 * PI)
 	{
 		while (game->map[dda->mapy][dda->mapx] != '1')
 		{
 			dda->mapy++;
 		}
-		dda->sidedisty = fabs(game->player.py - dda->mapy);
+		dda->sidedisty = abs(game->player.py - dda->mapy);
 		dda->wall_side = NORTH;
 		dda->wall_h = game->player.py - (int)game->player.py;
 	}
-	if (game->player.rad = 0.5 * PI)
+	if (game->player.rad == 0.5 * PI)
 	{
 		while (game->map[dda->mapy][dda->mapx] != '1')
 		{
 			dda->mapx++;
 		}
-		dda->sidedistx = fabs(game->player.px - dda->mapx);
+		dda->sidedistx = abs(game->player.px - dda->mapx);
 		dda->wall_side = WEST;
 		dda->wall_h = game->player.px - (int)game->player.px;
 	}
-	if (game->player.rad = 1.5 * PI)
+	if (game->player.rad == 1.5 * PI)
 	{
 		while (game->map[dda->mapy][dda->mapx] != '1')
 		{
 			dda->mapx--;
 		}
-		dda->sidedistx = fabs(game->player.px - dda->mapx);
+		dda->sidedistx = abs(game->player.px - dda->mapx);
 		dda->wall_side = EAST;
 		dda->wall_h = game->player.px - (int)game->player.px;
 	}

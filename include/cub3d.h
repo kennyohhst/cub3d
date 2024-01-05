@@ -6,7 +6,7 @@
 /*   By: kkalika <kkalika@student.42.fr>              +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/12/01 16:01:38 by code          #+#    #+#                 */
-/*   Updated: 2024/01/04 23:13:54 by jde-baai      ########   odam.nl         */
+/*   Updated: 2024/01/05 19:36:00 by jde-baai      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,13 @@
 #include <stdio.h>
 #include <sys/stat.h>
 #include <unistd.h>
+#include <math.h>
 
 // void	test_parse_data(t_god *data);
 // char	**parse(char ***temp, char *map_input);
 
 int32_t get_RGB(int a, int r, int g, int b);
 void sl_hooks(mlx_key_data_t keydata, void *param);
+bool	dda_main(t_render *game);
 
 #endif

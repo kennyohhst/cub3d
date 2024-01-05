@@ -6,7 +6,7 @@
 /*   By: juliusdebaaij <juliusdebaaij@student.co      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/12/08 16:15:49 by juliusdebaa   #+#    #+#                 */
-/*   Updated: 2024/01/02 15:03:48 by julius        ########   odam.nl         */
+/*   Updated: 2024/01/05 16:51:35 by jde-baai      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,11 +22,6 @@ typedef struct map_tiles
 
 typedef struct s_game_textures
 {
-	// mlx_texture_t	*t_exit;
-	// mlx_texture_t	*door_n;
-	// mlx_texture_t	*door_s;
-	// mlx_texture_t	*door_e;
-	// mlx_texture_t	*door_w;
 	int32_t			floor_color;
 	int32_t			ceiling_color;
 	mlx_image_t		*img_background;
