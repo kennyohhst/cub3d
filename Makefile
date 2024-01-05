@@ -15,7 +15,7 @@ ifeq ($(DEBUG), 1)
 endif
 
 # Includes
-HDR_FILES :=	cub3d.h structs.h render.h
+HDR_FILES :=	cub3d.h structs.h game_settings.h
 
 # Libft
 LIB				:= $(LIB_DIR)/libft.a
