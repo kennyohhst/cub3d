@@ -6,7 +6,7 @@
 /*   By: jde-baai <jde-baai@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/12/13 15:49:56 by jde-baai      #+#    #+#                 */
-/*   Updated: 2024/01/05 13:22:30 by jde-baai      ########   odam.nl         */
+/*   Updated: 2024/01/05 16:28:39 by jde-baai      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,15 +19,12 @@
 
 typedef struct s_raycasting
 {
-	int			rayx;
-	int			rayy;
-	int			stepx;
-	int			stepy;
+	int			total_pixels;
 	double		ray_steps;
-	double *distance;       // distance from player to wall per ray (euclidean)
-	int *wall_side;         // 1 = north, 2 = east, 3 = south, 4 = west per ray
-	double *wall_h;         // exact value of where wall was hit per ray 0.0
-	int32_t *pixels_buffer; // pixels to be placed in img_walls
+	double		*distance;       // distance from player to wall per ray (euclidean)
+	int			*wall_side;         // 1 = north, 2 = east, 3 = south, 4 = west per ray
+	double		*wall_h;         // exact value of where wall was hit per ray 0.0
+	int32_t		*pixels_buffer; // pixels to be placed in img_walls
 }				t_raycasting;
 
 /**
@@ -49,7 +46,7 @@ typedef struct s_local_dda
 	double		radian;
 	int			mapx;
 	int			mapy;
-	double wall_h; // exact value of where wall was hit
+	double 		wall_h;
 	int			wall_side;
 	double		stepx;
 	double		stepy;
@@ -57,16 +54,14 @@ typedef struct s_local_dda
 	double		sidedisty;
 }				t_dda;
 
-// to do image rezier in place pixels -> also amount of pixels horizontally
-// based on the height of the pixel and the height of the textured	image(64x64)
-
 void			calc_dda(t_render *game, t_raycasting *cast, t_dda *dda);
 void			calc_distance(t_render *game, t_raycasting *cast, t_dda dda);
 bool			calculations(t_render *game, t_raycasting *dda);
 void			straight_lines(t_render *game, t_raycasting *cast, t_dda *dda);
 void			calc_pixels(t_render *game, t_raycasting *cast);
+void			clear_pixels(t_render *game);
 
-t_raycasting	*init_cast(void)
+t_raycasting	*init_cast(t_render *game)
 {
 	t_raycasting	*cast;
 
@@ -75,6 +70,7 @@ t_raycasting	*init_cast(void)
 	cast->wall_side = malloc(sizeof(int) * WIDTH);
 	cast->wall_h = malloc(sizeof(double) * WIDTH);
 	cast->ray_steps = FOV / WIDTH;
+	cast->total_pixels = game->text.img_walls->width * game->text.img_walls->height;
 	return (cast);
 }
 
@@ -83,17 +79,49 @@ bool	dda_main(t_render *game)
 	t_raycasting	*cast;
 	size_t			total_pixels;
 
-	cast = init_cast();
+	cast = init_cast(game);
 	total_pixels = game->text.img_walls->width * game->text.img_walls->height;
 	calculations(game, cast); // calculates distances,
 	//intersections and wall_side calc_pixels(game, cast);
 	// places pixels calculated into pixels_buffer
+	calc_pixels(game, cast);
 	clear_pixels(game);
 	// gives all pixels in img_walls empty color
 	place_pixels(game, cast);
 	// places pixels_buffer into img_walls
-	cast->rayx = (int)game->player.px;
-	cast->rayy = (int)game->player.py;
+}
+
+int32_t combined_texel(int32_t a, int32_t b, float t)
+{
+    return a * (1 - t) + b * t;
+}
+
+void	clear_pixels(t_render *game)
+{
+	int		total_pixels;
+	int		i;
+
+	total_pixels = game->text.img_walls->width * game->text.img_walls->height;
+	i = 0;
+	while (i < total_pixels)
+	{
+		game->text.img_walls->pixels[i] = 0;
+		i++;
+	}
+}
+
+void	place_pixels(t_render *game, t_raycasting *cast)
+{
+	int		total_pixels;
+	int		i;
+
+	total_pixels = game->text.img_walls->width * game->text.img_walls->height;
+	i = 0;
+	while (i < total_pixels)
+	{
+		game->text.img_walls->pixels[i] = cast->pixels_buffer[i];
+		i++;
+	}
 }
 
 /**
@@ -112,19 +140,67 @@ bool	dda_main(t_render *game)
 */
 void	calc_pixels(t_render *game, t_raycasting *cast)
 {
-	int height; // height in pixels
-				// function needs to calculate the height of the wall in pixels
-				// calculate how many pixels are needed to fill the height of the wall
-				// if the height is greater than 64 pixels,
-//a multiplicatoin factor needs to be caluclated
-		// the multiplication factor is the height of the wall divided by 64
-		// if the height is less than 1 only place one pixel and dont div the pixels
-		// if the height is greater than the pixels on screen HEIGHT,
-	//	pixels need to be cut off->depending on player height
-	//	?
-	// take the location of the wall hit
-	// start taking the pixels from the texture
-	// place them in the pixels buffer
+	int pixel_h; // height in pixels
+	float mult_factor;
+	int cast_n;
+	int	i;
+	float vertical_texel;
+	int y;
+	int x;
+	int y_texel;
+	int32_t texel0;
+	int32_t texel1;
+	int32_t combined_texel;
+	float fractional_y;
+	mlx_texture_t *wall;
+
+	cast_n = 0;
+	while (cast_n < WIDTH)
+	{
+		pixel_h = (int)(HEIGHT/cast->distance[cast_n]);
+		if (pixel_h > HEIGHT)
+			pixel_h = HEIGHT;
+		else if (pixel_h < 1)
+			pixel_h = 1;
+		mult_factor = 64.0 / pixel_h;
+
+		if (cast->wall_side[cast_n] == NORTH)
+			wall = game->text.t_wall_n;
+		else if (cast->wall_side[cast_n] == EAST)
+			wall = game->text.t_wall_e;
+		else if (cast->wall_side[cast_n] == SOUTH)
+			wall = game->text.t_wall_s;
+		else if (cast->wall_side[cast_n] == WEST)
+			wall = game->text.t_wall_w;
+		i = 0;
+		if (pixel_h %64 == 0)
+		{
+			x = (int)(cast->wall_h[cast_n] * PIXEL) % PIXEL;
+			while (i < pixel_h)
+			{
+    			vertical_texel = i * mult_factor;
+   				y = (int)vertical_texel;
+     			cast->pixels_buffer[cast_n * HEIGHT + i] = wall->pixels[y * PIXEL + x];
+     			i++;
+			}
+		}
+		else
+		while (i < pixel_h)
+		{
+			vertical_texel = i * mult_factor;
+			y = (int)vertical_texel;
+			y_texel = (y + 1) % PIXEL;
+			fractional_y = vertical_texel - y;
+			x = (int)(cast->wall_h[cast_n] * PIXEL) % PIXEL;
+			texel0 = wall->pixels[y * PIXEL + x];
+			texel1 = wall->pixels[y_texel * PIXEL + x];
+    		cast->pixels_buffer[cast_n * HEIGHT + i] = texel0;
+    		combined_texel = get_texel(texel0, texel1, fractional_y);
+    		cast->pixels_buffer[cast_n * HEIGHT + i] = combined_texel;
+			i++;
+		}
+		cast_n++;
+	}
 }
 
 bool	calculations(t_render *game, t_raycasting *cast)
