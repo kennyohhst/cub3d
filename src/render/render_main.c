@@ -6,7 +6,7 @@
 /*   By: juliusdebaaij <juliusdebaaij@student.co      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/12/08 16:13:57 by juliusdebaa   #+#    #+#                 */
-/*   Updated: 2024/01/05 19:38:02 by jde-baai      ########   odam.nl         */
+/*   Updated: 2024/01/06 23:48:06 by julius        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ bool	run_game(t_render *game)
 		return (printf("image to window error\n"), false);
 
 	mlx_key_hook(game->mlx, &sl_hooks, game);
-	dda_main(game);
+	mlx_loop_hook(game->mlx, &dda_main, game);
 	mlx_loop(game->mlx);
 	mlx_terminate(game->mlx);
 	return (true);

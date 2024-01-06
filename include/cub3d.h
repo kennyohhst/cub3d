@@ -6,7 +6,7 @@
 /*   By: kkalika <kkalika@student.42.fr>              +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/12/01 16:01:38 by code          #+#    #+#                 */
-/*   Updated: 2024/01/05 19:36:00 by jde-baai      ########   odam.nl         */
+/*   Updated: 2024/01/06 23:48:45 by julius        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,6 @@
 
 int32_t get_RGB(int a, int r, int g, int b);
 void sl_hooks(mlx_key_data_t keydata, void *param);
-bool	dda_main(t_render *game);
+void	dda_main(void *game_data);
 
 #endif

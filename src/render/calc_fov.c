@@ -6,7 +6,7 @@
 /*   By: jde-baai <jde-baai@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/12/13 15:49:56 by jde-baai      #+#    #+#                 */
-/*   Updated: 2024/01/05 19:37:46 by jde-baai      ########   odam.nl         */
+/*   Updated: 2024/01/06 23:49:30 by julius        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,16 +72,17 @@ t_raycasting	*init_cast(t_render *game)
 	cast->wall_h = malloc(sizeof(double) * WIDTH);
 	cast->ray_steps = FOV / WIDTH;
 	cast->total_pixels = game->text.img_walls->width * game->text.img_walls->height;
+	cast->pixels_buffer = ft_calloc(cast->total_pixels, sizeof(int32_t));
 	return (cast);
 }
 
-bool	dda_main(t_render *game)
+void	dda_main(void *game_data)
 {
+	t_render		*game;
 	t_raycasting	*cast;
-	size_t			total_pixels;
 
+	game = (t_render *)game_data;
 	cast = init_cast(game);
-	total_pixels = game->text.img_walls->width * game->text.img_walls->height;
 	calculations(game, cast); // calculates distances,
 	//intersections and wall_side calc_pixels(game, cast);
 	// places pixels calculated into pixels_buffer
@@ -90,7 +91,6 @@ bool	dda_main(t_render *game)
 	// gives all pixels in img_walls empty color
 	place_pixels(game, cast);
 	// places pixels_buffer into img_walls
-	return (true);
 }
 
 int32_t get_texel(int32_t a, int32_t b, float t)
