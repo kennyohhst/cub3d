@@ -6,7 +6,7 @@
 /*   By: kkalika <kkalika@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/01 16:01:38 by code              #+#    #+#             */
-/*   Updated: 2024/01/04 20:05:00 by kkalika          ###   ########.fr       */
+/*   Updated: 2024/01/05 19:18:59 by kkalika          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ typedef struct map_tiles
 	char	**map;
 	int		player_x;
 	int		player_y;
-	int		exit;
+	bool	exit;
 	int		collectables;
 }t_map;
 
@@ -63,16 +63,18 @@ typedef struct g_struct
 
 
 void    test_parse_data(t_god *data);
-char	**parse(char *map_input, t_god *data);
+char	**parse(char *map_input, t_god *data, char ***temp);
 void	one_of_each(char **full_map, char *c);
 void	free_all(t_god *data);
-bool	check_game_data(t_god *data);
+bool	check_game_data(t_god *data, char **flood_me);
 void	check_file_extension(char *str);
 void	double_data(t_god *game_data);
 int		search_correct_type(t_god *data);
 int		dp_strlen(char **str);
-int		prep_flood(char **full_map);
+bool	prep_flood(char **full_map);
 void	run_only_map(char **om);
+void	ft_free_s(char **string);
+
 
 
 

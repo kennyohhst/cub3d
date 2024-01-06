@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: code <code@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: kkalika <kkalika@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/02 14:14:43 by kkalika           #+#    #+#             */
-/*   Updated: 2023/12/25 17:03:15 by code             ###   ########.fr       */
+/*   Updated: 2024/01/05 19:35:50 by kkalika          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,12 +86,13 @@ void	new_line_err_check(char *str)
 		exit(write(2, "error lines\n", 13));
 }
 
-char	**parse(char *map_input, t_god *data)
+char	**parse(char *map_input, t_god *data, char ***temp)
 {
 	int		fd;
 	char	*temp_str;
 	char	*str;
 	char	**no_spaces_file;
+	(void)  temp;
 
 	ft_bzero((void *) data, sizeof(t_god));
 	str = NULL;
@@ -107,9 +108,10 @@ char	**parse(char *map_input, t_god *data)
 	}
 	new_line_err_check(str);
 	no_spaces_file = ft_split(str, '\n');
+	// (*temp) = ft_split(str, '\n');
 	free(str);
 	close(fd);
-	if (dp_strlen(no_spaces_file))
+	if (dp_strlen(no_spaces_file) > 6)
 		data->full_map = &no_spaces_file[6];
 	return (no_spaces_file);
 }

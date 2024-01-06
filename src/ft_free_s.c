@@ -1,37 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   check_file_extension.c                             :+:      :+:    :+:   */
+/*   ft_free_s.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kkalika <kkalika@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/24 23:03:01 by code              #+#    #+#             */
-/*   Updated: 2024/01/06 18:52:48 by kkalika          ###   ########.fr       */
+/*   Created: 2022/11/13 14:54:25 by code              #+#    #+#             */
+/*   Updated: 2024/01/05 19:09:06 by kkalika          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/cub3d.h"
 
-int	dp_strlen(char **str)
+void	ft_free_s(char **string)
 {
 	int	i;
 
 	i = 0;
-	while (str[i++])
-		;
-	return (i-1);
-}
-
-void	check_file_extension(char *str)
-{
-	char	check[5];
-
-	ft_strlcpy(check, str + ft_strlen(str) - 4, 5);
-	if (!ft_strncmp(check, ".cub", 5))
+	if (!(*string))
 		return ;
-	else
+	while (string[i] != NULL)
 	{
-		write(2, "check file name\n", 17);
-		exit(2);
+		free(string[i]);
+		i++;
 	}
+	free(string);
 }

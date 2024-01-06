@@ -6,7 +6,7 @@
 /*   By: kkalika <kkalika@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/13 15:21:43 by code              #+#    #+#             */
-/*   Updated: 2024/01/04 20:15:10 by kkalika          ###   ########.fr       */
+/*   Updated: 2024/01/05 19:19:52 by kkalika          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,22 +122,26 @@ bool	map_data(t_god *data, bool err)
 	return (err);
 }
 
-bool	flood_fill(t_god *data, bool err)
+bool	flood_fill(char **flood_me)
 {
-	prep_flood(data->full_map);
-	return (err);
+	return (prep_flood(flood_me));
+	// return (err);
 }
 
-bool	check_game_data(t_god *data)
+bool	check_game_data(t_god *data, char **flood_me)
 {
 	bool	err = false;
+	(void)	data;
+	// (void) flood_me;
 
 	// tabs_to_spaces(data->full_map);
-	err = tabs_spaces_check_map(data, err);
-	
-	// err = flood_fill(data, err);
+	// err = tabs_spaces_check_map(data, err);	
+	err = flood_fill(flood_me);
 	// err = floor_ceiling_data(data, err);
 	// err = texture_path_data(data, err);
 	// err = map_data(data, err);
+	run_only_map(flood_me);
+	ft_free_s(flood_me);
+	
 	return (err);
 }
