@@ -6,62 +6,64 @@
 /*   By: juliusdebaaij <juliusdebaaij@student.co      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/12/08 16:13:57 by juliusdebaa   #+#    #+#                 */
-/*   Updated: 2024/01/06 23:48:06 by julius        ########   odam.nl         */
+/*   Updated: 2024/01/10 15:37:40 by jde-baai      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/cub3d.h"
 
 bool	run_game(t_render *game);
+void	set_windows(t_render *game);
 
 int	main(void)
 {
-	t_render	game;
+	t_render	*game;
 
-	char *set_map[] = {"11111", "10001", "10001", "10101", "10001", "10N01",
-		"10001", "11111", ""};
-	game.text.ceiling_color = get_RGB(255, 173, 216, 230);
-	game.text.floor_color = get_RGB(255, 76, 28, 36);
-	game.map = set_map;
-	run_game(&game);
-	mlx_terminate(game.mlx);
+	game = init_render(game);
+	set_windows(game);
+	mlx_loop_hook(game->mlx, &dda_main, game);
+	mlx_key_hook(game->mlx, &sl_hooks, game);
+	mlx_loop(game->mlx);
+	mlx_terminate(game->mlx);
+	//clean_up function
 	exit(EXIT_SUCCESS);
 }
 
-bool	set_background(t_render *game)
+/**
+ * @brief sets background colour and calls mlx_image_to_window
+*/
+void	set_windows(t_render *game)
 {
-	int		total_pixels;
 	int		half_pixels;
-	int32_t	*pixels;
 	int		i;
-
-	game->text.img_background = mlx_new_image(game->mlx, WIDTH, HEIGHT);
-	if (!game->text.img_background)
-		return (printf("background error\n"), false);
-	total_pixels = game->text.img_background->width
-		* game->text.img_background->height;
-	half_pixels = total_pixels / 2;
-	pixels = (int32_t *)game->text.img_background->pixels;
+	
+	half_pixels = game->cast.total_pixels / 2;
 	i = 0;
 	while (i < half_pixels)
 	{
-		pixels[i] = game->text.ceiling_color;
+		game->text.img_background->pixels[i] = game->text.ceiling_color;
 		i++;
 	}
-	while (i < total_pixels)
+	while (i < game->cast.total_pixels)
 	{
-		pixels[i] = game->text.floor_color;
+		game->text.img_background->pixels[i] = game->text.floor_color;
 		i++;
 	}
 	if (mlx_image_to_window(game->mlx, game->text.img_background, 0, 0) == -1)
-		return (printf("image to window error\n"), false);
-	return (true);
+	{
+		write(2, "Error: MLX_image_to_window: background\n", 40);
+		exit (1);
+	}
+	if (mlx_image_to_window(game->mlx, game->text.img_walls, 0, 0) == -1)
+	{
+		write(2, "Error: MLX_image_to_window: walls\n", 35);
+		exit (1);
+	}
 }
 
 bool	run_game(t_render *game)
 {
-	game->player.px = 2;
-	game->player.py = 5;
+
 	if (game->map[game->player.py][game->player.px] == 'N')
 		game->player.rad = 0 * PI;
 	if (game->map[game->player.py][game->player.px] == 'E')
@@ -77,14 +79,6 @@ bool	run_game(t_render *game)
 		exit(EXIT_FAILURE);
 	}
 	set_background(game);
-	game->text.img_walls = mlx_new_image(game->mlx, WIDTH, HEIGHT);
-	if (!game->text.img_walls)
-		return (printf("walls error\n"), false);
-	// walls to be rendered on the floor
-	// function to put pixels in the image
-	if (mlx_image_to_window(game->mlx, game->text.img_walls, 0, 0) == -1)
-		return (printf("image to window error\n"), false);
-
 	mlx_key_hook(game->mlx, &sl_hooks, game);
 	mlx_loop_hook(game->mlx, &dda_main, game);
 	mlx_loop(game->mlx);

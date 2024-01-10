@@ -6,7 +6,7 @@
 /*   By: kkalika <kkalika@student.42.fr>              +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/12/01 16:01:38 by code          #+#    #+#                 */
-/*   Updated: 2024/01/06 23:48:45 by julius        ########   odam.nl         */
+/*   Updated: 2024/01/10 15:37:59 by jde-baai      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@
 
 // void	test_parse_data(t_god *data);
 // char	**parse(char ***temp, char *map_input);
+
+t_render	*init_render(void);
 
 int32_t get_RGB(int a, int r, int g, int b);
 void sl_hooks(mlx_key_data_t keydata, void *param);

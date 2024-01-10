@@ -6,26 +6,11 @@
 /*   By: jde-baai <jde-baai@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/12/13 15:49:56 by jde-baai      #+#    #+#                 */
-/*   Updated: 2024/01/06 23:49:30 by julius        ########   odam.nl         */
+/*   Updated: 2024/01/10 12:45:26 by jde-baai      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/cub3d.h"
-
-#define NORTH 1
-#define EAST 2
-#define SOUTH 3
-#define WEST 4
-
-typedef struct s_raycasting
-{
-	int			total_pixels;
-	double		ray_steps;
-	double		*distance;       // distance from player to wall per ray (euclidean)
-	int			*wall_side;         // 1 = north, 2 = east, 3 = south, 4 = west per ray
-	double		*wall_h;         // exact value of where wall was hit per ray 0.0
-	int32_t		*pixels_buffer; // pixels to be placed in img_walls
-}				t_raycasting;
 
 /**
  * @param cast_n is the current ray
@@ -46,7 +31,7 @@ typedef struct s_local_dda
 	double		radian;
 	int			mapx;
 	int			mapy;
-	double 		wall_h;
+	double		wall_h;
 	int			wall_side;
 	double		stepx;
 	double		stepy;
@@ -71,7 +56,8 @@ t_raycasting	*init_cast(t_render *game)
 	cast->wall_side = malloc(sizeof(int) * WIDTH);
 	cast->wall_h = malloc(sizeof(double) * WIDTH);
 	cast->ray_steps = FOV / WIDTH;
-	cast->total_pixels = game->text.img_walls->width * game->text.img_walls->height;
+	cast->total_pixels = game->text.img_walls->width
+		* game->text.img_walls->height;
 	cast->pixels_buffer = ft_calloc(cast->total_pixels, sizeof(int32_t));
 	return (cast);
 }
@@ -84,7 +70,7 @@ void	dda_main(void *game_data)
 	game = (t_render *)game_data;
 	cast = init_cast(game);
 	calculations(game, cast); // calculates distances,
-	//intersections and wall_side calc_pixels(game, cast);
+	// intersections and wall_side calc_pixels(game, cast);
 	// places pixels calculated into pixels_buffer
 	calc_pixels(game, cast);
 	clear_pixels(game);
@@ -93,15 +79,15 @@ void	dda_main(void *game_data)
 	// places pixels_buffer into img_walls
 }
 
-int32_t get_texel(int32_t a, int32_t b, float t)
+int32_t	get_texel(int32_t a, int32_t b, float t)
 {
-    return a * (1 - t) + b * t;
+	return (a * (1 - t) + b * t);
 }
 
 void	clear_pixels(t_render *game)
 {
-	int		total_pixels;
-	int		i;
+	int	total_pixels;
+	int	i;
 
 	total_pixels = game->text.img_walls->width * game->text.img_walls->height;
 	i = 0;
@@ -114,8 +100,8 @@ void	clear_pixels(t_render *game)
 
 void	place_pixels(t_render *game, t_raycasting *cast)
 {
-	int		total_pixels;
-	int		i;
+	int	total_pixels;
+	int	i;
 
 	total_pixels = game->text.img_walls->width * game->text.img_walls->height;
 	i = 0;
@@ -142,30 +128,29 @@ void	place_pixels(t_render *game, t_raycasting *cast)
 */
 void	calc_pixels(t_render *game, t_raycasting *cast)
 {
-	int pixel_h; // height in pixels
-	float mult_factor;
-	int cast_n;
-	int	i;
-	float vertical_texel;
-	int y;
-	int x;
-	int y_texel;
-	int32_t texel0;
-	int32_t texel1;
-	int32_t combined_texel;
-	float fractional_y;
-	mlx_texture_t *wall;
+	float			mult_factor;
+	int				cast_n;
+	int				i;
+	float			vertical_texel;
+	int				y;
+	int				x;
+	int				y_texel;
+	int32_t			texel0;
+	int32_t			texel1;
+	int32_t			combined_texel;
+	float			fractional_y;
+	mlx_texture_t	*wall;
 
+	int pixel_h; // height in pixels
 	cast_n = 0;
 	while (cast_n < WIDTH)
 	{
-		pixel_h = (int)(HEIGHT/cast->distance[cast_n]);
+		pixel_h = (int)(HEIGHT / cast->distance[cast_n]);
 		if (pixel_h > HEIGHT)
 			pixel_h = HEIGHT;
 		else if (pixel_h < 1)
 			pixel_h = 1;
 		mult_factor = 64.0 / pixel_h;
-
 		if (cast->wall_side[cast_n] == NORTH)
 			wall = game->text.t_wall_n;
 		else if (cast->wall_side[cast_n] == EAST)
@@ -175,32 +160,33 @@ void	calc_pixels(t_render *game, t_raycasting *cast)
 		else if (cast->wall_side[cast_n] == WEST)
 			wall = game->text.t_wall_w;
 		i = 0;
-		if (pixel_h %64 == 0)
+		if (pixel_h % 64 == 0)
 		{
 			x = (int)(cast->wall_h[cast_n] * PIXEL) % PIXEL;
 			while (i < pixel_h)
 			{
-    			vertical_texel = i * mult_factor;
-   				y = (int)vertical_texel;
-     			cast->pixels_buffer[cast_n * HEIGHT + i] = wall->pixels[y * PIXEL + x];
-     			i++;
+				vertical_texel = i * mult_factor;
+				y = (int)vertical_texel;
+				cast->pixels_buffer[cast_n * HEIGHT + i] = wall->pixels[y
+					* PIXEL + x];
+				i++;
 			}
 		}
 		else
-		while (i < pixel_h)
-		{
-			vertical_texel = i * mult_factor;
-			y = (int)vertical_texel;
-			y_texel = (y + 1) % PIXEL;
-			fractional_y = vertical_texel - y;
-			x = (int)(cast->wall_h[cast_n] * PIXEL) % PIXEL;
-			texel0 = wall->pixels[y * PIXEL + x];
-			texel1 = wall->pixels[y_texel * PIXEL + x];
-    		cast->pixels_buffer[cast_n * HEIGHT + i] = texel0;
-    		combined_texel = get_texel(texel0, texel1, fractional_y);
-    		cast->pixels_buffer[cast_n * HEIGHT + i] = combined_texel;
-			i++;
-		}
+			while (i < pixel_h)
+			{
+				vertical_texel = i * mult_factor;
+				y = (int)vertical_texel;
+				y_texel = (y + 1) % PIXEL;
+				fractional_y = vertical_texel - y;
+				x = (int)(cast->wall_h[cast_n] * PIXEL) % PIXEL;
+				texel0 = wall->pixels[y * PIXEL + x];
+				texel1 = wall->pixels[y_texel * PIXEL + x];
+				cast->pixels_buffer[cast_n * HEIGHT + i] = texel0;
+				combined_texel = get_texel(texel0, texel1, fractional_y);
+				cast->pixels_buffer[cast_n * HEIGHT + i] = combined_texel;
+				i++;
+			}
 		cast_n++;
 	}
 }
