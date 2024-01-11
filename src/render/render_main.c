@@ -6,7 +6,7 @@
 /*   By: juliusdebaaij <juliusdebaaij@student.co      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/12/08 16:13:57 by juliusdebaa   #+#    #+#                 */
-/*   Updated: 2024/01/10 15:37:40 by jde-baai      ########   odam.nl         */
+/*   Updated: 2024/01/11 15:37:24 by jde-baai      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	main(void)
 {
 	t_render	*game;
 
-	game = init_render(game);
+	game = init_render();
 	set_windows(game);
 	mlx_loop_hook(game->mlx, &dda_main, game);
 	mlx_key_hook(game->mlx, &sl_hooks, game);

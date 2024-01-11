@@ -6,7 +6,7 @@
 /*   By: kkalika <kkalika@student.42.fr>              +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/12/01 16:01:38 by code          #+#    #+#                 */
-/*   Updated: 2024/01/10 15:37:59 by jde-baai      ########   odam.nl         */
+/*   Updated: 2024/01/11 17:44:22 by jde-baai      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,9 @@ t_render	*init_render(void);
 
 int32_t get_RGB(int a, int r, int g, int b);
 void sl_hooks(mlx_key_data_t keydata, void *param);
+
 void	dda_main(void *game_data);
+void	calc_distance(t_render *game);
+void	calc_pixels(t_render *game);
 
 #endif

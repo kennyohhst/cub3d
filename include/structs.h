@@ -6,7 +6,7 @@
 /*   By: juliusdebaaij <juliusdebaaij@student.co      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/12/08 16:15:49 by juliusdebaa   #+#    #+#                 */
-/*   Updated: 2024/01/10 14:21:16 by jde-baai      ########   odam.nl         */
+/*   Updated: 2024/01/11 18:21:34 by jde-baai      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ typedef struct s_game_textures
  */
 typedef struct s_raycasting
 {
-	int				total_pixels;
+	size_t			total_pixels;
 	double			ray_steps;
 	double			*distance;
 	int				*wall_side;
@@ -78,6 +78,36 @@ typedef struct s_render
 	t_raycasting	cast;
 	// t_screen		screen;
 }					t_render;
+
+
+/**
+ * @param cast_n is the current ray
+ * @param radian is the current radian
+ * @param mapx is x coordinate of the wall that was hit
+ * @param mapy is y coordinate of the wall that was hit
+ * @param wall_h is the exact value of where the wall was hit 0.0 - 1.0
+ * @param wall_side is the side of the wall that was hit - NORTH, EAST, SOUTH,
+	WEST
+ * @param stepx is the step in x direction
+ * @param stepy is the step in y direction
+ * @param sidedistx is the distance to the next x side
+ * @param sidedisty is the distance to the next y side
+ */
+typedef struct s_local_dda
+{
+	size_t		cast_n;
+	double		radian;
+	int			mapx;
+	int			mapy;
+	double		wall_h;
+	int			wall_side;
+	double		deltaX;
+	double		deltaY;
+	double		stepx;
+	double		stepy;
+	double		sidedistx;
+	double		sidedisty;
+}				t_dda;
 
 // typedef struct g_struct
 // {
