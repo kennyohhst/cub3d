@@ -6,7 +6,7 @@
 /*   By: code <code@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/13 15:21:43 by code              #+#    #+#             */
-/*   Updated: 2024/01/12 18:19:52 by code             ###   ########.fr       */
+/*   Updated: 2024/01/12 20:27:19 by code             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ bool	num_go_boom(t_colours *c)
 
 bool	convert_to_num(t_colours *c, char *str)
 {
-	(void) c;
 	size_t	i;
 	char	**temp;
 
@@ -36,7 +35,7 @@ bool	convert_to_num(t_colours *c, char *str)
 			break ;
 		i++;
 	}
-	temp = ft_split(str+i, ',');
+	temp = ft_split(str + i, ',');
 	if (!temp)
 		return (true);
 	i = 0;
@@ -72,36 +71,7 @@ bool	add_floor(t_god *data)
 		return (true);
 	if (num_go_boom(&data->floor))
 		return (true);
-	printf("%d\n", data->ceiling.left);
-	printf("%d\n", data->ceiling.middle);
-	printf("%d\n", data->ceiling.right);
-	printf("%d\n", data->floor.left);
-	printf("%d\n", data->floor.middle);
-	printf("%d\n", data->floor.right);
 	return (false);
-}
-
-bool	texture_path_data(t_god *data, bool err)
-{
-	(void) data;
-	if (!err)
-		return (err);
-	
-	return (err);
-}
-bool	map_data(t_god *data, bool err)
-{
-	(void) data;
-	if (!err)
-		return (err);
-	
-	return (err);
-}
-
-bool	flood_fill(char **flood_me)
-{
-	return (prep_flood(flood_me));
-	// return (err);
 }
 
 bool	tab_killer(char **full_map)
@@ -129,23 +99,15 @@ bool	tab_killer(char **full_map)
 
 bool	check_game_data(t_god *data, char **flood_me)
 {
-	bool	err = false;
-	(void)	data;
-	// (void) flood_me;
+	bool	err;
 
+	err = false;
 	if (tab_killer(flood_me))
 		return (true);
 	if (dp_strlen(flood_me) <= 2)
 		return (true);
-	// tabs_to_spaces(data->full_map);
-	// err = tabs_spaces_check_map(data, err);	
-	err = flood_fill(flood_me);
+	err = prep_flood(flood_me);
 	err = add_floor(data);
-	// err = floor_ceiling_data(data, err);
-	// err = texture_path_data(data, err);
-	// err = map_data(data, err);
-	// run_only_map(flood_me);
 	ft_free_s(flood_me);
-	
 	return (err);
 }

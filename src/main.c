@@ -6,7 +6,7 @@
 /*   By: code <code@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/01 16:02:31 by code              #+#    #+#             */
-/*   Updated: 2024/01/12 20:00:14 by code             ###   ########.fr       */
+/*   Updated: 2024/01/12 20:07:14 by code             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ char	**double_array_copy(char **array)
 	i = 0;
 	while (array[i])
 		i++;
-	return_array = malloc((i+1) * sizeof(char *));
+	return_array = malloc((i + 1) * sizeof(char *));
 	return_array[i] = NULL;
 	i = 0;
 	while (array[i])
@@ -37,7 +37,7 @@ int	main(int argc, char **argv)
 {
 	t_god			*game_data;
 	char			**temp;
-	
+
 	if (argc != 2)
 		exit((write(2, "Error\ncheck input\n", 18)));
 	check_file_extension(argv[1]);

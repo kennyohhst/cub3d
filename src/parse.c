@@ -6,7 +6,7 @@
 /*   By: code <code@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/02 14:14:43 by kkalika           #+#    #+#             */
-/*   Updated: 2024/01/12 17:24:49 by code             ###   ########.fr       */
+/*   Updated: 2024/01/12 20:28:32 by code             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	newline_break(char *str, size_t i, size_t len)
 	while (i < len)
 	{
 		if (str[i] == '\n')
-			if (str[i+1] == '\n')
+			if (str[i + 1] == '\n')
 				exit(write(2, "error new_line_break\n", 22));
 		i++;
 	}
@@ -42,7 +42,7 @@ bool	the_one(char *str, size_t len)
 	return (true);
 }
 
-void		new_line_err_check(char *str)
+void	new_line_err_check(char *str)
 {
 	size_t	i;
 	size_t	x;
@@ -54,9 +54,7 @@ void		new_line_err_check(char *str)
 		if (str[i] == '\n')
 		{
 			if (the_one(str + x, i))
-			{
-				break ;	
-			}
+				break ;
 			x = i;
 		}
 		i++;
@@ -67,8 +65,6 @@ void		new_line_err_check(char *str)
 	while (str[x] == '\n')
 		x--;
 	newline_break(str, i, x);
-	// printf("%s\n", str + i);
-	
 }
 
 char	**parse(char *map_input, t_god *data)

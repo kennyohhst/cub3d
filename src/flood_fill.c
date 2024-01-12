@@ -6,13 +6,11 @@
 /*   By: code <code@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 01:02:50 by code              #+#    #+#             */
-/*   Updated: 2024/01/12 17:24:02 by code             ###   ########.fr       */
+/*   Updated: 2024/01/12 20:10:49 by code             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/cub3d.h"
-
-
 
 int	four_seasons(char **full_map, int x, int y)
 {
@@ -23,19 +21,19 @@ int	four_seasons(char **full_map, int x, int y)
 	if (x < 0)
 		x = 0;
 	if (y > (int) ft_strlen(full_map[x]))
-		y = (int) ft_strlen(full_map[x]) -1;
+		y = (int) ft_strlen(full_map[x]) - 1;
 	if (full_map[x][y] == '2')
 	{
-		if (x == dp_strlen(full_map)-1 || x == 0 || 
-		(ft_strlen(full_map[x-1]) < ft_strlen(full_map[x]) 
-		&& y >= (int) ft_strlen(full_map[x-1])) ||
-		(ft_strlen(full_map[x+1]) < ft_strlen(full_map[x]) 
-		&& y >= (int) ft_strlen(full_map[x+1])))
+		if (x == dp_strlen(full_map) - 1 || x == 0 || 
+			(ft_strlen(full_map[x - 1]) < ft_strlen(full_map[x]) 
+				&& y >= (int) ft_strlen(full_map[x - 1])) 
+			|| (ft_strlen(full_map[x + 1]) < ft_strlen(full_map[x]) 
+				&& y >= (int) ft_strlen(full_map[x + 1])))
 			return (1);
 		if (full_map[x][y + 1] == '\0')
 			return (1);
-		if (y != 0 && (full_map[x][y+1] == ' ' || full_map[x][y-1] == ' ' ||
-		full_map[x+1][y] == ' ' || full_map[x-1][y] == ' '))
+		if (y != 0 && (full_map[x][y + 1] == ' ' || full_map[x][y - 1] == ' ' ||
+		full_map[x + 1][y] == ' ' || full_map[x - 1][y] == ' '))
 			return (1);
 	}
 	return (0);
@@ -47,22 +45,18 @@ void	flood_it(int x, int y, t_map **flood, char **full_map)
 	{
 		y = 0;
 		(*flood)->exit = 1;
-		// printf("VERTICAL_LEFT of %d line, %d column OPEN\n", x, y);
 	}
 	if (x >= dp_strlen(full_map))
 		x = dp_strlen(full_map) - 1;
 	if (x < 0)
 		x++;
 	if (y >= (int) ft_strlen(full_map[x]))
-		y = (int) ft_strlen(full_map[x]) -1;
+		y = (int) ft_strlen(full_map[x]) - 1;
 	if (full_map[x][y] && (full_map[x][y] == '1' || full_map[x][y] == '2'))
 		return ;
 	full_map[x][y] = '2';
 	if (four_seasons(full_map, x, y))
-	{
 		(*flood)->exit = 1;
-	}
-	// run_only_map(full_map);
 	flood_it(x, y + 1, flood, full_map);
 	flood_it(x, y - 1, flood, full_map);
 	flood_it(x + 1, y, flood, full_map);
