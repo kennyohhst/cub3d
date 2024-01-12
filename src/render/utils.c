@@ -6,12 +6,19 @@
 /*   By: julius <julius@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/12/29 12:19:43 by julius        #+#    #+#                 */
-/*   Updated: 2024/01/12 16:57:23 by jde-baai      ########   odam.nl         */
+/*   Updated: 2024/01/12 20:35:58 by jde-baai      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/cub3d.h"
 
+/**
+ * @brief creates a 32 bit integer from RGB values
+ * @param a alpha
+ * @param r red
+ * @param g green
+ * @param b blue
+*/
 int32_t	get_RGB(int a, int r, int g, int b)
 {
 	return ((a << 24) | (b << 16) | (g << 8) | r);

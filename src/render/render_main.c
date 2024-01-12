@@ -6,7 +6,7 @@
 /*   By: juliusdebaaij <juliusdebaaij@student.co      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/12/08 16:13:57 by juliusdebaa   #+#    #+#                 */
-/*   Updated: 2024/01/12 17:04:02 by jde-baai      ########   odam.nl         */
+/*   Updated: 2024/01/12 20:35:48 by jde-baai      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,21 +36,26 @@ int	main(void)
 */
 void	set_windows(t_render *game)
 {
-	size_t		half_pixels;
 	size_t		i;
-	
-	half_pixels = game->cast.total_pixels / 2;
+	size_t		half_pixels;
+	int32_t *pixels;
+
+	pixels = (int32_t *)game->text.img_background->pixels;
+
+	half_pixels = (HEIGHT / 2) * WIDTH;
 	i = 0;
 	while (i < half_pixels)
 	{
-		game->text.img_background->pixels[i] = game->text.ceiling_color;
+		pixels[i] = game->text.ceiling_color;
 		i++;
 	}
+	printf("i=%zu\n", i);
 	while (i < game->cast.total_pixels)
 	{
-		game->text.img_background->pixels[i] = game->text.floor_color;
+		pixels[i] = game->text.floor_color;
 		i++;
 	}
+	printf("i=%zu\n", i);
 	if (mlx_image_to_window(game->mlx, game->text.img_background, 0, 0) == -1)
 	{
 		write(2, "Error: MLX_image_to_window: background\n", 40);
