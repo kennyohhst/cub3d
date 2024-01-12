@@ -3,96 +3,80 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kkalika <kkalika@student.42.fr>            +#+  +:+       +#+        */
+/*   By: code <code@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/02 14:14:43 by kkalika           #+#    #+#             */
-/*   Updated: 2024/01/05 19:35:50 by kkalika          ###   ########.fr       */
+/*   Updated: 2024/01/12 17:24:49 by code             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/cub3d.h"
 
-int	check_line(char *str)
+void	newline_break(char *str, size_t i, size_t len)
 {
-	int	i;
-
-	i = 0;
-	while (str[i] != '\n')
+	while (i < len)
 	{
-		if (str[i] == '1')
-			return (1);
+		if (str[i] == '\n')
+			if (str[i+1] == '\n')
+				exit(write(2, "error new_line_break\n", 22));
 		i++;
 	}
-	return (0);
 }
 
-size_t	void_lines(char *str)
+bool	the_one(char *str, size_t len)
 {
 	size_t	i;
-	size_t	oops;
 
-	i = 0;
-	while (str[i] && str[i] == '\n')
-		i++;
-	oops = i;
-	while (str[i] && (str[i] == '\t' || str[i] == ' ' || str[i] != '\n'))
+	i = 1;
+	while (i < len)
 	{
-		if (str[i] == '1' || str[i] == '0')
+		if (str[i] == '\n')
 		{
-			i = oops - 1;
-			break ;
+			i++;
+			continue ;
 		}
+		if (str[i] != '1' && str[i] != '\t' && str[i] != ' ' && str[i] != '0')
+			return (false);
 		i++;
 	}
-	return (i);
+	return (true);
 }
 
-int	raw_map_new_line_err(char *str, size_t len)
+void		new_line_err_check(char *str)
 {
 	size_t	i;
+	size_t	x;
 
-	i = void_lines(str);
-	while (str[i++] && i < len)
+	x = 0;
+	i = 0;
+	while (str[i])
 	{
-		if (str[i] == '\n' && i < len)
+		if (str[i] == '\n')
 		{
-			if (str[i + 1] == ' ' || str[i + 1] == '	')
+			if (the_one(str + x, i))
 			{
-				if (!check_line(str + i + 1))
-					return (0);
+				break ;	
 			}
-			else if (str[i + 1] == '\n')
-				return (0);
+			x = i;
 		}
+		i++;
 	}
-	return (1);
+	while (str[i] == '\n')
+		i++;
+	x = ft_strlen(str);
+	while (str[x] == '\n')
+		x--;
+	newline_break(str, i, x);
+	// printf("%s\n", str + i);
+	
 }
 
-void	new_line_err_check(char *str)
-{
-	size_t	i;
-	size_t	len;
-
-	i = ft_strlen(str);
-	while (str[i] && str[i--] != '1' && str[i] != '0')
-		;
-	len = i;
-	while (str[i] && str[i] != 'F' && str[i] != 'C' 
-		&& str[i] != 'O' && str[i] != 'E' && str[i--] != 'A')
-		;
-	while (str[i] && str[i++] != '\n')
-		;
-	if (!raw_map_new_line_err(str + i, len))
-		exit(write(2, "error lines\n", 13));
-}
-
-char	**parse(char *map_input, t_god *data, char ***temp)
+char	**parse(char *map_input, t_god *data)
 {
 	int		fd;
 	char	*temp_str;
 	char	*str;
 	char	**no_spaces_file;
-	(void)  temp;
 
 	ft_bzero((void *) data, sizeof(t_god));
 	str = NULL;
@@ -108,7 +92,6 @@ char	**parse(char *map_input, t_god *data, char ***temp)
 	}
 	new_line_err_check(str);
 	no_spaces_file = ft_split(str, '\n');
-	// (*temp) = ft_split(str, '\n');
 	free(str);
 	close(fd);
 	if (dp_strlen(no_spaces_file) > 6)
