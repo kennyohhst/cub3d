@@ -6,15 +6,15 @@
 /*   By: jde-baai <jde-baai@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/11 17:19:40 by jde-baai      #+#    #+#                 */
-/*   Updated: 2024/01/11 18:32:15 by jde-baai      ########   odam.nl         */
+/*   Updated: 2024/01/12 17:01:42 by jde-baai      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/cub3d.h"
 
 mlx_texture_t *get_wall(t_render *game, size_t cast_n);
-void	place_exact_pxl(t_render *game, mlx_texture_t wall, size_t cast_n, int pixel_h, float mult_factor);
-void	place_combined_pxl(t_render *game, mlx_texture_t wall, size_t cast_n, int pixel_h, float mult_factor);
+void	place_exact_pxl(t_render *game, mlx_texture_t wall, size_t cast_n, size_t pixel_h, float mult_factor);
+void	place_combined_pxl(t_render *game, mlx_texture_t wall, size_t cast_n, size_t pixel_h, float mult_factor);
 int32_t	get_texel(int32_t a, int32_t b, float t);
 
 /**
@@ -34,7 +34,7 @@ int32_t	get_texel(int32_t a, int32_t b, float t);
 void	calc_pixels(t_render *game)
 {
 	float			mult_factor;
-	int pixel_h; // height in pixels
+	size_t			pixel_h; // height in pixels
 	size_t			cast_n;
 	mlx_texture_t	*wall;
 
@@ -59,12 +59,11 @@ void	calc_pixels(t_render *game)
 	}
 }
 
-void	place_exact_pxl(t_render *game, mlx_texture_t wall, size_t cast_n, int pixel_h, float mult_factor)
+void	place_exact_pxl(t_render *game, mlx_texture_t wall, size_t cast_n, size_t pixel_h, float mult_factor)
 {
 	size_t	i;
 	size_t	img_x;
 	size_t	img_y;
-	
 
 	i = 0;
 	img_x = (int)(game->cast.wall_h[cast_n] * PIXEL) % PIXEL;
@@ -92,7 +91,7 @@ void	place_exact_pxl(t_render *game, mlx_texture_t wall, size_t cast_n, int pixe
 
 7. Finally, it places the combined texel into the pixels_buffer at the correct position.
 */
-void place_combined_pxl(t_render *game, mlx_texture_t wall, size_t cast_n, int pixel_h, float mult_factor)
+void place_combined_pxl(t_render *game, mlx_texture_t wall, size_t cast_n, size_t pixel_h, float mult_factor)
 {
 	size_t	i;
 	size_t	img_x;

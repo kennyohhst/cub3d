@@ -6,7 +6,7 @@
 /*   By: juliusdebaaij <juliusdebaaij@student.co      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/12/08 16:13:57 by juliusdebaa   #+#    #+#                 */
-/*   Updated: 2024/01/11 15:37:24 by jde-baai      ########   odam.nl         */
+/*   Updated: 2024/01/12 17:04:02 by jde-baai      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,10 @@ int	main(void)
 	t_render	*game;
 
 	game = init_render();
+	printf("init done\n");
 	set_windows(game);
-	mlx_loop_hook(game->mlx, &dda_main, game);
+	printf("set windows done\n");
+	// mlx_loop_hook(game->mlx, &dda_main, game);
 	mlx_key_hook(game->mlx, &sl_hooks, game);
 	mlx_loop(game->mlx);
 	mlx_terminate(game->mlx);
@@ -34,8 +36,8 @@ int	main(void)
 */
 void	set_windows(t_render *game)
 {
-	int		half_pixels;
-	int		i;
+	size_t		half_pixels;
+	size_t		i;
 	
 	half_pixels = game->cast.total_pixels / 2;
 	i = 0;
@@ -59,29 +61,4 @@ void	set_windows(t_render *game)
 		write(2, "Error: MLX_image_to_window: walls\n", 35);
 		exit (1);
 	}
-}
-
-bool	run_game(t_render *game)
-{
-
-	if (game->map[game->player.py][game->player.px] == 'N')
-		game->player.rad = 0 * PI;
-	if (game->map[game->player.py][game->player.px] == 'E')
-		game->player.rad = 0.5 * PI;
-	if (game->map[game->player.py][game->player.px] == 'S')
-		game->player.rad = 1 * PI;
-	if (game->map[game->player.py][game->player.px] == 'W')
-		game->player.rad = 1.5 * PI;
-	game->mlx = mlx_init(WIDTH, HEIGHT, "cub3D", false);
-	if (!game->mlx)
-	{
-		printf("mlx error\n");
-		exit(EXIT_FAILURE);
-	}
-	set_background(game);
-	mlx_key_hook(game->mlx, &sl_hooks, game);
-	mlx_loop_hook(game->mlx, &dda_main, game);
-	mlx_loop(game->mlx);
-	mlx_terminate(game->mlx);
-	return (true);
 }

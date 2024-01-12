@@ -6,7 +6,7 @@
 /*   By: julius <julius@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/12/29 12:19:43 by julius        #+#    #+#                 */
-/*   Updated: 2024/01/10 15:37:46 by jde-baai      ########   odam.nl         */
+/*   Updated: 2024/01/12 16:57:23 by jde-baai      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,18 @@ void init_raycasting(t_render *game)
 	}
 }
 
+void	set_radian(t_render *game)
+{
+	if (game->map[game->player.py][game->player.px] == 'N')
+		game->player.rad = 0 * PI;
+	if (game->map[game->player.py][game->player.px] == 'E')
+		game->player.rad = 0.5 * PI;
+	if (game->map[game->player.py][game->player.px] == 'S')
+		game->player.rad = 1 * PI;
+	if (game->map[game->player.py][game->player.px] == 'W')
+		game->player.rad = 1.5 * PI;
+}
+
 t_render	*init_render(void)
 {
 	t_render *game;
@@ -108,6 +120,8 @@ t_render	*init_render(void)
 	}
 	game->player.px = 2;
 	game->player.py = 5;
+	set_radian(game);
 	init_textures(game);
 	init_raycasting(game);
+	return (game);
 }
