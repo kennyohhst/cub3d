@@ -6,11 +6,38 @@
 /*   By: code <code@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 01:02:50 by code              #+#    #+#             */
-/*   Updated: 2024/01/12 20:10:49 by code             ###   ########.fr       */
+/*   Updated: 2024/01/14 20:09:05 by code             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/cub3d.h"
+
+int	sus_player(char **full_map)
+{
+	size_t	x;
+	size_t	y;
+	int		count;
+
+	x = 0;
+	y = 0;
+	count = 0;
+	while (full_map && full_map[x])
+	{
+		while (full_map[x][y])
+		{
+			if (full_map[x][y] && (full_map[x][y] == 'N' 
+			|| full_map[x][y] == 'O'
+			|| full_map[x][y] == 'S' || full_map[x][y] == 'W'))
+				count++;
+			y++;
+		}
+		y = 0;
+		x++;
+	}
+	if (count != 1)
+		return (1);
+	return (0);
+}
 
 int	four_seasons(char **full_map, int x, int y)
 {
@@ -96,6 +123,8 @@ bool	prep_flood(char **full_map)
 
 	flood = malloc(sizeof(t_map));
 	flood->exit = 0;
+	if (sus_player(full_map))
+		return (free(flood), true);
 	flood->exit = player(&flood, full_map);
 	if (flood->exit)
 		return (free(flood), true);

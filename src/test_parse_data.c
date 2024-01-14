@@ -6,29 +6,44 @@
 /*   By: code <code@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/02 13:59:46 by kkalika           #+#    #+#             */
-/*   Updated: 2024/01/12 20:20:29 by code             ###   ########.fr       */
+/*   Updated: 2024/01/14 20:12:21 by code             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/cub3d.h"
 
-void	run_floor_ceiling(char **f_c)
-{
-	int	i;
+// void	run_floor_ceiling(char **f_c)
+// {
+// 	int	i;
 
-	i = 0;
-	if (!f_c)
+// 	i = 0;
+// 	if (!f_c)
+// 	{
+// 		printf("NSF is nothing\n");
+// 		return ;
+// 	}
+// 	printf("----------------floor_ceiling:---------------------------\n\n");
+// 	while (f_c[i])
+// 		printf("			%s\n", f_c[i++]);
+// 	printf("\n---------------------------------------------------------\n");
+// }
+
+void	run_floor_ceiling_ints(t_god *data)
+{
+	if (!data)
 	{
-		printf("NSF is nothing\n");
+		printf("there is no data buddy\n");
 		return ;
 	}
 	printf("----------------floor_ceiling:---------------------------\n\n");
-	while (f_c[i])
-		printf("			%s\n", f_c[i++]);
+	printf("\nceiling: %d.%d.%d\n", data->ceiling.left,
+		data->ceiling.middle, data->ceiling.right);
+	printf("\nfloor: %d.%d.%d\n", data->floor.left,
+		data->floor.middle, data->floor.right);
 	printf("\n---------------------------------------------------------\n");
 }
 
-void	run_textures_path(char **t_p)
+void	run_textures_path(char **t_p, t_god *data)
 {
 	int	i;
 
@@ -41,6 +56,12 @@ void	run_textures_path(char **t_p)
 	printf("----------------textures_path:---------------------------\n\n");
 	while (t_p[i])
 		printf("			%s\n", t_p[i++]);
+	printf("\n---------------------------------------------------------\n");
+	printf("----------------textures_path_2:-------------------------\n\n");
+	printf("%s\n", data->no_so_ea_we.no);
+	printf("%s\n", data->no_so_ea_we.so);
+	printf("%s\n", data->no_so_ea_we.ea);
+	printf("%s\n", data->no_so_ea_we.we);
 	printf("\n---------------------------------------------------------\n");
 }
 
@@ -91,6 +112,6 @@ void	test_parse_data(t_god *data)
 	temp = data;
 	run_no_spaces_file(temp->no_spaces_file);
 	run_only_map(temp->full_map);
-	run_floor_ceiling(data->floor_ceiling);
-	run_textures_path(data->textures_path);
+	run_floor_ceiling_ints(data);
+	run_textures_path(data->textures_path, data);
 }

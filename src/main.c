@@ -6,7 +6,7 @@
 /*   By: code <code@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/01 16:02:31 by code              #+#    #+#             */
-/*   Updated: 2024/01/12 20:07:14 by code             ###   ########.fr       */
+/*   Updated: 2024/01/13 16:35:11 by code             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,8 +46,6 @@ int	main(int argc, char **argv)
 	temp = double_array_copy(game_data->full_map);
 	if (check_game_data(game_data, temp))
 		exit(write(2, "Error_map_not_good\n", 20));
-	if (!search_correct_type(game_data))
-		exit (2);
 	test_parse_data(game_data);
 	free_all(game_data);
 	return (0);

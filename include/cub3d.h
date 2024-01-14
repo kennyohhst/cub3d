@@ -6,7 +6,7 @@
 /*   By: code <code@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/01 16:01:38 by code              #+#    #+#             */
-/*   Updated: 2024/01/12 17:58:48 by code             ###   ########.fr       */
+/*   Updated: 2024/01/13 16:23:56 by code             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,15 @@
 # include <stdio.h>
 # include "../libft/libft.h"
 # include "../MLX42/include/MLX42/MLX42.h"
+
+
+typedef struct txtrs
+{
+	char	*no;
+	char	*so;
+	char	*ea;
+	char	*we;
+}t_txtrs;
 
 typedef struct colours
 {
@@ -64,6 +73,7 @@ typedef struct g_struct
 	int			line_number_texture_path;
 	t_colours	floor;
 	t_colours	ceiling;
+	t_txtrs		no_so_ea_we;
 	// int		collectables;
 	// t_game	*textures;
 	// mlx_t	*mlx;
@@ -80,19 +90,12 @@ void	free_all(t_god *data);
 bool	check_game_data(t_god *data, char **flood_me);
 void	check_file_extension(char *str);
 void	double_data(t_god *game_data);
-int		search_correct_type(t_god *data);
+bool	search_correct_type(t_god *data);
 int		dp_strlen(char **str);
 bool	prep_flood(char **full_map);
 void	run_only_map(char **om);
 void	ft_free_s(char **string);
 bool	make_two(char c);
-
-
-
-
-
-
-
-
+bool	txt_to_ptr(t_god *data);
 
 #endif

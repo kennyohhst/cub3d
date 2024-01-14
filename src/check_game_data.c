@@ -6,7 +6,7 @@
 /*   By: code <code@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/13 15:21:43 by code              #+#    #+#             */
-/*   Updated: 2024/01/12 20:27:19 by code             ###   ########.fr       */
+/*   Updated: 2024/01/14 20:13:40 by code             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ bool	convert_to_num(t_colours *c, char *str)
 	return (false);
 }
 
-bool	add_floor(t_god *data)
+bool	add_floor_ceiling(t_god *data)
 {
 	size_t	i;
 
@@ -63,13 +63,10 @@ bool	add_floor(t_god *data)
 			data->ceiling_str = data->no_spaces_file[i];
 		i++;
 	}
-	if (convert_to_num(&data->ceiling, data->ceiling_str))
-		return (true);
-	if (convert_to_num(&data->floor, data->floor_str))
-		return (true);
-	if (num_go_boom(&data->ceiling))
-		return (true);
-	if (num_go_boom(&data->floor))
+	if (convert_to_num(&data->ceiling, data->ceiling_str) 
+		|| num_go_boom(&data->ceiling) 
+		|| convert_to_num(&data->floor, data->floor_str) 
+		|| num_go_boom(&data->floor))
 		return (true);
 	return (false);
 }
@@ -106,8 +103,14 @@ bool	check_game_data(t_god *data, char **flood_me)
 		return (true);
 	if (dp_strlen(flood_me) <= 2)
 		return (true);
-	err = prep_flood(flood_me);
-	err = add_floor(data);
+	if (prep_flood(flood_me))
+		return (true);
+	printf("err = %d\n", err);
+	if (search_correct_type(data))
+		return (true);
+	if (add_floor_ceiling(data))
+		return (true);
+	err = txt_to_ptr(data);
 	ft_free_s(flood_me);
 	return (err);
 }

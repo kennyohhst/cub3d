@@ -6,7 +6,7 @@
 /*   By: code <code@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/02 14:14:43 by kkalika           #+#    #+#             */
-/*   Updated: 2024/01/12 20:28:32 by code             ###   ########.fr       */
+/*   Updated: 2024/01/14 20:14:00 by code             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,8 +62,8 @@ void	new_line_err_check(char *str)
 	while (str[i] == '\n')
 		i++;
 	x = ft_strlen(str);
-	while (str[x] == '\n')
-		x--;
+	while (str[--x] == '\n')
+		;
 	newline_break(str, i, x);
 }
 

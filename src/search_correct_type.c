@@ -6,11 +6,28 @@
 /*   By: code <code@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/06 13:16:27 by code              #+#    #+#             */
-/*   Updated: 2023/12/25 16:58:06 by code             ###   ########.fr       */
+/*   Updated: 2024/01/13 16:33:08 by code             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/cub3d.h"
+
+int	err_tex_check(t_god *data)
+{
+	int	i;
+
+	i = 0;
+	while (data->textures_path[i])
+		i++;
+	if (i < 4)
+		return (1);
+	i = 0;
+	while (data->floor_ceiling[i])
+		i++;
+	if (i < 2)
+		return (1);
+	return (0);
+}
 
 void	one_of_each(char **full_map, char *c)
 {
@@ -42,31 +59,30 @@ void	double_data(t_god *game_data)
 	one_of_each(game_data->no_spaces_file, "C ");
 }
 
-int	search_correct_type(t_god *data)
+bool	search_correct_type(t_god *data)
 {
-	char	**temp;
 	int		i;
 
 	i = 0;
-	temp = data->no_spaces_file;
-	while (temp[i] && i < 6)
+	while (data->no_spaces_file[i] && i < 6)
 	{
-		if (!ft_memcmp("NO", temp[i], 2))
-			data->textures_path[0] = ft_strdup(temp[i]);
-		else if (!ft_memcmp("SO", temp[i], 2))
-			data->textures_path[1] = ft_strdup(temp[i]);
-		else if (!ft_memcmp("EA", temp[i], 2))
-			data->textures_path[2] = ft_strdup(temp[i]);
-		else if (!ft_memcmp("WE", temp[i], 2))
-			data->textures_path[3] = ft_strdup(temp[i]);
-		else if (!ft_memcmp("F ", temp[i], 2))
-			data->floor_ceiling[0] = ft_strdup(temp[i]);
-		else if (!ft_memcmp("C ", temp[i], 2))
-			data->floor_ceiling[1] = ft_strdup(temp[i]);
+		if (!ft_memcmp("NO .", data->no_spaces_file[i], 4))
+			data->textures_path[0] = ft_strdup(data->no_spaces_file[i]);
+		else if (!ft_memcmp("SO .", data->no_spaces_file[i], 4))
+			data->textures_path[1] = ft_strdup(data->no_spaces_file[i]);
+		else if (!ft_memcmp("EA .", data->no_spaces_file[i], 4))
+			data->textures_path[2] = ft_strdup(data->no_spaces_file[i]);
+		else if (!ft_memcmp("WE .", data->no_spaces_file[i], 4))
+			data->textures_path[3] = ft_strdup(data->no_spaces_file[i]);
+		else if (!ft_memcmp("F ", data->no_spaces_file[i], 2))
+			data->floor_ceiling[0] = ft_strdup(data->no_spaces_file[i]);
+		else if (!ft_memcmp("C ", data->no_spaces_file[i], 2))
+			data->floor_ceiling[1] = ft_strdup(data->no_spaces_file[i]);
 		i++;
 		double_data(data);
 	}
+	i = err_tex_check(data);
 	data->textures_path[4] = NULL;
 	data->floor_ceiling[2] = NULL;
-	return (1);
+	return (i);
 }
