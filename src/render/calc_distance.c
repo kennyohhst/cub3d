@@ -6,7 +6,7 @@
 /*   By: jde-baai <jde-baai@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/11 15:53:39 by jde-baai      #+#    #+#                 */
-/*   Updated: 2024/01/11 17:14:45 by jde-baai      ########   odam.nl         */
+/*   Updated: 2024/01/15 00:17:57 by julius        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,9 @@
 void	calc_dda(t_render *game, t_dda *dda);
 void	calc_step_sidedist(t_render *game, t_dda *dda);
 void	set_values(t_dda *dda);
-void	straight_lines(t_render *game, t_dda *dda);
+void	handle_east_west(t_render *game, t_dda *dda);
 void	set_distance(t_render *game, t_dda dda);
+void	handle_north_south(t_render *game, t_dda *dda);
 
 /**
  * @brief calculates for each ray:
@@ -30,11 +31,14 @@ void	calc_distance(t_render *game)
 
 	dda.radian = game->player.rad - (FOV / 2);
 	dda.cast_n = 0;
-	dda.mapx = (int)game->player.px;
-	dda.mapy = (int)game->player.py;
+	printf("pre loop\n");
 	while (dda.cast_n < WIDTH)
 	{
+		dda.mapx = (int)game->player.px;
+		dda.mapy = (int)game->player.py;
+		printf("loop\n");
 		calc_dda(game, &dda);
+		printf("calc_dda done\n");
 		game->cast.wall_h[dda.cast_n] = dda.wall_h;
 		game->cast.wall_side[dda.cast_n] = dda.wall_side;
 		set_distance(game, dda);
@@ -48,12 +52,11 @@ void	calc_distance(t_render *game)
  */
 void	calc_dda(t_render *game, t_dda *dda)
 {
-	if (dda->radian == 0 || dda->radian == 0.5 * PI || dda->radian == PI
-		|| dda->radian == 1.5 * PI)
-		straight_lines(game, dda);
-	// calculate step and initial sideDist
+    if (dda->radian == 0 || dda->radian == PI)
+       return (handle_north_south(game, dda));
+	if (dda->radian == 0.5 * PI || dda->radian == 1.5 * PI)
+        return (handle_east_west(game, dda));
 	calc_step_sidedist(game, dda);
-	// actual DDA
 	while (1)
 	{
 		// jump to next map square in x or y direction
@@ -129,15 +132,17 @@ void handle_north_south(t_render *game, t_dda *dda)
         while (game->map[dda->mapy][dda->mapx] != '1')
             dda->mapy--;
         dda->wall_side = SOUTH;
+		dda->stepy = -1;
     }
     else if (game->player.rad == PI)
     {
         while (game->map[dda->mapy][dda->mapx] != '1')
             dda->mapy++;
         dda->wall_side = NORTH;
+		dda->stepy = 1;
     }
-    dda->sidedisty = abs(game->player.py - dda->mapy);
     dda->wall_h = game->player.py - (int)game->player.py;
+	dda->sidedisty = fabs(game->player.py - dda->mapy);
 }
 
 void handle_east_west(t_render *game, t_dda *dda)
@@ -147,27 +152,17 @@ void handle_east_west(t_render *game, t_dda *dda)
         while (game->map[dda->mapy][dda->mapx] != '1')
             dda->mapx++;
         dda->wall_side = WEST;
+		dda->stepx = 1;
     }
     else if (game->player.rad == 1.5 * PI)
     {
         while (game->map[dda->mapy][dda->mapx] != '1')
             dda->mapx--;
         dda->wall_side = EAST;
+		dda->stepx = -1;
     }
-    dda->sidedistx = abs(game->player.px - dda->mapx);
     dda->wall_h = game->player.px - (int)game->player.px;
-}
-
-void straight_lines(t_render *game, t_dda *dda)
-{
-    if (dda->radian == 0 || dda->radian == PI)
-    {
-        handle_north_south(game, dda);
-    }
-    else
-    {
-        handle_east_west(game, dda);
-    }
+	dda->sidedistx = fabs(game->player.px - dda->mapx);
 }
 
 void	set_distance(t_render *game, t_dda dda)

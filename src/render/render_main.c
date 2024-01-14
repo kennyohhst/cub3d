@@ -6,7 +6,7 @@
 /*   By: juliusdebaaij <juliusdebaaij@student.co      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/12/08 16:13:57 by juliusdebaa   #+#    #+#                 */
-/*   Updated: 2024/01/12 20:35:48 by jde-baai      ########   odam.nl         */
+/*   Updated: 2024/01/14 23:57:45 by julius        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,11 @@ int	main(void)
 	t_render	*game;
 
 	game = init_render();
+	printf("PI=%f\n", PI);
 	printf("init done\n");
 	set_windows(game);
 	printf("set windows done\n");
-	// mlx_loop_hook(game->mlx, &dda_main, game);
+	mlx_loop_hook(game->mlx, &dda_main, game);
 	mlx_key_hook(game->mlx, &sl_hooks, game);
 	mlx_loop(game->mlx);
 	mlx_terminate(game->mlx);
@@ -38,10 +39,9 @@ void	set_windows(t_render *game)
 {
 	size_t		i;
 	size_t		half_pixels;
-	int32_t *pixels;
+	int32_t		*pixels;
 
 	pixels = (int32_t *)game->text.img_background->pixels;
-
 	half_pixels = (HEIGHT / 2) * WIDTH;
 	i = 0;
 	while (i < half_pixels)
@@ -49,13 +49,11 @@ void	set_windows(t_render *game)
 		pixels[i] = game->text.ceiling_color;
 		i++;
 	}
-	printf("i=%zu\n", i);
 	while (i < game->cast.total_pixels)
 	{
 		pixels[i] = game->text.floor_color;
 		i++;
 	}
-	printf("i=%zu\n", i);
 	if (mlx_image_to_window(game->mlx, game->text.img_background, 0, 0) == -1)
 	{
 		write(2, "Error: MLX_image_to_window: background\n", 40);

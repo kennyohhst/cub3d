@@ -6,7 +6,7 @@
 /*   By: julius <julius@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/12/29 12:19:43 by julius        #+#    #+#                 */
-/*   Updated: 2024/01/12 20:35:58 by jde-baai      ########   odam.nl         */
+/*   Updated: 2024/01/15 00:39:34 by julius        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ void init_raycasting(t_render *game)
 	game->cast.wall_side = malloc(sizeof(int) * WIDTH);
 	if (!game->cast.wall_side)
 	{
-		write(2, "Error: malloc: wall_side\n", 265);
+		write(2, "Error: malloc: wall_side\n", 26);
 		exit(1);
 	}
 	game->cast.wall_h = malloc(sizeof(double) * WIDTH);
@@ -89,7 +89,7 @@ void init_raycasting(t_render *game)
 		write(2, "Error: malloc: wall_h\n", 23);
 		exit(1);
 	}
-	game->cast.pixels_buffer = malloc(sizeof(int32_t) * WIDTH * HEIGHT);
+	game->cast.pixels_buffer = malloc(sizeof(uint8_t) * WIDTH * HEIGHT);
 	if (!game->cast.pixels_buffer)
 	{
 		write(2, "Error: malloc: pixels_buffer\n", 30);
@@ -99,13 +99,13 @@ void init_raycasting(t_render *game)
 
 void	set_radian(t_render *game)
 {
-	if (game->map[game->player.py][game->player.px] == 'N')
+	if (game->map[(int)game->player.py][(int)game->player.px] == 'N')
 		game->player.rad = 0 * PI;
-	if (game->map[game->player.py][game->player.px] == 'E')
+	if (game->map[(int)game->player.py][(int)game->player.px] == 'E')
 		game->player.rad = 0.5 * PI;
-	if (game->map[game->player.py][game->player.px] == 'S')
+	if (game->map[(int)game->player.py][(int)game->player.px] == 'S')
 		game->player.rad = 1 * PI;
-	if (game->map[game->player.py][game->player.px] == 'W')
+	if (game->map[(int)game->player.py][(int)game->player.px] == 'W')
 		game->player.rad = 1.5 * PI;
 }
 

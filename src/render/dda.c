@@ -6,7 +6,7 @@
 /*   By: jde-baai <jde-baai@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/12/13 15:49:56 by jde-baai      #+#    #+#                 */
-/*   Updated: 2024/01/11 18:30:56 by jde-baai      ########   odam.nl         */
+/*   Updated: 2024/01/15 00:41:27 by julius        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,15 +21,11 @@ void	dda_main(void *game_data)
 	t_render		*game;
 
 	game = (t_render *)game_data;
-	calc_distance(game); // calculates distances,
+	calc_distance(game);
 	calc_pixels(game);
 	clear_pixels(game);
-	// gives all pixels in buffer empty color
 	place_pixels(game);
-	// places all pixels_buffer into img_walls
 }
-
-
 
 void	clear_pixels(t_render *game)
 {

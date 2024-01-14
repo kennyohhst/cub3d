@@ -6,7 +6,7 @@
 /*   By: juliusdebaaij <juliusdebaaij@student.co      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/12/08 16:15:49 by juliusdebaa   #+#    #+#                 */
-/*   Updated: 2024/01/11 18:21:34 by jde-baai      ########   odam.nl         */
+/*   Updated: 2024/01/15 00:39:25 by julius        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,13 +53,13 @@ typedef struct s_raycasting
 	double			*distance;
 	int				*wall_side;
 	double			*wall_h;
-	int32_t			*pixels_buffer;
+	uint8_t			*pixels_buffer;
 }					t_raycasting;
 
 typedef struct s_player_data
 {
-	int				px;
-	int				py;
+	double				px;
+	double				py;
 	double			rad;
 }					t_player;
 

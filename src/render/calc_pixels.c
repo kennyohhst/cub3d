@@ -6,7 +6,7 @@
 /*   By: jde-baai <jde-baai@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/11 17:19:40 by jde-baai      #+#    #+#                 */
-/*   Updated: 2024/01/12 17:01:42 by jde-baai      ########   odam.nl         */
+/*   Updated: 2024/01/15 00:42:59 by julius        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 mlx_texture_t *get_wall(t_render *game, size_t cast_n);
 void	place_exact_pxl(t_render *game, mlx_texture_t wall, size_t cast_n, size_t pixel_h, float mult_factor);
 void	place_combined_pxl(t_render *game, mlx_texture_t wall, size_t cast_n, size_t pixel_h, float mult_factor);
-int32_t	get_texel(int32_t a, int32_t b, float t);
+uint8_t	get_texel(uint8_t a, uint8_t b, float t);
 
 /**
  * @brief calculates the pixels to be placed in img_buffer
@@ -96,9 +96,9 @@ void place_combined_pxl(t_render *game, mlx_texture_t wall, size_t cast_n, size_
 	size_t	i;
 	size_t	img_x;
 	size_t	img_y;
-	int32_t	texel0;
-	int32_t	texel1;
-	int32_t	combined_texel;
+	uint8_t	texel0;
+	uint8_t	texel1;
+	uint8_t	combined_texel;
 	float	fractional_y;
 
 	i = 0;
@@ -127,7 +127,7 @@ mlx_texture_t *get_wall(t_render *game, size_t cast_n)
 		return (game->text.t_wall_w);
 }
 
-int32_t	get_texel(int32_t a, int32_t b, float t)
+uint8_t	get_texel(uint8_t a, uint8_t b, float t)
 {
 	return (a * (1 - t) + b * t);
 }
