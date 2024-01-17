@@ -6,7 +6,7 @@
 /*   By: jde-baai <jde-baai@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/11 17:19:40 by jde-baai      #+#    #+#                 */
-/*   Updated: 2024/01/17 11:16:38 by juliusdebaa   ########   odam.nl         */
+/*   Updated: 2024/01/17 21:04:49 by jde-baai      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void	calc_pixels(t_render *game)
 	mlx_texture_t	*wall;
 
 	cast_n = 0;
-	while (cast_n < WIDTH)
+	while (cast_n < 1) // WIDTH
 	{
 		// pixel height + mult factor
 		pixel_h = (int)(HEIGHT / game->cast.distance[cast_n]);

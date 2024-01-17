@@ -6,7 +6,7 @@
 /*   By: jde-baai <jde-baai@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/11 15:53:39 by jde-baai      #+#    #+#                 */
-/*   Updated: 2024/01/15 00:17:57 by julius        ########   odam.nl         */
+/*   Updated: 2024/01/17 22:22:59 by jde-baai      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,12 +30,14 @@ void	calc_distance(t_render *game)
 	t_dda	dda;
 
 	dda.radian = game->player.rad - (FOV / 2);
+	if (dda.radian < 0)
+		dda.radian += 2 * PI;
 	dda.cast_n = 0;
 	printf("pre loop\n");
-	while (dda.cast_n < WIDTH)
+	while (dda.cast_n < 1) // WIDTH
 	{
-		dda.mapx = (int)game->player.px;
-		dda.mapy = (int)game->player.py;
+		dda.mapx = game->player.px;
+		dda.mapy = game->player.py;
 		printf("loop\n");
 		calc_dda(game, &dda);
 		printf("calc_dda done\n");
@@ -71,7 +73,7 @@ void	calc_dda(t_render *game, t_dda *dda)
 			dda->mapy += dda->stepy;
 		}
 		// check if ray has hit a wall
-		if (game->map[dda->mapy][dda->mapx] > 0)
+		if (game->map[(int)(dda->mapy)][(int)(dda->mapx)] > '0')
 		{
 			set_values(dda);
 			break ;
@@ -101,9 +103,9 @@ void	set_values(t_dda *dda)
 
 void	calc_step_sidedist(t_render *game, t_dda *dda)
 {
-	dda->deltaX = fabs(1 / cos(dda->radian));
-	dda->deltaY = fabs(1 / sin(dda->radian));
-	if (cos(dda->radian) < 0)
+	dda->deltaX = fabs(1 / sin(dda->radian));
+	dda->deltaY = fabs(1 / cos(dda->radian));
+	if (sin(dda->radian) < 0)
 	{
 		dda->stepx = -1;
 		dda->sidedistx = (game->player.px - dda->mapx) * dda->deltaX;
@@ -113,7 +115,7 @@ void	calc_step_sidedist(t_render *game, t_dda *dda)
 		dda->stepx = 1;
 		dda->sidedistx = (dda->mapx + 1.0 - game->player.px) * dda->deltaX;
 	}
-	if (sin(dda->radian) < 0)
+	if (cos(dda->radian) > 0)
 	{
 		dda->stepy = -1;
 		dda->sidedisty = (game->player.py - dda->mapy) * dda->deltaY;

@@ -6,7 +6,7 @@
 /*   By: julius <julius@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/12/29 12:19:43 by julius        #+#    #+#                 */
-/*   Updated: 2024/01/15 00:39:34 by julius        ########   odam.nl         */
+/*   Updated: 2024/01/17 22:19:01 by jde-baai      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,12 +112,27 @@ void	set_radian(t_render *game)
 t_render	*init_render(void)
 {
 	t_render *game;
-	char *set_map[] = {"11111", "10001", "10001", "10101", "10001", "10N01",
-		"10001", "11111", ""};
 
 	game = ft_calloc(1, sizeof(t_render));
 	if (!game)
 		exit(1);
+	char **set_map = malloc(sizeof(char *) * 9);  // 9 is the number of rows in your map
+	if (!set_map)
+	{
+	    write(2, "Error: malloc: set_map\n", 23);
+ 	   exit(1);
+	}
+
+	set_map[0] = ft_strdup("11111");
+	set_map[1] = ft_strdup("10001");
+	set_map[2] = ft_strdup("10001");
+	set_map[3] = ft_strdup("10101");
+	set_map[4] = ft_strdup("10001");
+	set_map[5] = ft_strdup("10N01");
+	set_map[6] = ft_strdup("10001");
+	set_map[7] = ft_strdup("11111");
+	set_map[8] = NULL;  // NULL-terminate the array
+
 	game->map = set_map;
 	game->mlx = mlx_init(WIDTH, HEIGHT, "cub3D", false);
 	if (!game->mlx)
@@ -125,8 +140,8 @@ t_render	*init_render(void)
 		write(2, "Error: MLX_init\n", 17);
 		exit(1);
 	}
-	game->player.px = 2;
-	game->player.py = 5;
+	game->player.px = 2.5;
+	game->player.py = 5.5;
 	set_radian(game);
 	init_textures(game);
 	init_raycasting(game);

@@ -6,7 +6,7 @@
 /*   By: juliusdebaaij <juliusdebaaij@student.co      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/12/08 16:15:49 by juliusdebaa   #+#    #+#                 */
-/*   Updated: 2024/01/15 00:39:25 by julius        ########   odam.nl         */
+/*   Updated: 2024/01/17 22:20:23 by jde-baai      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ typedef struct s_player_data
 {
 	double				px;
 	double				py;
-	double			rad;
+	double				rad;
 }					t_player;
 
 // typedef struct s_screen
@@ -97,8 +97,8 @@ typedef struct s_local_dda
 {
 	size_t		cast_n;
 	double		radian;
-	int			mapx;
-	int			mapy;
+	double		mapx;
+	double		mapy;
 	double		wall_h;
 	int			wall_side;
 	double		deltaX;
