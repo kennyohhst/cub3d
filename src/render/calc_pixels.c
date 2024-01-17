@@ -6,7 +6,7 @@
 /*   By: jde-baai <jde-baai@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/11 17:19:40 by jde-baai      #+#    #+#                 */
-/*   Updated: 2024/01/15 00:42:59 by julius        ########   odam.nl         */
+/*   Updated: 2024/01/17 11:16:38 by juliusdebaa   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,11 +47,11 @@ void	calc_pixels(t_render *game)
 			pixel_h = HEIGHT;
 		else if (pixel_h < 1)
 			pixel_h = 1;
-		mult_factor = 64.0 / pixel_h;
+		mult_factor = PIXEL / pixel_h;
 		//get wall
 		wall = get_wall(game, cast_n);
 		// place_pixels
-		if (pixel_h % 64 == 0)
+		if (pixel_h % PIXEL == 0)
 			place_exact_pxl(game, *wall, cast_n, pixel_h, mult_factor);
 		else
 			place_combined_pxl(game, *wall, cast_n, pixel_h, mult_factor);
