@@ -6,7 +6,7 @@
 /*   By: jde-baai <jde-baai@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/11 17:19:40 by jde-baai      #+#    #+#                 */
-/*   Updated: 2024/01/17 21:04:49 by jde-baai      ########   odam.nl         */
+/*   Updated: 2024/01/18 04:04:20 by jde-baai      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,40 +39,45 @@ void	calc_pixels(t_render *game)
 	mlx_texture_t	*wall;
 
 	cast_n = 0;
-	while (cast_n < 1) // WIDTH
+	while (cast_n < WIDTH) // WIDTH
 	{
 		// pixel height + mult factor
 		pixel_h = (int)(HEIGHT / game->cast.distance[cast_n]);
-		if (pixel_h > HEIGHT)
-			pixel_h = HEIGHT;
-		else if (pixel_h < 1)
-			pixel_h = 1;
-		mult_factor = PIXEL / pixel_h;
+		mult_factor = (float)PIXEL / (float)pixel_h;
 		//get wall
 		wall = get_wall(game, cast_n);
 		// place_pixels
-		if (pixel_h % PIXEL == 0)
+		// if (pixel_h % PIXEL == 0)
 			place_exact_pxl(game, *wall, cast_n, pixel_h, mult_factor);
-		else
-			place_combined_pxl(game, *wall, cast_n, pixel_h, mult_factor);
+		// else
+		// 	place_combined_pxl(game, *wall, cast_n, pixel_h, mult_factor);
 		cast_n++;
 	}
 }
 
 void	place_exact_pxl(t_render *game, mlx_texture_t wall, size_t cast_n, size_t pixel_h, float mult_factor)
 {
-	size_t	i;
-	size_t	img_x;
-	size_t	img_y;
+    size_t  pixel_y;
+	int		start;
+    int     wall_start;
+    int     end;
+	size_t	wall_offset;
 
-	i = 0;
-	img_x = (int)(game->cast.wall_h[cast_n] * PIXEL) % PIXEL;
-	while (i < pixel_h)
-	{
-		img_y = (int)(i * mult_factor);
-		game->cast.pixels_buffer[cast_n * HEIGHT + i] = wall.pixels[img_y * PIXEL + img_x];
-		i++;
-	}
+	wall_offset = game->cast.wall_h[cast_n] * PIXEL;
+	start = (HEIGHT / 2) - (pixel_h / 2);
+	if (start <= 0)
+		wall_start = HEIGHT - 1;
+	else
+		wall_start = HEIGHT - start;
+	end = wall_start - pixel_h;
+	if (end < 0)
+		end = 0;
+    while (wall_start > end)
+    {
+        pixel_y = ((int)(wall_start * mult_factor)) % PIXEL;
+        game->cast.pixels_buffer[wall_start * WIDTH + cast_n] = wall.pixels[pixel_y + wall_offset];
+        wall_start--;
+    }
 }
 
 /**

@@ -1,0 +1,8 @@
+{
+	"files.associations": {
+		"cub3d.h": "c",
+		"random": "c",
+		"limits": "c",
+		"algorithm": "c"
+	}
+}

@@ -6,7 +6,7 @@
 /*   By: jde-baai <jde-baai@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/11 15:53:39 by jde-baai      #+#    #+#                 */
-/*   Updated: 2024/01/17 22:22:59 by jde-baai      ########   odam.nl         */
+/*   Updated: 2024/01/18 04:04:33 by jde-baai      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	calc_dda(t_render *game, t_dda *dda);
 void	calc_step_sidedist(t_render *game, t_dda *dda);
 void	set_values(t_dda *dda);
 void	handle_east_west(t_render *game, t_dda *dda);
-void	set_distance(t_render *game, t_dda dda);
+void	set_dist_wallh(t_render *game, t_dda *dda);
 void	handle_north_south(t_render *game, t_dda *dda);
 
 /**
@@ -33,19 +33,25 @@ void	calc_distance(t_render *game)
 	if (dda.radian < 0)
 		dda.radian += 2 * PI;
 	dda.cast_n = 0;
-	printf("pre loop\n");
-	while (dda.cast_n < 1) // WIDTH
+	while (dda.cast_n < WIDTH) // WIDTH * 
 	{
+		dda.wall_h = -1;
 		dda.mapx = game->player.px;
 		dda.mapy = game->player.py;
-		printf("loop\n");
-		calc_dda(game, &dda);
-		printf("calc_dda done\n");
+    	if (dda.radian == 0 || dda.radian == PI)
+    	   handle_north_south(game, &dda);
+		else if (dda.radian == 0.5 * PI || dda.radian == 1.5 * PI)
+        	handle_east_west(game, &dda);
+		else
+		{
+			calc_dda(game, &dda);
+			set_dist_wallh(game, &dda);
+		}
 		game->cast.wall_h[dda.cast_n] = dda.wall_h;
 		game->cast.wall_side[dda.cast_n] = dda.wall_side;
-		set_distance(game, dda);
 		dda.radian += game->cast.ray_steps;
 		dda.cast_n++;
+			printf("[%zu]: Distance: %f, Wall_side: %i, Wall_h: %f\n", dda.cast_n, game->cast.distance[dda.cast_n], game->cast.wall_side[dda.cast_n], game->cast.wall_h[dda.cast_n]);
 	}
 }
 
@@ -54,10 +60,6 @@ void	calc_distance(t_render *game)
  */
 void	calc_dda(t_render *game, t_dda *dda)
 {
-    if (dda->radian == 0 || dda->radian == PI)
-       return (handle_north_south(game, dda));
-	if (dda->radian == 0.5 * PI || dda->radian == 1.5 * PI)
-        return (handle_east_west(game, dda));
 	calc_step_sidedist(game, dda);
 	while (1)
 	{
@@ -85,19 +87,17 @@ void	set_values(t_dda *dda)
 {
 	if (dda->sidedistx < dda->sidedisty)
 	{
-		if (dda->stepx == -1)
-			dda->wall_side = WEST;
+		if (dda->stepy == -1)
+			dda->wall_side = NORTH;
 		else
-			dda->wall_side = EAST;
-		dda->wall_h = dda->mapx - (int)dda->mapx;
+			dda->wall_side = SOUTH;
 	}
 	else
 	{
-		if (dda->stepy == -1)
-			dda->wall_side = SOUTH;
+		if (dda->stepx == -1)
+			dda->wall_side = EAST;
 		else
-			dda->wall_side = NORTH;
-		dda->wall_h = dda->mapy - (int)dda->mapy;
+			dda->wall_side = WEST;
 	}
 }
 
@@ -131,17 +131,19 @@ void handle_north_south(t_render *game, t_dda *dda)
 {
     if (dda->radian == 0)
     {
-        while (game->map[dda->mapy][dda->mapx] != '1')
+        while (game->map[(int)(dda->mapy)][(int)(dda->mapx)] != '1')
             dda->mapy--;
         dda->wall_side = SOUTH;
 		dda->stepy = -1;
+		game->cast.distance[dda->cast_n] = fabs(game->player.py - dda->mapy);
     }
     else if (game->player.rad == PI)
     {
-        while (game->map[dda->mapy][dda->mapx] != '1')
+        while (game->map[(int)(dda->mapy)][(int)(dda->mapx)] != '1')
             dda->mapy++;
         dda->wall_side = NORTH;
 		dda->stepy = 1;
+		game->cast.distance[dda->cast_n] = fabs(game->player.py - dda->mapy);
     }
     dda->wall_h = game->player.py - (int)game->player.py;
 	dda->sidedisty = fabs(game->player.py - dda->mapy);
@@ -151,31 +153,47 @@ void handle_east_west(t_render *game, t_dda *dda)
 {
     if (game->player.rad == 0.5 * PI)
     {
-        while (game->map[dda->mapy][dda->mapx] != '1')
+        while (game->map[(int)(dda->mapy)][(int)(dda->mapx)] != '1')
             dda->mapx++;
         dda->wall_side = WEST;
 		dda->stepx = 1;
+		game->cast.distance[dda->cast_n] = fabs(game->player.px - dda->mapx);
     }
     else if (game->player.rad == 1.5 * PI)
     {
-        while (game->map[dda->mapy][dda->mapx] != '1')
+        while (game->map[(int)(dda->mapy)][(int)(dda->mapx)] != '1')
             dda->mapx--;
         dda->wall_side = EAST;
 		dda->stepx = -1;
+		game->cast.distance[dda->cast_n] = fabs(game->player.px - dda->mapx);
     }
     dda->wall_h = game->player.px - (int)game->player.px;
 	dda->sidedistx = fabs(game->player.px - dda->mapx);
 }
 
-void	set_distance(t_render *game, t_dda dda)
+/**
+ * @brief calculates the distance from the player to the wall && sets wall_h
+ * if wall_h has not yet been set
+ * 
+*/
+void	set_dist_wallh(t_render *game, t_dda *dda)
 {
-	double	perpwalldist;
-	double	corrected_distance;
+	double	perpendicular_dist;
+	double	corrected_dist;
+	double	wall_hit;
 
-	if (dda.wall_side == NORTH || dda.wall_side == SOUTH)
-		perpwalldist = dda.sidedisty - dda.stepy;
+	if (dda->wall_side == NORTH || dda->wall_side == SOUTH)
+		perpendicular_dist = dda->sidedisty - dda->stepy;
 	else
-		perpwalldist = dda.sidedistx - dda.stepx;
-	corrected_distance = perpwalldist * cos(dda.radian - game->player.rad);
-	game->cast.distance[dda.cast_n] = corrected_distance;
+		perpendicular_dist = dda->sidedistx - dda->stepx;
+	corrected_dist = perpendicular_dist * cos(dda->radian - game->player.rad);
+	game->cast.distance[dda->cast_n] = corrected_dist;
+	if (dda->wall_h == -1)
+	{
+		if (dda->wall_side == NORTH || dda->wall_side == SOUTH)
+			wall_hit = game->player.px + corrected_dist * sin(dda->radian);
+		else
+			wall_hit = game->player.py - corrected_dist * cos(dda->radian);
+		dda->wall_h = wall_hit - (int)wall_hit;
+	}
 }

@@ -6,7 +6,7 @@
 /*   By: julius <julius@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/12/29 12:19:43 by julius        #+#    #+#                 */
-/*   Updated: 2024/01/17 22:19:01 by jde-baai      ########   odam.nl         */
+/*   Updated: 2024/01/18 03:53:21 by jde-baai      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,7 +141,7 @@ t_render	*init_render(void)
 		exit(1);
 	}
 	game->player.px = 2.5;
-	game->player.py = 5.5;
+	game->player.py = 4.5;
 	set_radian(game);
 	init_textures(game);
 	init_raycasting(game);
