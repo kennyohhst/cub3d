@@ -6,7 +6,7 @@
 /*   By: juliusdebaaij <juliusdebaaij@student.co      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/12/08 16:15:49 by juliusdebaa   #+#    #+#                 */
-/*   Updated: 2024/01/24 08:30:11 by julius        ########   odam.nl         */
+/*   Updated: 2024/01/24 20:10:33 by jde-baai      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,8 +95,10 @@ typedef struct s_render
 typedef struct s_local_dda
 {
 	size_t		cast_n;
-	double		dirx;
-	double		diry;
+	double		player_dirx;
+	double		player_diry;
+	double		ray_dirx;
+	double		ray_diry;
 	double		plane_x;
 	double		plane_y;
 	double		camera_x;
@@ -111,6 +113,8 @@ typedef struct s_local_dda
 	int		stepy;
 	double		sidedistx;
 	double		sidedisty;
+	double	    start_distx;
+	double	    start_disty;
 }				t_dda;
 
 // typedef struct g_struct
