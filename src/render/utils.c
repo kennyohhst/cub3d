@@ -6,7 +6,7 @@
 /*   By: julius <julius@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/12/29 12:19:43 by julius        #+#    #+#                 */
-/*   Updated: 2024/01/18 03:53:21 by jde-baai      ########   odam.nl         */
+/*   Updated: 2024/01/24 08:16:08 by julius        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
  * @param g green
  * @param b blue
 */
-int32_t	get_RGB(int a, int r, int g, int b)
+uint32_t	get_RGB(int a, int r, int g, int b)
 {
 	return ((a << 24) | (b << 16) | (g << 8) | r);
 }
@@ -70,7 +70,6 @@ void	init_textures(t_render *game)
 void init_raycasting(t_render *game)
 {
 	game->cast.total_pixels = WIDTH * HEIGHT;
-	game->cast.ray_steps = (double)FOV / (double)WIDTH;
 	game->cast.distance = malloc(sizeof(double) * WIDTH);
 	if (!game->cast.distance)
 	{
@@ -89,7 +88,7 @@ void init_raycasting(t_render *game)
 		write(2, "Error: malloc: wall_h\n", 23);
 		exit(1);
 	}
-	game->cast.pixels_buffer = malloc(sizeof(uint8_t) * WIDTH * HEIGHT);
+	game->cast.pixels_buffer = malloc(sizeof(int32_t) * WIDTH * HEIGHT);
 	if (!game->cast.pixels_buffer)
 	{
 		write(2, "Error: malloc: pixels_buffer\n", 30);
@@ -100,13 +99,13 @@ void init_raycasting(t_render *game)
 void	set_radian(t_render *game)
 {
 	if (game->map[(int)game->player.py][(int)game->player.px] == 'N')
-		game->player.rad = 0 * PI;
-	if (game->map[(int)game->player.py][(int)game->player.px] == 'E')
-		game->player.rad = 0.5 * PI;
-	if (game->map[(int)game->player.py][(int)game->player.px] == 'S')
-		game->player.rad = 1 * PI;
-	if (game->map[(int)game->player.py][(int)game->player.px] == 'W')
 		game->player.rad = 1.5 * PI;
+	if (game->map[(int)game->player.py][(int)game->player.px] == 'E')
+		game->player.rad = 0 * PI;
+	if (game->map[(int)game->player.py][(int)game->player.px] == 'S')
+		game->player.rad = 0.5 * PI;
+	if (game->map[(int)game->player.py][(int)game->player.px] == 'W')
+		game->player.rad = 1 * PI;
 }
 
 t_render	*init_render(void)
@@ -141,7 +140,9 @@ t_render	*init_render(void)
 		exit(1);
 	}
 	game->player.px = 2.5;
-	game->player.py = 4.5;
+	game->player.py = 5.5;
+	// game->player.planex = 1.0;
+	// game->player.planey = 0.0;
 	set_radian(game);
 	init_textures(game);
 	init_raycasting(game);

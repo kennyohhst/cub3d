@@ -6,7 +6,7 @@
 /*   By: juliusdebaaij <juliusdebaaij@student.co      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/12/08 16:13:57 by juliusdebaa   #+#    #+#                 */
-/*   Updated: 2024/01/18 02:25:02 by jde-baai      ########   odam.nl         */
+/*   Updated: 2024/01/24 07:02:34 by julius        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,8 @@ int	main(void)
 	printf("init done\n");
 	set_windows(game);
 	printf("set windows done\n");
-	dda_main(game);
-	// mlx_loop_hook(game->mlx, &dda_main, game);
+	walls_main(game);
+	//mlx_loop_hook(game->mlx, &walls_main, game);
 	mlx_key_hook(game->mlx, &sl_hooks, game);
 	mlx_loop(game->mlx);
 	mlx_terminate(game->mlx);

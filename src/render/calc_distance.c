@@ -6,7 +6,7 @@
 /*   By: jde-baai <jde-baai@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/11 15:53:39 by jde-baai      #+#    #+#                 */
-/*   Updated: 2024/01/18 04:04:33 by jde-baai      ########   odam.nl         */
+/*   Updated: 2024/01/24 08:47:03 by julius        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,30 +28,44 @@ void	handle_north_south(t_render *game, t_dda *dda);
 void	calc_distance(t_render *game)
 {
 	t_dda	dda;
+	double	ray_steps;
+	
+	ray_steps = FOV / WIDTH;
+	dda.dirx = cos(game->player.rad);
+	dda.diry = sin(game->player.rad);
+	dda.plane_x = dda.diry;
+	dda.plane_y = -dda.dirx;
+
+
 
 	dda.radian = game->player.rad - (FOV / 2);
 	if (dda.radian < 0)
 		dda.radian += 2 * PI;
+	
+
+
+
 	dda.cast_n = 0;
 	while (dda.cast_n < WIDTH) // WIDTH * 
 	{
+		dda.camera_x = 2 * dda.cast_n / (double)WIDTH - 1;
 		dda.wall_h = -1;
-		dda.mapx = game->player.px;
-		dda.mapy = game->player.py;
-    	if (dda.radian == 0 || dda.radian == PI)
-    	   handle_north_south(game, &dda);
-		else if (dda.radian == 0.5 * PI || dda.radian == 1.5 * PI)
-        	handle_east_west(game, &dda);
-		else
-		{
-			calc_dda(game, &dda);
-			set_dist_wallh(game, &dda);
-		}
+		dda.mapx = (int)game->player.px;
+		dda.mapy = (int)game->player.py;
+		calc_dda(game, &dda);
+		set_dist_wallh(game, &dda);
 		game->cast.wall_h[dda.cast_n] = dda.wall_h;
 		game->cast.wall_side[dda.cast_n] = dda.wall_side;
-		dda.radian += game->cast.ray_steps;
+		if (dda.cast_n > 1200 && dda.cast_n < 1340)
+		{
+		printf("ray[%zu] dist= %f, wall = %i\n", dda.cast_n, game->cast.distance[dda.cast_n], dda.wall_side);
+		printf("ray[%zu] rad: %f, stepx: %d, stepy: %d\n", dda.cast_n, dda .radian, dda.stepx, dda.stepy);
+		printf("ray[%zu] sidedistY: %f, deltaY %f\n", dda.cast_n, dda.sidedisty, dda.deltaY);
+		printf("ray[%zu] sidedistX: %f, deltaX %f\n", dda.cast_n, dda.sidedistx, dda.deltaX);
+		printf("\n");
+		}
+		dda.radian += ray_steps;
 		dda.cast_n++;
-			printf("[%zu]: Distance: %f, Wall_side: %i, Wall_h: %f\n", dda.cast_n, game->cast.distance[dda.cast_n], game->cast.wall_side[dda.cast_n], game->cast.wall_h[dda.cast_n]);
 	}
 }
 
@@ -63,7 +77,6 @@ void	calc_dda(t_render *game, t_dda *dda)
 	calc_step_sidedist(game, dda);
 	while (1)
 	{
-		// jump to next map square in x or y direction
 		if (dda->sidedistx < dda->sidedisty)
 		{
 			dda->sidedistx += dda->deltaX;
@@ -74,7 +87,8 @@ void	calc_dda(t_render *game, t_dda *dda)
 			dda->sidedisty += dda->deltaY;
 			dda->mapy += dda->stepy;
 		}
-		// check if ray has hit a wall
+		if (dda->cast_n > 1200 && dda->cast_n < 1340)
+			printf("mapx: %d, mapy: %d\n", dda->mapx, dda->mapy);
 		if (game->map[(int)(dda->mapy)][(int)(dda->mapx)] > '0')
 		{
 			set_values(dda);
@@ -103,9 +117,11 @@ void	set_values(t_dda *dda)
 
 void	calc_step_sidedist(t_render *game, t_dda *dda)
 {
-	dda->deltaX = fabs(1 / sin(dda->radian));
-	dda->deltaY = fabs(1 / cos(dda->radian));
-	if (sin(dda->radian) < 0)
+	double raydirx = dda->dirx + dda->plane_x * dda->camera_x;
+	double raydiry = dda->diry + dda->plane_y * dda->camera_x;
+	dda->deltaX = sqrt(1 + (raydiry* raydiry) / (raydirx * raydirx));
+	dda->deltaY = sqrt(1 + (raydirx * raydirx) / (raydiry * raydiry));
+	if (raydirx < 0)
 	{
 		dda->stepx = -1;
 		dda->sidedistx = (game->player.px - dda->mapx) * dda->deltaX;
@@ -115,7 +131,7 @@ void	calc_step_sidedist(t_render *game, t_dda *dda)
 		dda->stepx = 1;
 		dda->sidedistx = (dda->mapx + 1.0 - game->player.px) * dda->deltaX;
 	}
-	if (cos(dda->radian) > 0)
+	if (raydiry < 0)
 	{
 		dda->stepy = -1;
 		dda->sidedisty = (game->player.py - dda->mapy) * dda->deltaY;
@@ -127,50 +143,6 @@ void	calc_step_sidedist(t_render *game, t_dda *dda)
 	}
 }
 
-void handle_north_south(t_render *game, t_dda *dda)
-{
-    if (dda->radian == 0)
-    {
-        while (game->map[(int)(dda->mapy)][(int)(dda->mapx)] != '1')
-            dda->mapy--;
-        dda->wall_side = SOUTH;
-		dda->stepy = -1;
-		game->cast.distance[dda->cast_n] = fabs(game->player.py - dda->mapy);
-    }
-    else if (game->player.rad == PI)
-    {
-        while (game->map[(int)(dda->mapy)][(int)(dda->mapx)] != '1')
-            dda->mapy++;
-        dda->wall_side = NORTH;
-		dda->stepy = 1;
-		game->cast.distance[dda->cast_n] = fabs(game->player.py - dda->mapy);
-    }
-    dda->wall_h = game->player.py - (int)game->player.py;
-	dda->sidedisty = fabs(game->player.py - dda->mapy);
-}
-
-void handle_east_west(t_render *game, t_dda *dda)
-{
-    if (game->player.rad == 0.5 * PI)
-    {
-        while (game->map[(int)(dda->mapy)][(int)(dda->mapx)] != '1')
-            dda->mapx++;
-        dda->wall_side = WEST;
-		dda->stepx = 1;
-		game->cast.distance[dda->cast_n] = fabs(game->player.px - dda->mapx);
-    }
-    else if (game->player.rad == 1.5 * PI)
-    {
-        while (game->map[(int)(dda->mapy)][(int)(dda->mapx)] != '1')
-            dda->mapx--;
-        dda->wall_side = EAST;
-		dda->stepx = -1;
-		game->cast.distance[dda->cast_n] = fabs(game->player.px - dda->mapx);
-    }
-    dda->wall_h = game->player.px - (int)game->player.px;
-	dda->sidedistx = fabs(game->player.px - dda->mapx);
-}
-
 /**
  * @brief calculates the distance from the player to the wall && sets wall_h
  * if wall_h has not yet been set
@@ -179,21 +151,21 @@ void handle_east_west(t_render *game, t_dda *dda)
 void	set_dist_wallh(t_render *game, t_dda *dda)
 {
 	double	perpendicular_dist;
-	double	corrected_dist;
+	// double	corrected_dist;
 	double	wall_hit;
 
 	if (dda->wall_side == NORTH || dda->wall_side == SOUTH)
-		perpendicular_dist = dda->sidedisty - dda->stepy;
+		perpendicular_dist = dda->sidedisty - dda->deltaY;
 	else
-		perpendicular_dist = dda->sidedistx - dda->stepx;
-	corrected_dist = perpendicular_dist * cos(dda->radian - game->player.rad);
-	game->cast.distance[dda->cast_n] = corrected_dist;
+		perpendicular_dist = dda->sidedistx - dda->deltaX;
+	// corrected_dist = perpendicular_dist * cos(dda->radian - game->player.rad);
+	game->cast.distance[dda->cast_n] = fabs(perpendicular_dist);
 	if (dda->wall_h == -1)
 	{
 		if (dda->wall_side == NORTH || dda->wall_side == SOUTH)
-			wall_hit = game->player.px + corrected_dist * sin(dda->radian);
+			wall_hit = game->player.px + perpendicular_dist * sin(dda->radian); // change to  cirrected dist
 		else
-			wall_hit = game->player.py - corrected_dist * cos(dda->radian);
+			wall_hit = game->player.py - perpendicular_dist * cos(dda->radian); // change to corrected dist
 		dda->wall_h = wall_hit - (int)wall_hit;
 	}
 }

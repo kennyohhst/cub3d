@@ -22,7 +22,7 @@ LIB				:= $(LIB_DIR)/libft.a
 
 
 # Files
-SRC_FILES :=	render/render_main.c render/key_hooks.c render/utils.c render/dda.c render/calc_distance.c render/calc_pixels.c
+SRC_FILES :=	render/render_main.c render/key_hooks.c render/utils.c render/place_walls.c render/calc_distance.c render/calc_pixels.c
 
 SRC := $(addprefix $(SRC_DIR)/, $(SRC_FILES))
 OBJ := ${addprefix ${OBJ_DIR}/, ${SRC_FILES:.c=.o}}

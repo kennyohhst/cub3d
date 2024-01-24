@@ -6,7 +6,7 @@
 /*   By: jde-baai <jde-baai@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/12/22 13:21:17 by jde-baai      #+#    #+#                 */
-/*   Updated: 2024/01/18 02:01:13 by jde-baai      ########   odam.nl         */
+/*   Updated: 2024/01/24 08:36:36 by julius        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,3 +18,4 @@
 #define WIDTH 2560
 #define HEIGHT 1280
 #define BPP sizeof(int32_t)
+#define EPS 0.00001

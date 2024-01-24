@@ -6,7 +6,7 @@
 /*   By: juliusdebaaij <juliusdebaaij@student.co      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/12/08 16:15:49 by juliusdebaa   #+#    #+#                 */
-/*   Updated: 2024/01/17 22:20:23 by jde-baai      ########   odam.nl         */
+/*   Updated: 2024/01/24 08:30:11 by julius        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,11 +49,10 @@ typedef struct s_game_textures
 typedef struct s_raycasting
 {
 	size_t			total_pixels;
-	double			ray_steps;
 	double			*distance;
 	int				*wall_side;
 	double			*wall_h;
-	uint8_t			*pixels_buffer;
+	uint32_t		*pixels_buffer;
 }					t_raycasting;
 
 typedef struct s_player_data
@@ -96,15 +95,20 @@ typedef struct s_render
 typedef struct s_local_dda
 {
 	size_t		cast_n;
+	double		dirx;
+	double		diry;
+	double		plane_x;
+	double		plane_y;
+	double		camera_x;
 	double		radian;
-	double		mapx;
-	double		mapy;
+	int		mapx;
+	int		mapy;
 	double		wall_h;
 	int			wall_side;
 	double		deltaX;
 	double		deltaY;
-	double		stepx;
-	double		stepy;
+	int		stepx;
+	int		stepy;
 	double		sidedistx;
 	double		sidedisty;
 }				t_dda;

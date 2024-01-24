@@ -1,51 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   dda.c                                              :+:    :+:            */
+/*   place_walls.c                                      :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: jde-baai <jde-baai@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/12/13 15:49:56 by jde-baai      #+#    #+#                 */
-/*   Updated: 2024/01/18 04:04:52 by jde-baai      ########   odam.nl         */
+/*   Updated: 2024/01/24 06:49:15 by julius        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/cub3d.h"
-void			calc_pixels(t_render *game);
-void			clear_pixels(t_render *game);
+
+void			clear_buffer(t_render *game);
 void			place_pixels(t_render *game);
 void 			print_pixel_data(t_render *game);
 
-void fuck_some_shit_up(t_render *game)
-{
-	int32_t		*pixels;
-	int32_t		rgb;
-
-	pixels = (int32_t *)game->text.img_background->pixels;
-	rgb = get_RGB(255, 255, 0, 0);
-
-	size_t i = 0;
-	while (i < 10000)
-	{
-		pixels[i] = rgb;
-		i++;
-	}
-}
-
-void	dda_main(void *game_data)
+void	walls_main(void *game_data)
 {
 	t_render		*game;
 
 	game = (t_render *)game_data;
+	clear_buffer(game);
 	calc_distance(game);
-	clear_pixels(game);
 	calc_pixels(game);
 	place_pixels(game);
-	// fuck_some_shit_up(game);
 	//print_pixel_data(game);
 }
 
-void	clear_pixels(t_render *game)
+void	clear_buffer(t_render *game)
 {
 	size_t	i;
 
@@ -59,13 +42,20 @@ void	clear_pixels(t_render *game)
 
 void	place_pixels(t_render *game)
 {
-	size_t	i;
+	size_t	x;
+	size_t	y;
 
-	i = 0;
-	while (i < game->cast.total_pixels)
+	x = 0;
+	y = 0;
+	while (x < WIDTH)
 	{
-		game->text.img_walls->pixels[i] = game->cast.pixels_buffer[i];
-		i++;
+		y = 0;
+		while (y < HEIGHT)
+		{
+			mlx_put_pixel(game->text.img_walls, x, y, game->cast.pixels_buffer[y * WIDTH + x]);
+			y++;
+		}
+		x++;
 	}
 }
 
