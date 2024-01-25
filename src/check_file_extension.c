@@ -6,7 +6,7 @@
 /*   By: code <code@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/24 23:03:01 by code              #+#    #+#             */
-/*   Updated: 2024/01/12 20:06:50 by code             ###   ########.fr       */
+/*   Updated: 2024/01/18 20:38:36 by code             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	check_file_extension(char *str)
 {
 	char	check[5];
 
-	ft_strlcpy(check, str + ft_strlen(str) - 4, 5);
+	ft_strlcpy(check, str + (ft_strlen(str) - 4), 5);
 	if (!ft_strncmp(check, ".cub", 5))
 		return ;
 	else

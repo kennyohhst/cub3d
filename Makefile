@@ -6,16 +6,21 @@ HDR_DIR := include
 SRC_DIR := src
 OBJ_DIR := obj
 LIB_DIR := libft
+MLX_DIR := lib/mlx42
 
 # Compiler flags
 CC := cc
 CFLAGS := -Wall -Werror -Wextra -fsanitize=address -g
+IFLAGS := -I$(INC_DIR) -I$(MLX_DIR)/include -I$(MLX_DIR)/include/$(MLX_DIR) -I$(LIBFT_DIR)
+LFLAGS := -L$(MLX_DIR)/build -lmlx42 -lglfw -ldl -pthread -lm -L$(LIBFT_DIR) -lft
 ifeq ($(DEBUG), 1)
     # CFLAGS += -g
 endif
 
 # Includes
 HDR_FILES :=	cub3d.h
+
+MLX42 := $(MLX_DIR)/build/libmlx42.a
 
 # Libft
 LIB				:= $(LIB_DIR)/libft.a
@@ -37,15 +42,20 @@ BOLD	:= \033[1m
 RESET	:= \033[0m
 
 # Rules
-all: ${NAME}
+all: $(MLX42) ${NAME}
 
 $(NAME): $(OBJ) $(LIB)
 	@printf "%b%s%b" "$(YELLOW)$(BOLD)" "Compiling $(NICKNAME)..." "$(RESET)"
-	@$(CC) $(CFLAGS) $(OBJ) $(LIB) -o $@ MLX42/build/libmlx42.a -ldl -lglfw -lm -pthread -I MLX42/include
+	@$(CC) $(CFLAGS) $(OBJ) $(LIB) -o $@ lib/mlx42/build/libmlx42.a -ldl -lglfw -lm -pthread -I mlx42/include
 	@printf "\t\t%b%s%b\n" "$(GREEN)$(BOLD)" "[OK]" "$(RESET)"
 
 $(LIB):
 	@ make -C $(LIB_DIR)
+
+$(MLX42):
+	git submodule update --init
+	@cmake $(MLX_DIR) -B $(MLX_DIR)/build
+	$(MAKE) -C $(MLX_DIR)/build -j4 --quiet
 
 $(OBJ_DIR)/%.o: src/%.c $(HDR)
 	@mkdir -p obj
@@ -73,17 +83,18 @@ clean:
 	@rm -rf $(OBJ)
 	@rm -rf $(OBJ_DIR)
 	@ make $(MAKEFLAGS) clean -C $(LIB_DIR)
-
+	@$(MAKE) clean -C $(MLX_DIR)/build -j4 --quiet
 
 fclean:
 	@echo "$(RED)$(BOLD)Fully cleaning $(NICKNAME)...$(RESET)"
 	@rm -rf ${NAME}
 	@rm -rf $(OBJ)
 	@rm -rf $(OBJ_DIR)
+	$(MAKE) clean/fast -C $(MLX_DIR)/build -j4 --quiet
 	@ make $(MAKEFLAGS) fclean -C $(LIB_DIR)
 
 
 
-re: fclean ${NAME}
+re: fclean all
 
 .PHONY: all norminette run debug valgrind open clean fclean re
