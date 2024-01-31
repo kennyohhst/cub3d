@@ -9,7 +9,7 @@ LIB_DIR := libft
 
 # Compiler flags
 CC := cc
-CFLAGS := -Wall -Werror -Wextra
+CFLAGS := -Wall -Werror -Wextra -g
 ifeq ($(DEBUG), 1)
     CFLAGS += -g
 endif

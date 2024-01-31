@@ -6,7 +6,7 @@
 /*   By: juliusdebaaij <juliusdebaaij@student.co      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/12/08 16:15:49 by juliusdebaa   #+#    #+#                 */
-/*   Updated: 2024/01/24 20:10:33 by jde-baai      ########   odam.nl         */
+/*   Updated: 2024/01/31 15:06:04 by julius        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,8 +109,8 @@ typedef struct s_local_dda
 	int			wall_side;
 	double		deltaX;
 	double		deltaY;
-	int		stepx;
-	int		stepy;
+	double		stepx;
+	double		stepy;
 	double		sidedistx;
 	double		sidedisty;
 	double	    start_distx;
