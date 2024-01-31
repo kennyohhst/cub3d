@@ -168,3 +168,54 @@ void handle_east_west(t_render *game, t_dda *dda)
 
 				if (dda->cast_n > 120 && dda->cast_n < 134)
 			printf("mapx: %f, mapy: %f\n", dda->mapx, dda->mapy);
+
+
+
+
+
+
+
+
+
+
+void	set_values(t_dda *dda)
+{
+	if (dda->sidedistx < dda->sidedisty)
+	{
+		if (dda->stepy == -1)
+			dda->wall_side = SOUTH;
+		else
+			dda->wall_side = NORTH;
+	}
+	else
+	{
+		if (dda->stepx == -1)
+			dda->wall_side = EAST;
+		else
+			dda->wall_side = WEST;
+	}
+}
+
+/**
+ * @brief calculates the distance from the player to the wall && sets wall_h
+ * if wall_h has not yet been set
+ * 
+*/
+void	set_dist_wallh(t_render *game, t_dda *dda)
+{
+	double	perpendicular_dist;
+	// double	corrected_dist;
+	double	wall_hit;
+
+	if (dda->wall_side == NORTH || dda->wall_side == SOUTH)
+		perpendicular_dist = dda->sidedisty - dda->deltaY;
+	else
+		perpendicular_dist = dda->sidedistx - dda->deltaX;
+	// corrected_dist = perpendicular_dist * cos(dda->radian - game->player.rad);
+	game->cast.distance[dda->cast_n] = fabs(perpendicular_dist);
+	if (dda->wall_side == NORTH || dda->wall_side == SOUTH)
+		wall_hit = game->player.px + perpendicular_dist * sin(dda->radian); // change to  cirrected dist
+	else
+		wall_hit = game->player.py - perpendicular_dist * cos(dda->radian); // change to corrected dist
+	dda->wall_h = wall_hit - (int)wall_hit;
+}

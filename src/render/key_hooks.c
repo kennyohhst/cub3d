@@ -6,7 +6,7 @@
 /*   By: jde-baai <jde-baai@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/12/22 14:59:19 by jde-baai      #+#    #+#                 */
-/*   Updated: 2024/01/24 06:40:27 by julius        ########   odam.nl         */
+/*   Updated: 2024/01/31 17:52:41 by jde-baai      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,39 +19,36 @@ static void	terminate(t_render *game)
 }
 
 /**
- * @note update to check for wall collision
+ * @todo make + and - dependant on radian
  */
 static void	move_vertical(t_render *game, enum keys key)
 {
 	if (key == MLX_KEY_W)
 	{
-		if (game->map[(int)(game->player.py - MS)][(int)game->player.px] == '1')
-			return ;
+		if (game->map[(int)(game->player.py - MS)][(int)game->player.px] != '1')
 		game->player.py -= MS;
 	}
 	else
 	{
-		if (game->map[(int)(game->player.py + MS)][(int)game->player.px] == '1')
-			return ;
+		if (game->map[(int)(game->player.py + MS)][(int)game->player.px] != '1')
 		game->player.py += MS;
 	}
 }
 
+
 /**
- * @note update to check for wall collision
+ * @todo make + and - dependant on radian
  */
 static void	move_horizontal(t_render *game, enum keys key)
 {
 	if (key == MLX_KEY_A)
 	{
-		if (game->map[(int)(game->player.py)][(int)(game->player.px - MS)] == '1')
-			return ;
+		if (game->map[(int)(game->player.py)][(int)(game->player.px - MS)] != '1')
 		game->player.px -= MS;
 	}
 	else
 	{
-		if (game->map[(int)(game->player.py)][(int)(game->player.px + MS)] == '1')
-			return ;
+		if (game->map[(int)(game->player.py)][(int)(game->player.px + MS)] != '1')
 		game->player.px += MS;
 	}
 }
