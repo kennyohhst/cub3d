@@ -6,7 +6,7 @@
 /*   By: jde-baai <jde-baai@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/11 15:53:39 by jde-baai      #+#    #+#                 */
-/*   Updated: 2024/01/31 15:25:53 by julius        ########   odam.nl         */
+/*   Updated: 2024/01/31 15:31:39 by julius        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ void	calc_distance(t_render *game)
 		//set_dist_wallh(game, &dda);
 		// if (dda.cast_n > 120 && dda.cast_n < 134)
 		// {
-		printf("ray[%zu] dist= %f, wall = %i\n", dda.cast_n, game->cast.distance[dda.cast_n], dda.wall_side);
+		printf("ray[%zu] dist= %f, wall = %i\n", dda.cast_n, game->cast.distance[dda.cast_n], game->cast.wall_side[dda.cast_n]);
 		printf("\n");
 		// }
 		dda.radian += radian_increase;
@@ -232,6 +232,7 @@ void	calc_step_sidedist(t_render *game, t_dda *dda)
 			game->cast.wall_side[dda->cast_n] = EAST;
 		else
 			game->cast.wall_side[dda->cast_n] = WEST;
+		game->cast.wall_h[dda->cast_n] = dda->ray_diry - (int)dda->ray_diry;
 		// set north or south
 	}
 	else
@@ -243,6 +244,7 @@ void	calc_step_sidedist(t_render *game, t_dda *dda)
 			game->cast.wall_side[dda->cast_n] = NORTH;
 		else
 			game->cast.wall_side[dda->cast_n] = SOUTH;
+		game->cast.wall_h[dda->cast_n] = dda->ray_dirx - (int)dda->ray_dirx;
 		// set north or south
 	}
 	//game->cast.distance[dda->cast_n] = correct_distance()
