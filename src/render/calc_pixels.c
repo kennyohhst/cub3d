@@ -6,16 +6,16 @@
 /*   By: jde-baai <jde-baai@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/11 17:19:40 by jde-baai      #+#    #+#                 */
-/*   Updated: 2024/01/24 05:34:21 by julius        ########   odam.nl         */
+/*   Updated: 2024/02/01 20:01:17 by jde-baai      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/cub3d.h"
 
 mlx_texture_t *get_wall(t_render *game, size_t x);
-void	pxl_to_buffer(t_render *game, mlx_texture_t *wall, size_t cast_n, size_t wall_height, float mult_factor);
-void	place_combined_pxl(t_render *game, mlx_texture_t wall, size_t cast_n, size_t wall_height, float mult_factor);
-uint32_t	pixel_from_texture(t_render *game, mlx_texture_t *wall, float mult_factor, size_t x, size_t y);
+void	pxl_to_buffer(t_render *game, mlx_texture_t *wall, size_t cast_n, int wall_height);
+void	place_combined_pxl(t_render *game, mlx_texture_t wall, size_t cast_n, int wall_height);
+uint32_t	pixel_from_texture(t_render *game, mlx_texture_t *wall, size_t x, size_t y);
 /**
  * @brief calculates the pixels to be placed in img_buffer
  * 1. Calculate the height of the wall in pixels.
@@ -32,8 +32,7 @@ uint32_t	pixel_from_texture(t_render *game, mlx_texture_t *wall, float mult_fact
 */
 void	calc_pixels(t_render *game)
 {
-	float			mult_factor;
-	size_t			wall_height; // height in pixels
+	int			wall_height; // height in pixels
 	size_t			x;
 	mlx_texture_t	*wall;
 
@@ -41,32 +40,28 @@ void	calc_pixels(t_render *game)
 	while (x < WIDTH) // WIDTH
 	{
 		wall_height = (int)(HEIGHT / game->cast.distance[x]);
-		mult_factor = (float)PIXEL / (float)wall_height;
 		wall = get_wall(game, x);
-		pxl_to_buffer(game, wall, x, wall_height, mult_factor);
+		pxl_to_buffer(game, wall, x, wall_height);
 		x++;
 	}
 }
 
-void	pxl_to_buffer(t_render *game, mlx_texture_t *wall, size_t x, size_t wall_height, float mult_factor)
+void	pxl_to_buffer(t_render *game, mlx_texture_t *wall, size_t x, int wall_height)
 {
 	int y;
 	int wall_start;
 	int wall_end;
-	wall_start = (HEIGHT - wall_height) / 2;
+
+    wall_start = -wall_height / 2 + HEIGHT / 2;
 	if (wall_start < 0)
 		wall_start = 0;
-	else if (wall_start >= HEIGHT)
-		wall_start = HEIGHT - 1;
-	wall_end = wall_start + wall_height;
-	if (wall_end < 0)
-		wall_end = 0;
-	else if (wall_end >= HEIGHT)
-		wall_end = HEIGHT;
-	y = wall_start;
-    while (y < wall_end)
+	wall_end = wall_height / 2 + HEIGHT / 2;
+    if (wall_end >= HEIGHT)
+		wall_end = HEIGHT - 1;
+	y = 0;
+    while (wall_start + y < wall_end)
     {
-        game->cast.pixels_buffer[y * WIDTH + x] = pixel_from_texture(game, wall, mult_factor, x, y);
+        game->cast.pixels_buffer[(wall_start + y) * WIDTH + x] = pixel_from_texture(game, wall, x, y);
 		y++;
     }
 }
@@ -83,8 +78,9 @@ mlx_texture_t *get_wall(t_render *game, size_t x)
 		return (game->text.t_wall_w);
 }
 
-uint32_t	pixel_from_texture(t_render *game, mlx_texture_t *wall, float mult_factor, size_t x, size_t y)
+uint32_t	pixel_from_texture(t_render *game, mlx_texture_t *wall, size_t x, size_t y)
 {
+	int wall_height = (int)(HEIGHT / game->cast.distance[x]);
 	size_t	img_x;
 	size_t	img_y;
 	size_t	index;
@@ -94,7 +90,8 @@ uint32_t	pixel_from_texture(t_render *game, mlx_texture_t *wall, float mult_fact
 	// float	fractional_y;
 
 	img_x = (int)(game->cast.wall_h[x] * PIXEL) % PIXEL;
-	img_y = (int)(mult_factor * y) % PIXEL;
+	img_y = (int)(((float)y / (float)wall_height) * (float)PIXEL);
+	//printf("img_y: %zu\n", img_y);
 
 	index = (img_y * PIXEL + img_x) * 4;
 	uint8_t alpha = wall->pixels[index];
