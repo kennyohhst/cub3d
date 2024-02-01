@@ -219,3 +219,36 @@ void	set_dist_wallh(t_render *game, t_dda *dda)
 		wall_hit = game->player.py - perpendicular_dist * cos(dda->radian); // change to corrected dist
 	dda->wall_h = wall_hit - (int)wall_hit;
 }
+
+
+
+	while (1)
+	{
+		disH = get_dist(game->player.px, game->player.py, dda->hor_ray_x, dda->hor_ray_y);
+		disV = get_dist(game->player.px, game->player.py, dda->ver_ray_x, dda->ver_ray_y);
+		if (disV < disH)
+		{
+			dda->mapx = (int)(dda->ver_ray_x);
+			dda->mapy = (int)(dda->ver_ray_y);
+		}
+		else
+		{
+			dda->mapx = (int)(dda->hor_ray_x);
+			dda->mapy = (int)(dda->hor_ray_y);
+		}
+		if (game->map[dda->mapy][dda->mapx] == '1')
+			return (set_values(game, dda, disH, disV));
+		else
+		{
+			if (disV > disH)
+			{
+				dda->hor_ray_x += dda->hor_stepx;
+				dda->hor_ray_y += dda->hor_stepy;
+			}
+			else
+			{
+				dda->ver_ray_x += dda->ver_stepx;
+				dda->ver_ray_y += dda->ver_stepy;
+			}	
+		}
+	}

@@ -6,7 +6,7 @@
 /*   By: jde-baai <jde-baai@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/11 15:53:39 by jde-baai      #+#    #+#                 */
-/*   Updated: 2024/01/31 18:15:11 by jde-baai      ########   odam.nl         */
+/*   Updated: 2024/02/01 15:13:45 by jde-baai      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,9 @@
 
 void	run_dda(t_render *game, t_dda *dda);
 void	set_horizontal_values(t_render *game, t_dda *dda);
-void	set_vertical_values(t_render *game, t_dda *dda);
-void	calc_step_sidedist(t_render *game, t_dda *dda);
+void	set_vertical_values(t_render *game, t_dda *dda);;
+double	find_hor_wall(t_render *game, t_dda *dda);
+double	find_ver_wall(t_render *game, t_dda *dda);
 void	set_values(t_render *game, t_dda *dda, double disH, double disV);
 
 /**
@@ -44,9 +45,21 @@ void	calc_distance(t_render *game)
 
 void	run_dda(t_render *game, t_dda *dda)
 {
+	double disH;
+	double disV;
+	double	cast_angle;
+
 	set_horizontal_values(game, dda);
 	set_vertical_values(game, dda);
-	calc_step_sidedist(game, dda);
+	disH = find_hor_wall(game, dda);
+	disV = find_ver_wall(game, dda);
+	set_values(game, dda, disH, disV);
+	cast_angle = game->player.rad - dda->radian;
+	if (cast_angle < 0)
+		cast_angle += 2 * PI;
+	if (cast_angle > 2 * PI)
+		cast_angle -= 2 * PI;
+	game->cast.distance[dda->cast_n] = dda->distance * cos(cast_angle);
 }
 
 float get_dist(float ax, float ay, float bx, float by)
@@ -54,12 +67,8 @@ float get_dist(float ax, float ay, float bx, float by)
 	return (sqrt((bx-ax)*(bx-ax) + (by-ay)*(by-ay)));
 }
 
-void	calc_step_sidedist(t_render *game, t_dda *dda)
+double	find_hor_wall(t_render *game, t_dda *dda)
 {
-	double disH = 1000000;
-	double disV = 1000000; 
-
-	//horizontal
 	while (1)
 	{
 		dda->mapx = (int)(dda->hor_ray_x);
@@ -68,8 +77,7 @@ void	calc_step_sidedist(t_render *game, t_dda *dda)
 			break ; 
 		if (game->map[dda->mapy][dda->mapx] == '1')
 		{
-			disH = get_dist(game->player.px, game->player.py, dda->hor_ray_x, dda->hor_ray_y);
-			break;
+			return (get_dist(game->player.px, game->player.py, dda->hor_ray_x, dda->hor_ray_y));
 		}
 		else
 		{
@@ -77,7 +85,11 @@ void	calc_step_sidedist(t_render *game, t_dda *dda)
 			dda->hor_ray_y += dda->hor_stepy;
 		}
 	}
-	// vertical
+	return (1000000);
+}
+
+double	find_ver_wall(t_render *game, t_dda *dda)
+{
 	while (1)
 	{
 		dda->mapx = (int)(dda->ver_ray_x);
@@ -86,8 +98,7 @@ void	calc_step_sidedist(t_render *game, t_dda *dda)
 			break ; 
 		if (game->map[dda->mapy][dda->mapx] == '1')
 		{
-			disV = get_dist(game->player.px, game->player.py, dda->ver_ray_x, dda->ver_ray_y);
-			break;
+			return (get_dist(game->player.px, game->player.py, dda->ver_ray_x, dda->ver_ray_y));
 		}
 		else
 		{
@@ -95,60 +106,14 @@ void	calc_step_sidedist(t_render *game, t_dda *dda)
 			dda->ver_ray_y += dda->ver_stepy;
 		}
 	}
-
-	// while (1)
-	// {
-	// 	disH = get_dist(game->player.px, game->player.py, dda->hor_ray_x, dda->hor_ray_y);
-	// 	disV = get_dist(game->player.px, game->player.py, dda->ver_ray_x, dda->ver_ray_y);
-	// 	if (disV < disH)
-	// 	{
-	// 		dda->mapx = (int)(dda->ver_ray_x);
-	// 		dda->mapy = (int)(dda->ver_ray_y);
-	// 	}
-	// 	else
-	// 	{
-	// 		dda->mapx = (int)(dda->hor_ray_x);
-	// 		dda->mapy = (int)(dda->hor_ray_y);
-	// 	}
-	// 	if (game->map[dda->mapy][dda->mapx] == '1')
-	// 		return (set_values(game, dda, disH, disV));
-	// 	else
-	// 	{
-	// 		if (disV > disH)
-	// 		{
-	// 			dda->hor_ray_x += dda->hor_stepx;
-	// 			dda->hor_ray_y += dda->hor_stepy;
-	// 		}
-	// 		else
-	// 		{
-	// 			dda->ver_ray_x += dda->ver_stepx;
-	// 			dda->ver_ray_y += dda->ver_stepy;
-	// 		}	
-	// 	}
-	// }
-
-
-
-
-
-
-
-
-
-
-
-
-	set_values(game, dda, disH, disV);
+	return (1000000);
 }
 
 void	set_values(t_render *game, t_dda *dda, double disH, double disV)
 {
-	double final_dist;
-	double	cast_angle;
-
 	if (disV < disH)
 	{
-		final_dist = disV;
+		dda->distance = disV;
 		if (dda->radian > PI2 && dda->radian < PI3)
 			game->cast.wall_side[dda->cast_n] = EAST;
 		else
@@ -157,19 +122,13 @@ void	set_values(t_render *game, t_dda *dda, double disH, double disV)
 	}
 	else
 	{
-		final_dist = disH;
-		if (dda->radian > PI && dda->radian < PI2)
-			game->cast.wall_side[dda->cast_n] = NORTH;
-		else
+		dda->distance = disH;
+		if (dda->radian > PI && dda->radian < PI * 2)
 			game->cast.wall_side[dda->cast_n] = SOUTH;
+		else
+			game->cast.wall_side[dda->cast_n] = NORTH;
 		game->cast.wall_h[dda->cast_n] = dda->hor_ray_x - (int)dda->hor_ray_x;
 	}
-	cast_angle = game->player.rad - dda->radian;
-	if (cast_angle < 0)
-		cast_angle += 2 * PI;
-	if (cast_angle > 2 * PI)
-		cast_angle -= 2 * PI;
-	game->cast.distance[dda->cast_n] = final_dist * cos(cast_angle);
 }
 
 

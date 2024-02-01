@@ -6,7 +6,7 @@
 /*   By: juliusdebaaij <juliusdebaaij@student.co      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/12/08 16:15:49 by juliusdebaa   #+#    #+#                 */
-/*   Updated: 2024/01/31 17:42:21 by jde-baai      ########   odam.nl         */
+/*   Updated: 2024/02/01 15:07:26 by jde-baai      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,6 +106,7 @@ typedef struct s_local_dda
 	double		ver_stepy;
 	int			mapx;
 	int			mapy;
+	double		distance;
 }				t_dda;
 
 // typedef struct g_struct
