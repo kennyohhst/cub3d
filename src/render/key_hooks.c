@@ -6,7 +6,7 @@
 /*   By: jde-baai <jde-baai@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/12/22 14:59:19 by jde-baai      #+#    #+#                 */
-/*   Updated: 2024/02/02 14:33:23 by jde-baai      ########   odam.nl         */
+/*   Updated: 2024/02/02 15:19:30 by jde-baai      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,11 +94,10 @@ static void	change_view(t_render *game, enum keys key)
 /**
  * @note program segfaults when pressing cross button
  */
-void	sl_hooks(mlx_key_data_t keydata, void *param)
+void	sl_hooks(void *param)
 {
 	t_render	*game;
 
-	(void)keydata;
 	game = (t_render *)param;
 	if (mlx_is_key_down(game->mlx, MLX_KEY_ESCAPE))
 	{
