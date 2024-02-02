@@ -6,7 +6,7 @@
 /*   By: jde-baai <jde-baai@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/12/22 14:59:19 by jde-baai      #+#    #+#                 */
-/*   Updated: 2024/02/02 14:29:01 by jde-baai      ########   odam.nl         */
+/*   Updated: 2024/02/02 14:33:23 by jde-baai      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 static void	terminate(t_render *game)
 {
 	mlx_close_window(game->mlx);
+	mlx_terminate(game->mlx);
+	//free all struct into return
 	exit(0);
 }
 
