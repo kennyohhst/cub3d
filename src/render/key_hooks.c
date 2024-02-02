@@ -6,7 +6,7 @@
 /*   By: jde-baai <jde-baai@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/12/22 14:59:19 by jde-baai      #+#    #+#                 */
-/*   Updated: 2024/01/31 17:52:41 by jde-baai      ########   odam.nl         */
+/*   Updated: 2024/02/02 14:29:01 by jde-baai      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,15 +23,25 @@ static void	terminate(t_render *game)
  */
 static void	move_vertical(t_render *game, enum keys key)
 {
+	double	move;
+
 	if (key == MLX_KEY_W)
 	{
-		if (game->map[(int)(game->player.py - MS)][(int)game->player.px] != '1')
-		game->player.py -= MS;
+		if (game->player.rad > PI && game->player.rad < PI * 2)
+			move = -1 * (double)MS;
+		else
+			move = (double)MS;
+		if (game->map[(int)(game->player.py + move)][(int)game->player.px] != '1')
+			game->player.py += move;
 	}
 	else
 	{
-		if (game->map[(int)(game->player.py + MS)][(int)game->player.px] != '1')
-		game->player.py += MS;
+		if (game->player.rad > PI && game->player.rad < PI * 2)
+			move = (double)MS;
+		else
+			move = -1 * (double)MS;		
+		if (game->map[(int)(game->player.py + move)][(int)game->player.px] != '1')
+			game->player.py += move;
 	}
 }
 
@@ -41,15 +51,25 @@ static void	move_vertical(t_render *game, enum keys key)
  */
 static void	move_horizontal(t_render *game, enum keys key)
 {
+	double	move;
+
 	if (key == MLX_KEY_A)
 	{
-		if (game->map[(int)(game->player.py)][(int)(game->player.px - MS)] != '1')
-		game->player.px -= MS;
+		if (game->player.rad > PI / 2 && game->player.rad < 3 * PI / 2)
+			move = (double)MS;
+		else
+			move = -1 * (double)MS;
+		if (game->map[(int)game->player.py][(int)(game->player.px + move)] != '1')
+			game->player.px += move;
 	}
 	else
 	{
-		if (game->map[(int)(game->player.py)][(int)(game->player.px + MS)] != '1')
-		game->player.px += MS;
+		if (game->player.rad > PI / 2 && game->player.rad < 3 * PI / 2)
+			move = -1 * (double)MS;
+		else
+			move = (double)MS;
+		if (game->map[(int)game->player.py][(int)(game->player.px + move)] != '1')
+			game->player.px += move;
 	}
 }
 
