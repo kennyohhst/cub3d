@@ -6,7 +6,7 @@
 /*   By: jde-baai <jde-baai@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/11 15:53:39 by jde-baai      #+#    #+#                 */
-/*   Updated: 2024/02/01 15:13:45 by jde-baai      ########   odam.nl         */
+/*   Updated: 2024/02/08 12:00:46 by jde-baai      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,8 @@ void	calc_distance(t_render *game)
 	{
 		run_dda(game, &dda);
 		dda.radian += radian_increase;
+		if (dda.radian > 2 * PI)
+			dda.radian += 2 * PI;
 		dda.cast_n++;
 	}
 }
@@ -123,7 +125,7 @@ void	set_values(t_render *game, t_dda *dda, double disH, double disV)
 	else
 	{
 		dda->distance = disH;
-		if (dda->radian > PI && dda->radian < PI * 2)
+		if (dda->radian > PI)
 			game->cast.wall_side[dda->cast_n] = SOUTH;
 		else
 			game->cast.wall_side[dda->cast_n] = NORTH;

@@ -6,7 +6,7 @@
 /*   By: jde-baai <jde-baai@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/12/22 14:59:19 by jde-baai      #+#    #+#                 */
-/*   Updated: 2024/02/02 15:19:30 by jde-baai      ########   odam.nl         */
+/*   Updated: 2024/02/08 12:33:10 by jde-baai      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,56 +23,38 @@ static void	terminate(t_render *game)
 /**
  * @todo make + and - dependant on radian
  */
-static void	move_vertical(t_render *game, enum keys key)
+static void	move_vertical(t_render *game, double dir)
 {
-	double	move;
+	double	moveX;
+	double	moveY;
 
-	if (key == MLX_KEY_W)
-	{
-		if (game->player.rad > PI && game->player.rad < PI * 2)
-			move = -1 * (double)MS;
-		else
-			move = (double)MS;
-		if (game->map[(int)(game->player.py + move)][(int)game->player.px] != '1')
-			game->player.py += move;
-	}
-	else
-	{
-		if (game->player.rad > PI && game->player.rad < PI * 2)
-			move = (double)MS;
-		else
-			move = -1 * (double)MS;		
-		if (game->map[(int)(game->player.py + move)][(int)game->player.px] != '1')
-			game->player.py += move;
-	}
+	moveX = cos(game->player.rad) * MS * dir;
+    moveY = sin(game->player.rad) * MS * dir;
+
+    if (game->map[(int)(game->player.py + moveY)][(int)(game->player.px + moveX)] != '1')
+    {
+        game->player.px += moveX;
+        game->player.py += moveY;
+    }
 }
 
 
 /**
  * @todo make + and - dependant on radian
  */
-static void	move_horizontal(t_render *game, enum keys key)
+static void	move_horizontal(t_render *game, double dir)
 {
-	double	move;
+	double	moveX;
+	double	moveY;
 
-	if (key == MLX_KEY_A)
-	{
-		if (game->player.rad > PI / 2 && game->player.rad < 3 * PI / 2)
-			move = (double)MS;
-		else
-			move = -1 * (double)MS;
-		if (game->map[(int)game->player.py][(int)(game->player.px + move)] != '1')
-			game->player.px += move;
-	}
-	else
-	{
-		if (game->player.rad > PI / 2 && game->player.rad < 3 * PI / 2)
-			move = -1 * (double)MS;
-		else
-			move = (double)MS;
-		if (game->map[(int)game->player.py][(int)(game->player.px + move)] != '1')
-			game->player.px += move;
-	}
+	moveX = cos(game->player.rad + (PI * dir) / 2) * MS;
+    moveY = sin(game->player.rad + (PI * dir) / 2) * MS;
+
+    if (game->map[(int)(game->player.py + moveY)][(int)(game->player.px + moveX)] != '1')
+    {
+        game->player.px += moveX;
+        game->player.py += moveY;
+    }	
 }
 
 static void	change_view(t_render *game, enum keys key)
@@ -104,13 +86,13 @@ void	sl_hooks(void *param)
 		terminate(game);
 	}
 	if (mlx_is_key_down(game->mlx, MLX_KEY_W))
-		move_vertical(game, MLX_KEY_W);
+		move_vertical(game, 1);
 	if (mlx_is_key_down(game->mlx, MLX_KEY_S))
-		move_vertical(game, MLX_KEY_S);
+		move_vertical(game, -1);
 	if (mlx_is_key_down(game->mlx, MLX_KEY_A))
-		move_horizontal(game, MLX_KEY_A);
+		move_horizontal(game, -1);
 	if (mlx_is_key_down(game->mlx, MLX_KEY_D))
-		move_horizontal(game, MLX_KEY_D);
+		move_horizontal(game, 1);
 	if (mlx_is_key_down(game->mlx, MLX_KEY_LEFT))
 		change_view(game, MLX_KEY_LEFT);
 	if (mlx_is_key_down(game->mlx, MLX_KEY_RIGHT))
