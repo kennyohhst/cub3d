@@ -6,7 +6,7 @@
 /*   By: jde-baai <jde-baai@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/12/22 14:59:19 by jde-baai      #+#    #+#                 */
-/*   Updated: 2024/02/08 12:33:10 by jde-baai      ########   odam.nl         */
+/*   Updated: 2024/02/08 15:28:45 by jde-baai      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ static void	move_horizontal(t_render *game, double dir)
     {
         game->player.px += moveX;
         game->player.py += moveY;
-    }	
+    }
 }
 
 static void	change_view(t_render *game, enum keys key)

@@ -6,7 +6,7 @@
 /*   By: jde-baai <jde-baai@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/11 15:53:39 by jde-baai      #+#    #+#                 */
-/*   Updated: 2024/02/08 12:00:46 by jde-baai      ########   odam.nl         */
+/*   Updated: 2024/02/08 15:06:33 by jde-baai      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,12 +35,14 @@ void	calc_distance(t_render *game)
 	if (dda.radian < 0)
 		dda.radian += 2 * PI;
 	dda.cast_n = 0;
-	while (dda.cast_n < WIDTH )// WIDTH * 
+	while (dda.cast_n < WIDTH )
 	{
+		if (dda.radian == 0)
+			dda.radian = 0e30;
 		run_dda(game, &dda);
 		dda.radian += radian_increase;
 		if (dda.radian > 2 * PI)
-			dda.radian += 2 * PI;
+			dda.radian -= 2 * PI;
 		dda.cast_n++;
 	}
 }
@@ -73,19 +75,16 @@ double	find_hor_wall(t_render *game, t_dda *dda)
 {
 	while (1)
 	{
-		dda->mapx = (int)(dda->hor_ray_x);
-		dda->mapy = (int)(dda->hor_ray_y);
-		if (dda->mapx > 4 || dda->mapy > 7 || dda->mapx < 0 || dda->mapy < 0)
+		dda->mapx = (int)dda->hor_ray_x;
+		dda->mapy = (int)dda->hor_ray_y;
+		if (dda->mapx > 5 || dda->mapy > 7 || dda->mapx < 0 || dda->mapy < 0) // max x and y
 			break ; 
 		if (game->map[dda->mapy][dda->mapx] == '1')
 		{
 			return (get_dist(game->player.px, game->player.py, dda->hor_ray_x, dda->hor_ray_y));
 		}
-		else
-		{
-			dda->hor_ray_x += dda->hor_stepx;
-			dda->hor_ray_y += dda->hor_stepy;
-		}
+		dda->hor_ray_x += dda->hor_stepx;
+		dda->hor_ray_y += dda->hor_stepy;
 	}
 	return (1000000);
 }
@@ -94,19 +93,16 @@ double	find_ver_wall(t_render *game, t_dda *dda)
 {
 	while (1)
 	{
-		dda->mapx = (int)(dda->ver_ray_x);
-		dda->mapy = (int)(dda->ver_ray_y);
-		if (dda->mapx > 4 || dda->mapy > 7 || dda->mapx < 0 || dda->mapy < 0)
+		dda->mapx = (int)floor(dda->ver_ray_x);
+		dda->mapy = (int)floor(dda->ver_ray_y);
+		if (dda->mapx > 5 || dda->mapy > 7 || dda->mapx < 0 || dda->mapy < 0)
 			break ; 
 		if (game->map[dda->mapy][dda->mapx] == '1')
 		{
 			return (get_dist(game->player.px, game->player.py, dda->ver_ray_x, dda->ver_ray_y));
 		}
-		else
-		{
-			dda->ver_ray_x += dda->ver_stepx;
-			dda->ver_ray_y += dda->ver_stepy;
-		}
+		dda->ver_ray_x += dda->ver_stepx;
+		dda->ver_ray_y += dda->ver_stepy;
 	}
 	return (1000000);
 }
@@ -155,6 +151,7 @@ void	set_horizontal_values(t_render *game, t_dda *dda)
 	{
 		dda->hor_ray_x = game->player.px;
 		dda->hor_ray_y = game->player.py;
+		//adjust
 	}
 }
 
@@ -179,5 +176,6 @@ void	set_vertical_values(t_render *game, t_dda *dda)
 	{
 		dda->ver_ray_x = game->player.px;
 		dda->ver_stepy = game->player.py;
+		//adjust
 	}
 }
