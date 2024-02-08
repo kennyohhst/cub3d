@@ -6,7 +6,7 @@
 /*   By: julius <julius@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/12/29 12:19:43 by julius        #+#    #+#                 */
-/*   Updated: 2024/02/08 18:16:12 by jde-baai      ########   odam.nl         */
+/*   Updated: 2024/02/08 19:45:35 by jde-baai      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,12 +27,6 @@ uint32_t	get_RGB(int a, int r, int g, int b)
 
 void	init_textures(t_render *game)
 {
-	game->text.img_background = mlx_new_image(game->mlx, WIDTH, HEIGHT);
-	if (!game->text.img_background)
-	{
-		write(2, "Error: MLX_new_image: background\n", 34);
-		exit(1);
-	}
 	game->text.img_walls = mlx_new_image(game->mlx, WIDTH, HEIGHT);
 	if (!game->text.img_walls)
 	{
@@ -63,7 +57,7 @@ void	init_textures(t_render *game)
 		write(2, "Error: MLX_load_png: West_wall\n", 32);
 		exit(1);
 	}
-	game->text.ceiling_color = get_RGB(255, 173, 216, 230);
+	game->text.ceiling_color = get_RGB(255, 255, 0, 255);
 	game->text.floor_color = get_RGB(255, 76, 28, 36);
 }
 

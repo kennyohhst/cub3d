@@ -6,7 +6,7 @@
 /*   By: juliusdebaaij <juliusdebaaij@student.co      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/12/08 16:15:49 by juliusdebaa   #+#    #+#                 */
-/*   Updated: 2024/02/08 18:17:34 by jde-baai      ########   odam.nl         */
+/*   Updated: 2024/02/08 19:42:57 by jde-baai      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,6 @@ typedef struct s_game_textures
 	mlx_texture_t	*t_wall_s;
 	mlx_texture_t	*t_wall_e;
 	mlx_texture_t	*t_wall_w;
-	mlx_image_t		*img_background;
 	mlx_image_t		*img_walls;
 }					t_text;
 

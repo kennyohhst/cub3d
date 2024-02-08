@@ -1,13 +1,4 @@
 
-2. update calc_distance to include a straight lines calculation
-3. render everything into the PIXEL instead of using 2 images just use 1 and render directly into image?
-3. combine calc distance:
-if (hor_ray_x is further than ver_ray x) -> increment hor_ray_x else increment ver_ray_x this depending on stepx/y
-4. remove junk from files.
+
 5. norminette
 6. update init and write a free func after combining with Kenneth
-
-
-
-it bends the corners if wall becomes full screen -> change
-radian=0.429204 -> terrible rendering
