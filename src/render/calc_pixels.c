@@ -6,7 +6,7 @@
 /*   By: jde-baai <jde-baai@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/11 17:19:40 by jde-baai      #+#    #+#                 */
-/*   Updated: 2024/02/08 19:45:10 by jde-baai      ########   odam.nl         */
+/*   Updated: 2024/02/08 19:55:29 by jde-baai      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ typedef struct s_local_pixel
 	int				wall_height;
 	int				wall_start;
 	int				wall_end;
+	double			wall_step;
+	double			wall_y;
 	mlx_texture_t	*wall_text;
 }					t_pixel;
 
@@ -45,36 +47,40 @@ void	calc_pixels(t_render *game)
 	}
 }
 
-void	pxl_to_buffer(t_render *game, t_pixel pxl)
+int	get_y(t_render *game, int y, t_pixel *pxl)
 {
-	int y;
-	double wall_step;
-	double wall_y;
-
-	wall_step = 1.0 * (double)PIXEL / (double)(pxl.wall_height);
-	wall_y = 0;
-	if (pxl.wall_start >= 0)
+	pxl->wall_step = 1.0 * (double)PIXEL / (double)(pxl->wall_height);
+	pxl->wall_y = 0;
+	if (pxl->wall_start >= 0)
 	{
 		y = 0;
-		while (y < pxl.wall_start)
+		while (y < pxl->wall_start)
 		{
-			mlx_put_pixel(game->text.img_walls, pxl.x, y, game->text.ceiling_color);
+			mlx_put_pixel(game->text.img_walls, pxl->x, y, game->text.ceiling_color);
 			y++;
 		}
 	}
 	else
 	{
-		y = pxl.wall_start;
+		y = pxl->wall_start;
 		while (y < 0)
 		{
 			y++;
-			wall_y += wall_step;
+			pxl->wall_y += pxl->wall_step;
 		}
 	}
+	return (y);
+}
+
+void	pxl_to_buffer(t_render *game, t_pixel pxl)
+{
+	int y;
+
+	y = get_y(game, 0, &pxl);
     while (y < pxl.wall_end)
     {
-		mlx_put_pixel(game->text.img_walls, pxl.x, y, pixel_from_texture(game, pxl, (size_t)wall_y));
-		wall_y += wall_step;
+		mlx_put_pixel(game->text.img_walls, pxl.x, y, pixel_from_texture(game, pxl, (size_t)pxl.wall_y));
+		pxl.wall_y += pxl.wall_step;
 		y++;
     }
 	while (y < HEIGHT - 1)
