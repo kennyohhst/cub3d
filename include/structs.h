@@ -6,7 +6,7 @@
 /*   By: juliusdebaaij <juliusdebaaij@student.co      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/12/08 16:15:49 by juliusdebaa   #+#    #+#                 */
-/*   Updated: 2024/02/01 15:07:26 by jde-baai      ########   odam.nl         */
+/*   Updated: 2024/02/08 18:17:34 by jde-baai      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ typedef struct s_render
  * @param sidedistx is the distance to the next x side
  * @param sidedisty is the distance to the next y side
  */
-typedef struct s_local_dda
+typedef struct s_local_calc
 {
 	size_t		cast_n;
 	double		radian;
@@ -104,10 +104,8 @@ typedef struct s_local_dda
 	double		ver_ray_y;
 	double		ver_stepx;
 	double		ver_stepy;
-	int			mapx;
-	int			mapy;
 	double		distance;
-}				t_dda;
+}				t_calc;
 
 // typedef struct g_struct
 // {

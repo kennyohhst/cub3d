@@ -114,63 +114,60 @@ void	fuck_some_shit_up(t_render *game)
 
 
 
-		// if (fabs(dda.radian - 0) < EPS || fabs(dda.radian - PI) < EPS)
-		// 	handle_east_west(game, &dda);	
-		// else if (fabs(dda.radian - 0.5 * PI) < EPS || fabs(dda.radian - 1.5 * PI) < EPS)
-   		// 	handle_north_south(game, &dda);
+		// if (fabs(calc.radian - 0) < EPS || fabs(calc.radian - PI) < EPS)
+		// 	handle_east_west(game, &calc);	
+		// else if (fabs(calc.radian - 0.5 * PI) < EPS || fabs(calc.radian - 1.5 * PI) < EPS)
+   		// 	handle_north_south(game, &calc);
 		// else
 		// {
 
-			void handle_north_south(t_render *game, t_dda *dda)
+			void handle_north_south(t_render *game, t_calc *calc)
 {
-    if (fabs(dda->radian - 0.5 * PI) < EPS)
+    if (fabs(calc->radian - 0.5 * PI) < EPS)
     {
-        while (game->map[(int)(dda->mapy)][(int)(dda->mapx)] != '1')
-            dda->mapy++;
-        dda->wall_side = NORTH;
-		game->cast.distance[dda->cast_n] = fabs(game->player.py - dda->mapy);
+        while (game->map[(int)(calc->mapy)][(int)(calc->mapx)] != '1')
+            calc->mapy++;
+        calc->wall_side = NORTH;
+		game->cast.distance[calc->cast_n] = fabs(game->player.py - calc->mapy);
     }
     else
     {
-        while (game->map[(int)(dda->mapy)][(int)(dda->mapx)] != '1')
-            dda->mapy--;
-        dda->wall_side = SOUTH;
-		game->cast.distance[dda->cast_n] = fabs(game->player.py - dda->mapy);
+        while (game->map[(int)(calc->mapy)][(int)(calc->mapx)] != '1')
+            calc->mapy--;
+        calc->wall_side = SOUTH;
+		game->cast.distance[calc->cast_n] = fabs(game->player.py - calc->mapy);
     }
-    dda->wall_h = game->player.py - (int)game->player.py;;
+    calc->wall_h = game->player.py - (int)game->player.py;;
 }
 
-void handle_east_west(t_render *game, t_dda *dda)
+void handle_east_west(t_render *game, t_calc *calc)
 {
-    if (fabs(dda->radian - 0 * PI) < EPS)
+    if (fabs(calc->radian - 0 * PI) < EPS)
     {
-        while (game->map[(int)(dda->mapy)][(int)(dda->mapx)] != '1')
-            dda->mapx++;
-        dda->wall_side = WEST;
-		game->cast.distance[dda->cast_n] = fabs(game->player.px - dda->mapx);
+        while (game->map[(int)(calc->mapy)][(int)(calc->mapx)] != '1')
+            calc->mapx++;
+        calc->wall_side = WEST;
+		game->cast.distance[calc->cast_n] = fabs(game->player.px - calc->mapx);
     }
     else
     {
-        while (game->map[(int)(dda->mapy)][(int)(dda->mapx)] != '1')
-            dda->mapx--;
-        dda->wall_side = EAST;
-		game->cast.distance[dda->cast_n] = fabs(game->player.px - dda->mapx);
+        while (game->map[(int)(calc->mapy)][(int)(calc->mapx)] != '1')
+            calc->mapx--;
+        calc->wall_side = EAST;
+		game->cast.distance[calc->cast_n] = fabs(game->player.px - calc->mapx);
     }
-    dda->wall_h = game->player.px - (int)game->player.px;
+    calc->wall_h = game->player.px - (int)game->player.px;
 }
 
 
-		printf("ray[%zu] = %f, wall = %i\n", dda.cast_n, game->cast.distance[dda.cast_n], dda.wall_side);
-		printf("ray[%zu] rad: %f, stepx: %d, stepy: %d\n", dda.cast_n, dda .radian, dda.stepx, dda.stepy);
-		printf("ray[%zu] sidedistY: %f, deltaY %f\n", dda.cast_n, dda.sidedisty, dda.deltaY);
-		printf("ray[%zu] sidedistX: %f, deltaX %f\n", dda.cast_n, dda.sidedistx, dda.deltaX);
+		printf("ray[%zu] = %f, wall = %i\n", calc.cast_n, game->cast.distance[calc.cast_n], calc.wall_side);
+		printf("ray[%zu] rad: %f, stepx: %d, stepy: %d\n", calc.cast_n, calc .radian, calc.stepx, calc.stepy);
+		printf("ray[%zu] sidedistY: %f, deltaY %f\n", calc.cast_n, calc.sidedisty, calc.deltaY);
+		printf("ray[%zu] sidedistX: %f, deltaX %f\n", calc.cast_n, calc.sidedistx, calc.deltaX);
 
 
-				if (dda->cast_n > 120 && dda->cast_n < 134)
-			printf("mapx: %f, mapy: %f\n", dda->mapx, dda->mapy);
-
-
-
+				if (calc->cast_n > 120 && calc->cast_n < 134)
+			printf("mapx: %f, mapy: %f\n", calc->mapx, calc->mapy);
 
 
 
@@ -178,21 +175,24 @@ void handle_east_west(t_render *game, t_dda *dda)
 
 
 
-void	set_values(t_dda *dda)
+
+
+
+void	set_values(t_calc *calc)
 {
-	if (dda->sidedistx < dda->sidedisty)
+	if (calc->sidedistx < calc->sidedisty)
 	{
-		if (dda->stepy == -1)
-			dda->wall_side = SOUTH;
+		if (calc->stepy == -1)
+			calc->wall_side = SOUTH;
 		else
-			dda->wall_side = NORTH;
+			calc->wall_side = NORTH;
 	}
 	else
 	{
-		if (dda->stepx == -1)
-			dda->wall_side = EAST;
+		if (calc->stepx == -1)
+			calc->wall_side = EAST;
 		else
-			dda->wall_side = WEST;
+			calc->wall_side = WEST;
 	}
 }
 
@@ -201,54 +201,54 @@ void	set_values(t_dda *dda)
  * if wall_h has not yet been set
  * 
 */
-void	set_dist_wallh(t_render *game, t_dda *dda)
+void	set_dist_wallh(t_render *game, t_calc *calc)
 {
 	double	perpendicular_dist;
 	// double	corrected_dist;
 	double	wall_hit;
 
-	if (dda->wall_side == NORTH || dda->wall_side == SOUTH)
-		perpendicular_dist = dda->sidedisty - dda->deltaY;
+	if (calc->wall_side == NORTH || calc->wall_side == SOUTH)
+		perpendicular_dist = calc->sidedisty - calc->deltaY;
 	else
-		perpendicular_dist = dda->sidedistx - dda->deltaX;
-	// corrected_dist = perpendicular_dist * cos(dda->radian - game->player.rad);
-	game->cast.distance[dda->cast_n] = fabs(perpendicular_dist);
-	if (dda->wall_side == NORTH || dda->wall_side == SOUTH)
-		wall_hit = game->player.px + perpendicular_dist * sin(dda->radian); // change to  cirrected dist
+		perpendicular_dist = calc->sidedistx - calc->deltaX;
+	// corrected_dist = perpendicular_dist * cos(calc->radian - game->player.rad);
+	game->cast.distance[calc->cast_n] = fabs(perpendicular_dist);
+	if (calc->wall_side == NORTH || calc->wall_side == SOUTH)
+		wall_hit = game->player.px + perpendicular_dist * sin(calc->radian); // change to  cirrected dist
 	else
-		wall_hit = game->player.py - perpendicular_dist * cos(dda->radian); // change to corrected dist
-	dda->wall_h = wall_hit - (int)wall_hit;
+		wall_hit = game->player.py - perpendicular_dist * cos(calc->radian); // change to corrected dist
+	calc->wall_h = wall_hit - (int)wall_hit;
 }
 
 
 
 	while (1)
 	{
-		disH = get_dist(game->player.px, game->player.py, dda->hor_ray_x, dda->hor_ray_y);
-		disV = get_dist(game->player.px, game->player.py, dda->ver_ray_x, dda->ver_ray_y);
+		disH = get_dist(game->player.px, game->player.py, calc->hor_ray_x, calc->hor_ray_y);
+		disV = get_dist(game->player.px, game->player.py, calc->ver_ray_x, calc->ver_ray_y);
 		if (disV < disH)
 		{
-			dda->mapx = (int)(dda->ver_ray_x);
-			dda->mapy = (int)(dda->ver_ray_y);
+			calc->mapx = (int)(calc->ver_ray_x);
+			calc->mapy = (int)(calc->ver_ray_y);
 		}
 		else
 		{
-			dda->mapx = (int)(dda->hor_ray_x);
-			dda->mapy = (int)(dda->hor_ray_y);
+			calc->mapx = (int)(calc->hor_ray_x);
+			calc->mapy = (int)(calc->hor_ray_y);
 		}
-		if (game->map[dda->mapy][dda->mapx] == '1')
-			return (set_values(game, dda, disH, disV));
+		if (game->map[calc->mapy][calc->mapx] == '1')
+			return (set_values(game, calc, disH, disV));
 		else
 		{
 			if (disV > disH)
 			{
-				dda->hor_ray_x += dda->hor_stepx;
-				dda->hor_ray_y += dda->hor_stepy;
+				calc->hor_ray_x += calc->hor_stepx;
+				calc->hor_ray_y += calc->hor_stepy;
 			}
 			else
 			{
-				dda->ver_ray_x += dda->ver_stepx;
-				dda->ver_ray_y += dda->ver_stepy;
+				calc->ver_ray_x += calc->ver_stepx;
+				calc->ver_ray_y += calc->ver_stepy;
 			}	
 		}
 	}

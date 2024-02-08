@@ -6,7 +6,7 @@
 /*   By: julius <julius@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/12/29 12:19:43 by julius        #+#    #+#                 */
-/*   Updated: 2024/02/08 13:12:02 by jde-baai      ########   odam.nl         */
+/*   Updated: 2024/02/08 18:16:12 by jde-baai      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,9 +147,9 @@ t_render	*init_render(void)
 
 
 
-	game->player.px = 1.385230;
+	game->player.px = 2.5;
 	game->player.py = 5.054204;
-	game->player.rad = 0.429204;
+	game->player.rad = 1 * PI;
 
 
 	return (game);
