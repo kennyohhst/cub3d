@@ -6,7 +6,7 @@
 /*   By: jde-baai <jde-baai@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/11 17:19:40 by jde-baai      #+#    #+#                 */
-/*   Updated: 2024/02/01 20:01:17 by jde-baai      ########   odam.nl         */
+/*   Updated: 2024/02/08 16:49:52 by jde-baai      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,17 +51,31 @@ void	pxl_to_buffer(t_render *game, mlx_texture_t *wall, size_t x, int wall_heigh
 	int y;
 	int wall_start;
 	int wall_end;
+	double wall_step;
+	double wall_y;
 
-    wall_start = -wall_height / 2 + HEIGHT / 2;
-	if (wall_start < 0)
-		wall_start = 0;
-	wall_end = wall_height / 2 + HEIGHT / 2;
-    if (wall_end >= HEIGHT)
+	wall_start = (HEIGHT / 2) - (wall_height / 2);
+    //wall_start = -wall_height / 2 + HEIGHT / 2;
+	// if (wall_start < 0)
+	// 	wall_start = 0;
+	// wall_end = wall_height / 2 + HEIGHT / 2;
+    // if (wall_end >= HEIGHT)
+	// 	wall_end = HEIGHT - 1;
+	wall_end = (HEIGHT / 2) + (wall_height / 2);
+	if (wall_end >= HEIGHT)
 		wall_end = HEIGHT - 1;
-	y = 0;
-    while (wall_start + y < wall_end)
+	wall_step = 1.0 * (double)PIXEL / (double)wall_height;
+	wall_y = 0;
+	y = wall_start;
+	while (y < 0)
+	{
+		y++;
+		wall_y += wall_step;
+	}
+    while (y < wall_end)
     {
-        game->cast.pixels_buffer[(wall_start + y) * WIDTH + x] = pixel_from_texture(game, wall, x, y);
+        game->cast.pixels_buffer[y * WIDTH + x] = pixel_from_texture(game, wall, x, (size_t)wall_y);
+		wall_y += wall_step;
 		y++;
     }
 }
@@ -80,7 +94,7 @@ mlx_texture_t *get_wall(t_render *game, size_t x)
 
 uint32_t	pixel_from_texture(t_render *game, mlx_texture_t *wall, size_t x, size_t y)
 {
-	int wall_height = (int)(HEIGHT / game->cast.distance[x]);
+	//int wall_height = (int)(HEIGHT / game->cast.distance[x]);
 	size_t	img_x;
 	size_t	img_y;
 	size_t	index;
@@ -89,8 +103,11 @@ uint32_t	pixel_from_texture(t_render *game, mlx_texture_t *wall, size_t x, size_
 	// uint8_t	combined_texel;
 	// float	fractional_y;
 
+
+	img_y = y;
+	//printf("img_y: %zu\n", img_y);
 	img_x = (int)(game->cast.wall_h[x] * PIXEL) % PIXEL;
-	img_y = (int)(((float)y / (float)wall_height) * (float)PIXEL);
+	// img_y = (int)(((float)y / (float)wall_height) * (float)PIXEL);
 	//printf("img_y: %zu\n", img_y);
 
 	index = (img_y * PIXEL + img_x) * 4;
