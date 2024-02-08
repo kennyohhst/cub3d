@@ -6,7 +6,7 @@
 /*   By: jde-baai <jde-baai@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/11 17:19:40 by jde-baai      #+#    #+#                 */
-/*   Updated: 2024/02/08 16:49:52 by jde-baai      ########   odam.nl         */
+/*   Updated: 2024/02/08 17:00:49 by jde-baai      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,12 +55,6 @@ void	pxl_to_buffer(t_render *game, mlx_texture_t *wall, size_t x, int wall_heigh
 	double wall_y;
 
 	wall_start = (HEIGHT / 2) - (wall_height / 2);
-    //wall_start = -wall_height / 2 + HEIGHT / 2;
-	// if (wall_start < 0)
-	// 	wall_start = 0;
-	// wall_end = wall_height / 2 + HEIGHT / 2;
-    // if (wall_end >= HEIGHT)
-	// 	wall_end = HEIGHT - 1;
 	wall_end = (HEIGHT / 2) + (wall_height / 2);
 	if (wall_end >= HEIGHT)
 		wall_end = HEIGHT - 1;
@@ -69,15 +63,24 @@ void	pxl_to_buffer(t_render *game, mlx_texture_t *wall, size_t x, int wall_heigh
 	y = wall_start;
 	while (y < 0)
 	{
+		// floor colour
 		y++;
 		wall_y += wall_step;
 	}
     while (y < wall_end)
     {
         game->cast.pixels_buffer[y * WIDTH + x] = pixel_from_texture(game, wall, x, (size_t)wall_y);
+		// assign pixel directly
+
+
 		wall_y += wall_step;
 		y++;
     }
+	// while (y < HEIGHT - 1)
+	// {
+	// 	// ceiling colour
+	// 	y++;
+	// }
 }
 
 mlx_texture_t *get_wall(t_render *game, size_t x)
