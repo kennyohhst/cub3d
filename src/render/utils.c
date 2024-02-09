@@ -6,7 +6,7 @@
 /*   By: julius <julius@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/12/29 12:19:43 by julius        #+#    #+#                 */
-/*   Updated: 2024/02/09 11:14:22 by jde-baai      ########   odam.nl         */
+/*   Updated: 2024/02/09 12:08:50 by jde-baai      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,4 +22,14 @@
 uint32_t	get_RGB(int a, int r, int g, int b)
 {
 	return ((a << 24) | (b << 16) | (g << 8) | r);
+}
+
+size_t	array_len(char **array)
+{
+	size_t	i;
+
+	i = 0;
+	while (array[i] != NULL)
+		i++;
+	return (i);
 }

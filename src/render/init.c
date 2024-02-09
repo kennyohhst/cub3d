@@ -6,7 +6,7 @@
 /*   By: jde-baai <jde-baai@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/02/09 11:13:37 by jde-baai      #+#    #+#                 */
-/*   Updated: 2024/02/09 11:14:01 by jde-baai      ########   odam.nl         */
+/*   Updated: 2024/02/09 12:06:05 by jde-baai      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,13 +125,5 @@ t_render	*init_render(void)
 	set_radian(game);
 	init_textures(game);
 	init_raycasting(game);
-
-
-
-	game->player.px = 2.5;
-	game->player.py = 5.054204;
-	game->player.rad = 1 * PI;
-
-
 	return (game);
 }
