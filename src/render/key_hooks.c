@@ -6,7 +6,7 @@
 /*   By: jde-baai <jde-baai@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/12/22 14:59:19 by jde-baai      #+#    #+#                 */
-/*   Updated: 2024/02/08 15:28:45 by jde-baai      ########   odam.nl         */
+/*   Updated: 2024/02/09 12:41:06 by jde-baai      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static void	move_vertical(t_render *game, double dir)
 	moveX = cos(game->player.rad) * MS * dir;
     moveY = sin(game->player.rad) * MS * dir;
 
-    if (game->map[(int)(game->player.py + moveY)][(int)(game->player.px + moveX)] != '1')
+    if (game->map[(int)(game->player.py + moveY + 0.05)][(int)(game->player.px + moveX + 0.05)] != '1')
     {
         game->player.px += moveX;
         game->player.py += moveY;
@@ -50,7 +50,7 @@ static void	move_horizontal(t_render *game, double dir)
 	moveX = cos(game->player.rad + (PI * dir) / 2) * MS;
     moveY = sin(game->player.rad + (PI * dir) / 2) * MS;
 
-    if (game->map[(int)(game->player.py + moveY)][(int)(game->player.px + moveX)] != '1')
+    if (game->map[(int)(game->player.py + moveY + 0.05)][(int)(game->player.px + moveX + 0.05)] != '1')
     {
         game->player.px += moveX;
         game->player.py += moveY;

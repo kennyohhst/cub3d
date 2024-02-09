@@ -6,7 +6,7 @@
 /*   By: kkalika <kkalika@student.42.fr>              +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/12/01 16:01:38 by code          #+#    #+#                 */
-/*   Updated: 2024/02/09 12:09:50 by jde-baai      ########   odam.nl         */
+/*   Updated: 2024/02/09 12:42:38 by jde-baai      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,11 @@
 #include <sys/stat.h>
 #include <unistd.h>
 #include <math.h>
+
+#define PIXEL 64
+#define PI 3.14159265358979323846
+#define PI2 PI/2
+#define PI3 3*PI/2
 
 t_render	*init_render(void);
 
