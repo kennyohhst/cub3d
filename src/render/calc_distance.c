@@ -6,18 +6,16 @@
 /*   By: jde-baai <jde-baai@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/11 15:53:39 by jde-baai      #+#    #+#                 */
-/*   Updated: 2024/02/08 18:17:34 by jde-baai      ########   odam.nl         */
+/*   Updated: 2024/02/09 11:05:23 by jde-baai      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/cub3d.h"
 
 void	run_calc(t_render *game, t_calc *calc);
-void	set_horizontal_values(t_render *game, t_calc *calc);
-void	set_vertical_values(t_render *game, t_calc *calc);;
 double	find_hor_wall(t_render *game, t_calc *calc);
 double	find_ver_wall(t_render *game, t_calc *calc);
-void	set_values(t_render *game, t_calc *calc, double disH, double disV);
+void	set_dist(t_render *game, t_calc *calc, double disH, double disV);
 
 /**
  * @brief calculates for each ray:
@@ -53,11 +51,11 @@ void	run_calc(t_render *game, t_calc *calc)
 	double disV;
 	double	cast_angle;
 
-	set_horizontal_values(game, calc);
-	set_vertical_values(game, calc);
+	set_hor_start_values(game, calc);
+	set_vert_start_values(game, calc);
 	disH = find_hor_wall(game, calc);
 	disV = find_ver_wall(game, calc);
-	set_values(game, calc, disH, disV);
+	set_dist(game, calc, disH, disV);
 	cast_angle = game->player.rad - calc->radian;
 	if (cast_angle < 0)
 		cast_angle += 2 * PI;
@@ -66,10 +64,6 @@ void	run_calc(t_render *game, t_calc *calc)
 	game->cast.distance[calc->cast_n] = calc->distance * cos(cast_angle);
 }
 
-float get_dist(float ax, float ay, float bx, float by)
-{
-	return (sqrt((bx-ax)*(bx-ax) + (by-ay)*(by-ay)));
-}
 
 double	find_hor_wall(t_render *game, t_calc *calc)
 {
@@ -113,7 +107,7 @@ double	find_ver_wall(t_render *game, t_calc *calc)
 	return (INFINITY);
 }
 
-void	set_values(t_render *game, t_calc *calc, double disH, double disV)
+void	set_dist(t_render *game, t_calc *calc, double disH, double disV)
 {
 	if (disV < disH)
 	{
@@ -132,44 +126,5 @@ void	set_values(t_render *game, t_calc *calc, double disH, double disV)
 		else
 			game->cast.wall_side[calc->cast_n] = NORTH;
 		game->cast.wall_h[calc->cast_n] = calc->hor_ray_x - (int)calc->hor_ray_x;
-	}
-}
-
-
-void	set_horizontal_values(t_render *game, t_calc *calc)
-{
-	float aTan = -1/tan(calc->radian);
-	if (calc->radian > PI)
-	{
-		calc->hor_ray_y = (int)game->player.py - 0.0001;
-		calc->hor_ray_x = (game->player.py - calc->hor_ray_y) * aTan + game->player.px;
-		calc->hor_stepy = -1;
-		calc->hor_stepx = -calc->hor_stepy * aTan;
-	}
-	if (calc->radian < PI)
-	{
-		calc->hor_ray_y = (int)game->player.py + 1;
-		calc->hor_ray_x = (game->player.py - calc->hor_ray_y) * aTan + game->player.px;
-		calc->hor_stepy = 1;
-		calc->hor_stepx = -calc->hor_stepy * aTan;
-	}
-}
-
-void	set_vertical_values(t_render *game, t_calc *calc)
-{
-	float nTan = -tan(calc->radian);
-	if (calc->radian > PI2 && calc->radian < PI3)
-	{
-		calc->ver_ray_x = (int)game->player.px - 0.0001;
-		calc->ver_ray_y = (game->player.px - calc->ver_ray_x) * nTan + game->player.py;
-		calc->ver_stepx = -1;
-		calc->ver_stepy = -calc->ver_stepx * nTan;
-	}
-	if (calc->radian < PI2 || calc->radian > PI3)
-	{
-		calc->ver_ray_x = (int)game->player.px + 1;
-		calc->ver_ray_y = (game->player.px - calc->ver_ray_x) * nTan + game->player.py;
-		calc->ver_stepx = 1;
-		calc->ver_stepy = -calc->ver_stepx * nTan;
 	}
 }

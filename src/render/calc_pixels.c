@@ -6,7 +6,7 @@
 /*   By: jde-baai <jde-baai@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/11 17:19:40 by jde-baai      #+#    #+#                 */
-/*   Updated: 2024/02/08 19:55:29 by jde-baai      ########   odam.nl         */
+/*   Updated: 2024/02/09 11:03:07 by jde-baai      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ mlx_texture_t *get_wall(t_render *game, size_t x);
 void	pxl_to_buffer(t_render *game, t_pixel pxl);
 void	place_combined_pxl(t_render *game, mlx_texture_t wall, size_t cast_n, int wall_height);
 uint32_t	pixel_from_texture(t_render *game, t_pixel pxl, size_t y);
-
 
 void	calc_pixels(t_render *game)
 {
