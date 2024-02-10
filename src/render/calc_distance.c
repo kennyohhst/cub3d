@@ -6,15 +6,15 @@
 /*   By: jde-baai <jde-baai@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/11 15:53:39 by jde-baai      #+#    #+#                 */
-/*   Updated: 2024/02/09 12:16:48 by jde-baai      ########   odam.nl         */
+/*   Updated: 2024/02/10 15:48:15 by jde-baai      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/cub3d.h"
 
 void	run_calc(t_render *game, t_calc *calc);
-double	find_hor_wall(t_render *game, t_calc *calc, size_t xlimit, size_t ylimit);
-double	find_ver_wall(t_render *game, t_calc *calc, size_t xlimit, size_t ylimit);
+double	find_hor_wall(t_render *game, t_calc *calc, int xlimit, int ylimit);
+double	find_ver_wall(t_render *game, t_calc *calc, int xlimit, int ylimit);
 void	set_dist(t_render *game, t_calc *calc, double disH, double disV);
 
 /**
@@ -55,8 +55,8 @@ void	run_calc(t_render *game, t_calc *calc)
 	double disH;
 	double disV;
 	double	cast_angle;
-	size_t xlimit;
-	size_t ylimit;
+	int xlimit;
+	int ylimit;
 
 	xlimit = ft_strlen(game->map[0]);
 	ylimit = array_len(game->map) - 1;
@@ -73,15 +73,15 @@ void	run_calc(t_render *game, t_calc *calc)
 	game->cast.distance[calc->cast_n] = calc->distance * cos(cast_angle);
 }
 
-double	find_hor_wall(t_render *game, t_calc *calc, size_t xlimit, size_t ylimit)
+double	find_hor_wall(t_render *game, t_calc *calc, int xlimit, int ylimit)
 {
-	size_t		mapx;
-	size_t		mapy;
+	int		mapx;
+	int		mapy;
 
 	while (1)
 	{
-		mapx = (size_t)calc->hor_ray_x;
-		mapy = (size_t)calc->hor_ray_y;
+		mapx = (int)calc->hor_ray_x;
+		mapy = (int)calc->hor_ray_y;
 		if (mapx > xlimit || mapy > ylimit || mapx < 0 || mapy < 0) // max x and y
 			break ; 
 		if (game->map[mapy][mapx] == '1')
@@ -94,15 +94,15 @@ double	find_hor_wall(t_render *game, t_calc *calc, size_t xlimit, size_t ylimit)
 	return (INFINITY);
 }
 
-double	find_ver_wall(t_render *game, t_calc *calc, size_t xlimit, size_t ylimit)
+double	find_ver_wall(t_render *game, t_calc *calc, int xlimit, int ylimit)
 {
-	size_t		mapx;
-	size_t		mapy;
+	int		mapx;
+	int		mapy;
 
 	while (1)
 	{
-		mapx = (size_t)floor(calc->ver_ray_x);
-		mapy = (size_t)floor(calc->ver_ray_y);
+		mapx = (int)floor(calc->ver_ray_x);
+		mapy = (int)floor(calc->ver_ray_y);
 		if (mapx > xlimit || mapy > ylimit || mapx < 0 || mapy < 0)
 			break ; 
 		if (game->map[mapy][mapx] == '1')
@@ -124,7 +124,7 @@ void	set_dist(t_render *game, t_calc *calc, double disH, double disV)
 			game->cast.wall_side[calc->cast_n] = EAST;
 		else
 			game->cast.wall_side[calc->cast_n] = WEST;
-		game->cast.wall_h[calc->cast_n] = calc->ver_ray_y - (size_t)calc->ver_ray_y;
+		game->cast.wall_h[calc->cast_n] = calc->ver_ray_y - (int)calc->ver_ray_y;
 	}
 	else
 	{
@@ -133,6 +133,6 @@ void	set_dist(t_render *game, t_calc *calc, double disH, double disV)
 			game->cast.wall_side[calc->cast_n] = SOUTH;
 		else
 			game->cast.wall_side[calc->cast_n] = NORTH;
-		game->cast.wall_h[calc->cast_n] = calc->hor_ray_x - (size_t)calc->hor_ray_x;
+		game->cast.wall_h[calc->cast_n] = calc->hor_ray_x - (int)calc->hor_ray_x;
 	}
 }
