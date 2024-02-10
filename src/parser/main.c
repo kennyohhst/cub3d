@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: code <code@student.42.fr>                  +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/01 16:02:31 by code              #+#    #+#             */
-/*   Updated: 2024/02/10 16:31:44 by code             ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   main.c                                             :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: code <code@student.42.fr>                    +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2023/12/01 16:02:31 by code          #+#    #+#                 */
+/*   Updated: 2024/02/10 18:04:40 by jde-baai      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/cub3d.h"
+#include <cub3d.h>
 
 char	**double_array_copy(char **array)
 {
@@ -47,6 +47,7 @@ int	main(int argc, char **argv)
 	if (check_game_data(game_data, temp))
 		exit(write(2, "Error_map_not_good\n", 20));
 	test_parse_data(game_data);
+	render_main(game_data);
 	free_all(game_data);
 	return (0);
 }

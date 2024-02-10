@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   get_next_line_utils.c                              :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: kkalika <kkalika@student.42.fr>            +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/07/08 21:21:33 by kkalika           #+#    #+#             */
-/*   Updated: 2023/12/02 14:11:23 by kkalika          ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   get_next_line_utils.c                              :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: kkalika <kkalika@student.42.fr>              +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2022/07/08 21:21:33 by kkalika       #+#    #+#                 */
+/*   Updated: 2024/02/10 18:11:31 by jde-baai      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,23 +17,6 @@ char	*freegnl(char *s)
 	if (s)
 		free(s);
 	return (NULL);
-}
-
-void	*ft_calloc(size_t count, size_t size)
-{
-	char	*ptr;
-	size_t	i;
-
-	i = 0;
-	ptr = malloc(count * size);
-	if (!ptr)
-		return (NULL);
-	while (i < (count * size))
-	{
-		ptr[i] = '\0';
-		i++;
-	}
-	return (ptr);
 }
 
 char	*strljoin(char *s1, char *s2, int length, int x)

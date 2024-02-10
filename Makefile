@@ -10,7 +10,7 @@ MLX_DIR := lib/mlx42
 
 # Compiler flags
 CC := cc
-CFLAGS := -Wall -Werror -Wextra -fsanitize=address -g
+CFLAGS := -Wall -Werror -Wextra
 IFLAGS := -I$(INC_DIR) -I$(MLX_DIR)/include -I$(MLX_DIR)/include/$(MLX_DIR) -I$(LIBFT_DIR)
 LFLAGS := -L$(MLX_DIR)/build -lmlx42 -lglfw -ldl -pthread -lm -L$(LIBFT_DIR) -lft
 ifeq ($(DEBUG), 1)
@@ -18,7 +18,7 @@ ifeq ($(DEBUG), 1)
 endif
 
 # Includes
-HDR_FILES :=	cub3d.h
+HDR_FILES :=	cub3d.h structs.h game_settings.h
 
 MLX42 := $(MLX_DIR)/build/libmlx42.a
 
@@ -27,16 +27,23 @@ LIB				:= $(LIB_DIR)/libft.a
 
 
 # Files
-SRC_FILES :=	main.c \
-				parse.c \
-				test_parse_data.c \
-				search_correct_type.c \
-				free_all.c \
-				check_game_data.c \
-				check_file_extension.c \
-				flood_fill.c \
-				ft_free_s.c \
-				textures_to_pointer.c
+SRC_FILES :=	render/render_main.c \
+				render/init.c \
+				render/calc_distance.c \
+				render/dist_utils.c \
+				render/calc_pixels.c \
+				render/key_hooks.c \
+				render/utils.c\
+				parser/main.c \
+				parser/parse.c \
+				parser/test_parse_data.c \
+				parser/search_correct_type.c \
+				parser/free_all.c \
+				parser/check_game_data.c \
+				parser/check_file_extension.c \
+				parser/flood_fill.c \
+				parser/ft_free_s.c \
+				parser/textures_to_pointer.c 
 
 SRC := $(addprefix $(SRC_DIR)/, $(SRC_FILES))
 OBJ := ${addprefix ${OBJ_DIR}/, ${SRC_FILES:.c=.o}}
@@ -66,7 +73,7 @@ $(MLX42):
 	$(MAKE) -C $(MLX_DIR)/build -j4 --quiet
 
 $(OBJ_DIR)/%.o: src/%.c $(HDR)
-	@mkdir -p obj
+	@mkdir -p obj $(@D)
 	@$(CC) $(CFLAGS) -I $(HDR_DIR) -c $< -o $@
 
 run: all
