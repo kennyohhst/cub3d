@@ -6,7 +6,7 @@
 /*   By: code <code@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/06 13:16:27 by code              #+#    #+#             */
-/*   Updated: 2024/01/13 16:33:08 by code             ###   ########.fr       */
+/*   Updated: 2024/02/10 16:24:54 by code             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int	err_tex_check(t_god *data)
 	return (0);
 }
 
-void	one_of_each(char **full_map, char *c)
+static void	one_of_each(char **full_map, char *c)
 {
 	int	i;
 	int	x;
@@ -49,7 +49,7 @@ void	one_of_each(char **full_map, char *c)
 	}
 }
 
-void	double_data(t_god *game_data)
+static void	double_data(t_god *game_data)
 {
 	one_of_each(game_data->no_spaces_file, "NO");
 	one_of_each(game_data->no_spaces_file, "SO");

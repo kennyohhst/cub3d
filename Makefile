@@ -27,8 +27,16 @@ LIB				:= $(LIB_DIR)/libft.a
 
 
 # Files
-SRC_FILES :=	main.c parse.c test_parse_data.c search_correct_type.c free_all.c check_game_data.c \
-				check_file_extension.c flood_fill.c ft_free_s.c flood_tools.c textures_to_pointer.c
+SRC_FILES :=	main.c \
+				parse.c \
+				test_parse_data.c \
+				search_correct_type.c \
+				free_all.c \
+				check_game_data.c \
+				check_file_extension.c \
+				flood_fill.c \
+				ft_free_s.c \
+				textures_to_pointer.c
 
 SRC := $(addprefix $(SRC_DIR)/, $(SRC_FILES))
 OBJ := ${addprefix ${OBJ_DIR}/, ${SRC_FILES:.c=.o}}

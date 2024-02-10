@@ -6,7 +6,7 @@
 /*   By: code <code@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/01 16:02:31 by code              #+#    #+#             */
-/*   Updated: 2024/01/18 20:46:39 by code             ###   ########.fr       */
+/*   Updated: 2024/02/10 16:31:44 by code             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,13 +35,12 @@ char	**double_array_copy(char **array)
 
 int	main(int argc, char **argv)
 {
-	write(1, "bla\n", 4);
 	t_god			*game_data;
 	char			**temp;
 
 	if (argc != 2)
-		exit((write(2, "Error\ncheck input\n", 18)));
-	// check_file_extension(argv[1]);
+		exit((write(2, "Error\ncheck input\n", 19)));
+	check_file_extension(argv[1]);
 	game_data = malloc(sizeof(t_god));
 	game_data->no_spaces_file = parse(argv[1], game_data);
 	temp = double_array_copy(game_data->full_map);

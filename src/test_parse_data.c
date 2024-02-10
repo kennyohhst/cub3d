@@ -6,27 +6,11 @@
 /*   By: code <code@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/02 13:59:46 by kkalika           #+#    #+#             */
-/*   Updated: 2024/01/14 20:12:21 by code             ###   ########.fr       */
+/*   Updated: 2024/02/10 16:30:19 by code             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/cub3d.h"
-
-// void	run_floor_ceiling(char **f_c)
-// {
-// 	int	i;
-
-// 	i = 0;
-// 	if (!f_c)
-// 	{
-// 		printf("NSF is nothing\n");
-// 		return ;
-// 	}
-// 	printf("----------------floor_ceiling:---------------------------\n\n");
-// 	while (f_c[i])
-// 		printf("			%s\n", f_c[i++]);
-// 	printf("\n---------------------------------------------------------\n");
-// }
 
 void	run_floor_ceiling_ints(t_god *data)
 {
