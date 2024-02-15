@@ -6,7 +6,7 @@
 /*   By: code <code@student.42.fr>                    +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/12/02 14:14:43 by kkalika       #+#    #+#                 */
-/*   Updated: 2024/02/10 17:59:22 by jde-baai      ########   odam.nl         */
+/*   Updated: 2024/02/15 14:22:31 by jde-baai      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,13 +42,13 @@ bool	the_one(char *str, size_t len)
 	return (true);
 }
 
-void	new_line_err_check(char *str)
+void	new_line_err_check(char *str, size_t i, size_t x)
 {
-	size_t	i;
-	size_t	x;
-
-	x = 0;
-	i = 0;
+	if (!str)
+	{
+		write(2, "empty file\n", 12);
+		exit(1);
+	}
 	while (str[i])
 	{
 		if (str[i] == '\n')
@@ -74,7 +74,7 @@ char	**parse(char *map_input, t_god *data)
 	char	*str;
 	char	**no_spaces_file;
 
-	ft_bzero((void *) data, sizeof(t_god));
+	ft_bzero((void *)data, sizeof(t_god));
 	str = NULL;
 	fd = open(map_input, O_RDONLY);
 	if (fd < 0)
@@ -86,7 +86,7 @@ char	**parse(char *map_input, t_god *data)
 		free(temp_str);
 		temp_str = get_next_line(fd);
 	}
-	new_line_err_check(str);
+	new_line_err_check(str, 0, 0);
 	no_spaces_file = ft_split(str, '\n');
 	free(str);
 	close(fd);

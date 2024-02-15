@@ -6,7 +6,7 @@
 /*   By: code <code@student.42.fr>                    +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/12/01 16:01:38 by code          #+#    #+#                 */
-/*   Updated: 2024/02/15 13:11:39 by jde-baai      ########   odam.nl         */
+/*   Updated: 2024/02/15 14:36:03 by jde-baai      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@
 # define PI2 1.57079632679489661923
 # define PI3 4.71238898038468985769
 
+void		run_only_map(char **om);
 void		test_parse_data(t_god *data);
 char		**parse(char *map_input, t_god *data);
 void		free_all(t_god *data);

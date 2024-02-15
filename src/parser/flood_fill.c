@@ -6,7 +6,7 @@
 /*   By: code <code@student.42.fr>                    +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/02/15 01:02:50 by code          #+#    #+#                 */
-/*   Updated: 2024/02/15 13:59:14 by jde-baai      ########   odam.nl         */
+/*   Updated: 2024/02/15 14:53:51 by jde-baai      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,8 +51,8 @@ int	four_seasons(char **full_map, int x, int y)
 		y = (int)ft_strlen(full_map[x]) - 1;
 	if (full_map[x][y] == '2')
 	{
-		if (x == dp_strlen(full_map) - 1 || x == 0 || (ft_strlen(full_map[x
-					- 1]) < ft_strlen(full_map[x])
+		if (x == dp_strlen(full_map) - 1 || x == 0
+			|| (ft_strlen(full_map[x - 1]) < ft_strlen(full_map[x])
 				&& y >= (int)ft_strlen(full_map[x - 1]))
 			|| (ft_strlen(full_map[x + 1]) < ft_strlen(full_map[x])
 				&& y >= (int)ft_strlen(full_map[x + 1])))
@@ -79,7 +79,8 @@ void	flood_it(int x, int y, t_map **flood, char **full_map)
 		x++;
 	if (y >= (int)ft_strlen(full_map[x]))
 		y = (int)ft_strlen(full_map[x]) - 1;
-	if (full_map[x][y] && (full_map[x][y] == '1' || full_map[x][y] == '2'))
+	if (full_map[x][y] && (full_map[x][y] == '1' || full_map[x][y] == '2'
+			|| full_map[x][y] == ' '))
 		return ;
 	full_map[x][y] = '2';
 	if (four_seasons(full_map, x, y))
@@ -88,6 +89,10 @@ void	flood_it(int x, int y, t_map **flood, char **full_map)
 	flood_it(x, y - 1, flood, full_map);
 	flood_it(x + 1, y, flood, full_map);
 	flood_it(x - 1, y, flood, full_map);
+	flood_it(x - 1, y - 1, flood, full_map);
+	flood_it(x - 1, y + 1, flood, full_map);
+	flood_it(x + 1, y - 1, flood, full_map);
+	flood_it(x + 1, y + 1, flood, full_map);
 }
 
 bool	player(t_map **flood, char **full_map)

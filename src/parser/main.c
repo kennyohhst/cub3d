@@ -6,7 +6,7 @@
 /*   By: code <code@student.42.fr>                    +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/12/01 16:02:31 by code          #+#    #+#                 */
-/*   Updated: 2024/02/15 11:56:11 by jde-baai      ########   odam.nl         */
+/*   Updated: 2024/02/15 14:51:45 by jde-baai      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,8 @@ char	**double_array_copy(char **array)
 
 int	main(int argc, char **argv)
 {
-	t_god			*game_data;
-	char			**temp;
+	t_god	*game_data;
+	char	**temp;
 
 	if (argc != 2)
 		exit((write(2, "Error\ncheck input\n", 19)));
@@ -46,7 +46,6 @@ int	main(int argc, char **argv)
 	temp = double_array_copy(game_data->full_map);
 	if (check_game_data(game_data, temp))
 		exit(write(2, "Error_map_not_good\n", 20));
-	test_parse_data(game_data);
 	render_main(game_data);
 	free_all(game_data);
 	return (0);

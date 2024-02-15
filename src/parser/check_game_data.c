@@ -6,7 +6,7 @@
 /*   By: code <code@student.42.fr>                    +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/12/13 15:21:43 by code          #+#    #+#                 */
-/*   Updated: 2024/02/10 17:59:22 by jde-baai      ########   odam.nl         */
+/*   Updated: 2024/02/15 14:51:39 by jde-baai      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,10 +63,9 @@ bool	add_floor_ceiling(t_god *data)
 			data->ceiling_str = data->no_spaces_file[i];
 		i++;
 	}
-	if (convert_to_num(&data->ceiling, data->ceiling_str) 
-		|| num_go_boom(&data->ceiling) 
-		|| convert_to_num(&data->floor, data->floor_str) 
-		|| num_go_boom(&data->floor))
+	if (convert_to_num(&data->ceiling, data->ceiling_str)
+		|| num_go_boom(&data->ceiling) || convert_to_num(&data->floor,
+			data->floor_str) || num_go_boom(&data->floor))
 		return (true);
 	return (false);
 }
@@ -105,7 +104,6 @@ bool	check_game_data(t_god *data, char **flood_me)
 		return (true);
 	if (prep_flood(flood_me))
 		return (true);
-	printf("err = %d\n", err);
 	if (search_correct_type(data))
 		return (true);
 	if (add_floor_ceiling(data))
