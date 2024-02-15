@@ -6,17 +6,15 @@
 /*   By: jde-baai <jde-baai@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/11 17:19:40 by jde-baai      #+#    #+#                 */
-/*   Updated: 2024/02/15 13:21:09 by jde-baai      ########   odam.nl         */
+/*   Updated: 2024/02/15 16:23:29 by jde-baai      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <cub3d.h>
 
-mlx_texture_t	*get_wall(t_render *game, size_t x);
-void			pxl_to_buffer(t_render *game, t_pxl pxl);
-void			place_combined_pxl(t_render *game, mlx_texture_t wall,
-					size_t cast_n, int wall_height);
-uint32_t		pixel_from_texture(t_render *game, t_pxl pxl, size_t y);
+static mlx_texture_t	*get_wall(t_render *game, size_t x);
+static void				pxl_to_image(t_render *game, t_pxl pxl);
+static uint32_t			pxl_from_texture(t_render *game, t_pxl pxl, size_t y);
 
 void	calc_pixels(t_render *game)
 {
@@ -31,12 +29,12 @@ void	calc_pixels(t_render *game)
 		pxl.wall_end = (HEIGHT / 2) + (pxl.wall_height / 2);
 		if (pxl.wall_end >= HEIGHT)
 			pxl.wall_end = HEIGHT - 1;
-		pxl_to_buffer(game, pxl);
+		pxl_to_image(game, pxl);
 		pxl.x++;
 	}
 }
 
-int	get_y(t_render *game, int y, t_pxl *pxl)
+static int	get_y(t_render *game, int y, t_pxl *pxl)
 {
 	pxl->wall_step = 1.0 * (double)PIXEL / (double)(pxl->wall_height);
 	pxl->wall_y = 0;
@@ -61,7 +59,7 @@ int	get_y(t_render *game, int y, t_pxl *pxl)
 	return (y);
 }
 
-void	pxl_to_buffer(t_render *game, t_pxl pxl)
+static void	pxl_to_image(t_render *game, t_pxl pxl)
 {
 	int	y;
 
@@ -69,7 +67,7 @@ void	pxl_to_buffer(t_render *game, t_pxl pxl)
 	while (y < pxl.wall_end)
 	{
 		mlx_put_pixel(game->text.img_backgrnd, pxl.x, y,
-			pixel_from_texture(game, pxl, (size_t)pxl.wall_y));
+			pxl_from_texture(game, pxl, (size_t)pxl.wall_y));
 		pxl.wall_y += pxl.wall_step;
 		y++;
 	}
@@ -81,7 +79,7 @@ void	pxl_to_buffer(t_render *game, t_pxl pxl)
 	}
 }
 
-mlx_texture_t	*get_wall(t_render *game, size_t x)
+static mlx_texture_t	*get_wall(t_render *game, size_t x)
 {
 	if (game->cast.wall_side[x] == NORTH)
 		return (game->text.t_wall_n);
@@ -93,7 +91,7 @@ mlx_texture_t	*get_wall(t_render *game, size_t x)
 		return (game->text.t_wall_w);
 }
 
-uint32_t	pixel_from_texture(t_render *game, t_pxl pxl, size_t y)
+static uint32_t	pxl_from_texture(t_render *game, t_pxl pxl, size_t y)
 {
 	size_t	img_x;
 	size_t	img_y;
@@ -102,6 +100,9 @@ uint32_t	pixel_from_texture(t_render *game, t_pxl pxl, size_t y)
 
 	img_y = y;
 	img_x = (size_t)(game->cast.wall_h[pxl.x] * PIXEL) % PIXEL;
+	if (game->cast.wall_side[pxl.x] == EAST
+		|| game->cast.wall_side[pxl.x] == NORTH)
+		img_x = PIXEL - img_x - 1;
 	index = (img_y * PIXEL + img_x) * 4;
 	colour = get_rgb(pxl.wall_text->pixels[index + 3],
 			pxl.wall_text->pixels[index], pxl.wall_text->pixels[index + 1],

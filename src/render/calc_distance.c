@@ -6,16 +6,17 @@
 /*   By: jde-baai <jde-baai@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/11 15:53:39 by jde-baai      #+#    #+#                 */
-/*   Updated: 2024/02/15 12:56:41 by jde-baai      ########   odam.nl         */
+/*   Updated: 2024/02/15 16:15:45 by jde-baai      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <cub3d.h>
 
-void	run_calc(t_render *game, t_calc *calc);
-double	find_hor_wall(t_render *game, t_calc *calc, int xlimit, int ylimit);
-double	find_ver_wall(t_render *game, t_calc *calc, int xlimit, int ylimit);
-void	set_dist(t_render *game, t_calc *calc, double disH, double disV);
+static void		run_calc(t_render *game, t_calc *calc);
+static double	find_hor_wall(t_render *game, t_calc *calc, int ylimit);
+static double	find_ver_wall(t_render *game, t_calc *calc, int ylimit);
+static void		set_dist(t_render *game, t_calc *calc, double disH,
+					double disV);
 
 /**
  * @brief calculates for each ray:
@@ -49,23 +50,19 @@ void	calc_distance(t_render *game)
  * @brief finds the horizontal and vertical distance
  * 		sets the distance to the shortests distance
  * 		sets the wall_side the wall hit
- *
- * @todo remove xlimit from the params;
  */
-void	run_calc(t_render *game, t_calc *calc)
+static void	run_calc(t_render *game, t_calc *calc)
 {
 	double	dish;
 	double	disv;
 	double	cast_angle;
-	int		xlimit;
 	int		ylimit;
 
-	xlimit = ft_strlen(game->map[0]);
 	ylimit = array_len(game->map) - 1;
 	set_hor_start_values(game, calc);
 	set_vert_start_values(game, calc);
-	dish = find_hor_wall(game, calc, xlimit, ylimit);
-	disv = find_ver_wall(game, calc, xlimit, ylimit);
+	dish = find_hor_wall(game, calc, ylimit);
+	disv = find_ver_wall(game, calc, ylimit);
 	set_dist(game, calc, dish, disv);
 	cast_angle = game->player.rad - calc->radian;
 	if (cast_angle < 0)
@@ -75,10 +72,11 @@ void	run_calc(t_render *game, t_calc *calc)
 	game->cast.distance[calc->cast_n] = calc->distance * cos(cast_angle);
 }
 
-double	find_hor_wall(t_render *game, t_calc *calc, int xlimit, int ylimit)
+static double	find_hor_wall(t_render *game, t_calc *calc, int ylimit)
 {
 	int	mapx;
 	int	mapy;
+	int	xlimit;
 
 	while (1)
 	{
@@ -100,10 +98,11 @@ double	find_hor_wall(t_render *game, t_calc *calc, int xlimit, int ylimit)
 	return (INFINITY);
 }
 
-double	find_ver_wall(t_render *game, t_calc *calc, int xlimit, int ylimit)
+static double	find_ver_wall(t_render *game, t_calc *calc, int ylimit)
 {
 	int	mapx;
 	int	mapy;
+	int	xlimit;
 
 	while (1)
 	{
@@ -125,7 +124,7 @@ double	find_ver_wall(t_render *game, t_calc *calc, int xlimit, int ylimit)
 	return (INFINITY);
 }
 
-void	set_dist(t_render *game, t_calc *calc, double disH, double disV)
+static void	set_dist(t_render *game, t_calc *calc, double disH, double disV)
 {
 	if (disV < disH)
 	{

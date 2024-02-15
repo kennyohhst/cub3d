@@ -6,13 +6,13 @@
 /*   By: jde-baai <jde-baai@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/02/09 11:13:37 by jde-baai      #+#    #+#                 */
-/*   Updated: 2024/02/15 13:20:28 by jde-baai      ########   odam.nl         */
+/*   Updated: 2024/02/15 16:20:11 by jde-baai      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <cub3d.h>
 
-void	init_textures(t_render *game, t_god *p)
+static void	init_textures(t_render *game, t_god *p)
 {
 	game->text.t_wall_n = mlx_load_png(p->no_so_ea_we.no + 1);
 	if (!game->text.t_wall_n)
@@ -40,7 +40,7 @@ void	init_textures(t_render *game, t_god *p)
 	}
 }
 
-void	init_raycasting(t_render *game)
+static void	init_raycasting(t_render *game)
 {
 	game->text.img_backgrnd = mlx_new_image(game->mlx, WIDTH, HEIGHT);
 	if (!game->text.img_backgrnd)
@@ -68,7 +68,7 @@ void	init_raycasting(t_render *game)
 	}
 }
 
-void	set_radian(t_render *game)
+static void	set_radian(t_render *game)
 {
 	if (game->map[(int)game->player.py][(int)game->player.px] == 'N')
 		game->player.rad = 1.5 * PI;
@@ -78,9 +78,10 @@ void	set_radian(t_render *game)
 		game->player.rad = 0.5 * PI;
 	if (game->map[(int)game->player.py][(int)game->player.px] == 'W')
 		game->player.rad = 1 * PI;
+	game->map[(int)game->player.py][(int)game->player.px] = '0';
 }
 
-void	get_player_position(t_render *game)
+static void	get_player_position(t_render *game)
 {
 	int	x;
 	int	y;

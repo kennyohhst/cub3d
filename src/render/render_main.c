@@ -6,14 +6,13 @@
 /*   By: juliusdebaaij <juliusdebaaij@student.co      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/12/08 16:13:57 by juliusdebaa   #+#    #+#                 */
-/*   Updated: 2024/02/15 11:56:54 by jde-baai      ########   odam.nl         */
+/*   Updated: 2024/02/15 16:12:43 by jde-baai      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <cub3d.h>
 
-void	set_window(t_render *game);
-void	walls_loop(void *game_data);
+static void	walls_loop(void *game_data);
 
 void	render_main(t_god *parse_data)
 {
@@ -31,7 +30,7 @@ void	render_main(t_god *parse_data)
 	free_game(game);
 }
 
-void	walls_loop(void *game_data)
+static void	walls_loop(void *game_data)
 {
 	t_render	*game;
 
