@@ -6,7 +6,7 @@
 /*   By: jde-baai <jde-baai@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/12/22 14:59:19 by jde-baai      #+#    #+#                 */
-/*   Updated: 2024/02/15 13:05:27 by jde-baai      ########   odam.nl         */
+/*   Updated: 2024/02/15 13:56:34 by jde-baai      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,11 +27,15 @@ static void	move_vertical(t_render *game, double dir)
 
 	movex = cos(game->player.rad) * MS * dir;
 	movey = sin(game->player.rad) * MS * dir;
-	if (game->map[(int)(game->player.py + movey * 1.1)][(int)(game->player.px
-			+ movex * 1.1)] != '1')
+	if (game->map[(int)(game->player.py + movey
+			* 1.1)][(int)(game->player.px)] == '0')
 	{
-		game->player.px += movex;
-		game->player.py += movey;
+		if (game->map[(int)(game->player.py)][(int)(game->player.px + movex
+				* 1.1)] == '0')
+		{
+			game->player.px += movex;
+			game->player.py += movey;
+		}
 	}
 }
 
@@ -45,11 +49,15 @@ static void	move_horizontal(t_render *game, double dir)
 
 	movex = cos(game->player.rad + (PI * dir) / 2) * MS;
 	movey = sin(game->player.rad + (PI * dir) / 2) * MS;
-	if (game->map[(int)(game->player.py + movey * 1.1)][(int)(game->player.px
-			+ movex * 1.1)] != '1')
+	if (game->map[(int)(game->player.py + movey
+			* 1.1)][(int)(game->player.px)] == '0')
 	{
-		game->player.px += movex;
-		game->player.py += movey;
+		if (game->map[(int)(game->player.py)][(int)(game->player.px + movex
+				* 1.1)] == '0')
+		{
+			game->player.px += movex;
+			game->player.py += movey;
+		}
 	}
 }
 

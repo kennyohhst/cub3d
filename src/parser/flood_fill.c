@@ -6,7 +6,7 @@
 /*   By: code <code@student.42.fr>                    +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/02/15 01:02:50 by code          #+#    #+#                 */
-/*   Updated: 2024/02/10 17:59:22 by jde-baai      ########   odam.nl         */
+/*   Updated: 2024/02/15 13:59:14 by jde-baai      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,9 @@ int	sus_player(char **full_map)
 	{
 		while (full_map[x][y])
 		{
-			if (full_map[x][y] && (full_map[x][y] == 'N' 
-			|| full_map[x][y] == 'O'
-			|| full_map[x][y] == 'S' || full_map[x][y] == 'W'))
+			if (full_map[x][y] && (full_map[x][y] == 'N'
+					|| full_map[x][y] == 'O' || full_map[x][y] == 'S'
+					|| full_map[x][y] == 'W'))
 				count++;
 			y++;
 		}
@@ -47,20 +47,20 @@ int	four_seasons(char **full_map, int x, int y)
 		x = dp_strlen(full_map) - 1;
 	if (x < 0)
 		x = 0;
-	if (y > (int) ft_strlen(full_map[x]))
-		y = (int) ft_strlen(full_map[x]) - 1;
+	if (y > (int)ft_strlen(full_map[x]))
+		y = (int)ft_strlen(full_map[x]) - 1;
 	if (full_map[x][y] == '2')
 	{
-		if (x == dp_strlen(full_map) - 1 || x == 0 || 
-			(ft_strlen(full_map[x - 1]) < ft_strlen(full_map[x]) 
-				&& y >= (int) ft_strlen(full_map[x - 1])) 
-			|| (ft_strlen(full_map[x + 1]) < ft_strlen(full_map[x]) 
-				&& y >= (int) ft_strlen(full_map[x + 1])))
+		if (x == dp_strlen(full_map) - 1 || x == 0 || (ft_strlen(full_map[x
+					- 1]) < ft_strlen(full_map[x])
+				&& y >= (int)ft_strlen(full_map[x - 1]))
+			|| (ft_strlen(full_map[x + 1]) < ft_strlen(full_map[x])
+				&& y >= (int)ft_strlen(full_map[x + 1])))
 			return (1);
 		if (full_map[x][y + 1] == '\0')
 			return (1);
-		if (y != 0 && (full_map[x][y + 1] == ' ' || full_map[x][y - 1] == ' ' ||
-		full_map[x + 1][y] == ' ' || full_map[x - 1][y] == ' '))
+		if (y != 0 && (full_map[x][y + 1] == ' ' || full_map[x][y - 1] == ' '
+				|| full_map[x + 1][y] == ' ' || full_map[x - 1][y] == ' '))
 			return (1);
 	}
 	return (0);
@@ -77,8 +77,8 @@ void	flood_it(int x, int y, t_map **flood, char **full_map)
 		x = dp_strlen(full_map) - 1;
 	if (x < 0)
 		x++;
-	if (y >= (int) ft_strlen(full_map[x]))
-		y = (int) ft_strlen(full_map[x]) - 1;
+	if (y >= (int)ft_strlen(full_map[x]))
+		y = (int)ft_strlen(full_map[x]) - 1;
 	if (full_map[x][y] && (full_map[x][y] == '1' || full_map[x][y] == '2'))
 		return ;
 	full_map[x][y] = '2';
@@ -92,15 +92,15 @@ void	flood_it(int x, int y, t_map **flood, char **full_map)
 
 bool	player(t_map **flood, char **full_map)
 {
-	int		x;
-	int		y;
+	int	x;
+	int	y;
 
 	x = 0;
 	y = 0;
 	while (full_map && full_map[x])
 	{
 		if (full_map[x][y] && (full_map[x][y] == 'N' || full_map[x][y] == 'O'
-			|| full_map[x][y] == 'S' || full_map[x][y] == 'W'))
+				|| full_map[x][y] == 'S' || full_map[x][y] == 'W'))
 		{
 			(*flood)->player_x = x;
 			(*flood)->player_y = y;
