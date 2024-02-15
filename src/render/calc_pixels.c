@@ -6,7 +6,7 @@
 /*   By: jde-baai <jde-baai@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/11 17:19:40 by jde-baai      #+#    #+#                 */
-/*   Updated: 2024/02/15 13:08:30 by jde-baai      ########   odam.nl         */
+/*   Updated: 2024/02/15 13:21:09 by jde-baai      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ int	get_y(t_render *game, int y, t_pxl *pxl)
 		y = 0;
 		while (y < pxl->wall_start)
 		{
-			mlx_put_pxl(game->text.img_backgrnd, pxl->x, y,
+			mlx_put_pixel(game->text.img_backgrnd, pxl->x, y,
 				game->text.ceiling_color);
 			y++;
 		}
@@ -68,14 +68,15 @@ void	pxl_to_buffer(t_render *game, t_pxl pxl)
 	y = get_y(game, 0, &pxl);
 	while (y < pxl.wall_end)
 	{
-		mlx_put_pxl(game->text.img_backgrnd, pxl.x, y, pixel_from_texture(game,
-				pxl, (size_t)pxl.wall_y));
+		mlx_put_pixel(game->text.img_backgrnd, pxl.x, y,
+			pixel_from_texture(game, pxl, (size_t)pxl.wall_y));
 		pxl.wall_y += pxl.wall_step;
 		y++;
 	}
 	while (y < HEIGHT - 1)
 	{
-		mlx_put_pxl(game->text.img_backgrnd, pxl.x, y, game->text.floor_color);
+		mlx_put_pixel(game->text.img_backgrnd, pxl.x, y,
+			game->text.floor_color);
 		y++;
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: jde-baai <jde-baai@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/02/09 11:13:37 by jde-baai      #+#    #+#                 */
-/*   Updated: 2024/02/15 13:08:30 by jde-baai      ########   odam.nl         */
+/*   Updated: 2024/02/15 13:20:28 by jde-baai      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,8 @@ void	get_player_position(t_render *game)
 			{
 				game->player.px = y;
 				game->player.py = x;
-				return (set_radian);
+				set_radian(game);
+				return ;
 			}
 			y++;
 		}
