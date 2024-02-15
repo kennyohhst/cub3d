@@ -6,15 +6,12 @@
 /*   By: jde-baai <jde-baai@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/02/09 11:13:37 by jde-baai      #+#    #+#                 */
-/*   Updated: 2024/02/15 12:32:44 by jde-baai      ########   odam.nl         */
+/*   Updated: 2024/02/15 12:53:56 by jde-baai      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <cub3d.h>
 
-/**
- * @todo fix parser so i dont need to put a fucking space + 1
-*/
 void	init_textures(t_render *game, t_god *p)
 {
 	game->text.t_wall_n = mlx_load_png(p->no_so_ea_we.no + 1);
