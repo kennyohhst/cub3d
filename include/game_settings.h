@@ -11,12 +11,12 @@
 /* ************************************************************************** */
 
 #ifndef GAME_SETTINGS_H
-#define GAME_SETTINGS_H
+# define GAME_SETTINGS_H
 
-#define FOV 1.2
-#define ROTATE 0.2
-#define MS 0.2
-#define WIDTH 2560
-#define HEIGHT 1280
+# define FOV 1.2
+# define ROTATE 0.2
+# define MS 0.2
+# define WIDTH 2560
+# define HEIGHT 1280
 
 #endif /* GAME_SETTINGS_H */

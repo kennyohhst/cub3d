@@ -6,7 +6,7 @@
 /*   By: jde-baai <jde-baai@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/11 15:53:39 by jde-baai      #+#    #+#                 */
-/*   Updated: 2024/02/15 11:53:33 by jde-baai      ########   odam.nl         */
+/*   Updated: 2024/02/15 12:56:41 by jde-baai      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	set_dist(t_render *game, t_calc *calc, double disH, double disV);
  * 1. the distance player-wall
  * 2. the wall_h where the wall is hit
  * 3. the wall_side, indicating the texture to be used
-*/
+ */
 void	calc_distance(t_render *game)
 {
 	t_calc	calc;
@@ -33,7 +33,7 @@ void	calc_distance(t_render *game)
 	if (calc.radian < 0)
 		calc.radian += 2 * PI;
 	calc.cast_n = 0;
-	while (calc.cast_n < WIDTH )
+	while (calc.cast_n < WIDTH)
 	{
 		if (calc.radian == 0)
 			calc.radian = 0e30;
@@ -49,24 +49,24 @@ void	calc_distance(t_render *game)
  * @brief finds the horizontal and vertical distance
  * 		sets the distance to the shortests distance
  * 		sets the wall_side the wall hit
- * 
+ *
  * @todo remove xlimit from the params;
-*/
+ */
 void	run_calc(t_render *game, t_calc *calc)
 {
-	double disH;
-	double disV;
+	double	dish;
+	double	disv;
 	double	cast_angle;
-	int xlimit;
-	int ylimit;
+	int		xlimit;
+	int		ylimit;
 
 	xlimit = ft_strlen(game->map[0]);
 	ylimit = array_len(game->map) - 1;
 	set_hor_start_values(game, calc);
 	set_vert_start_values(game, calc);
-	disH = find_hor_wall(game, calc, xlimit, ylimit);
-	disV = find_ver_wall(game, calc, xlimit, ylimit);
-	set_dist(game, calc, disH, disV);
+	dish = find_hor_wall(game, calc, xlimit, ylimit);
+	disv = find_ver_wall(game, calc, xlimit, ylimit);
+	set_dist(game, calc, dish, disv);
 	cast_angle = game->player.rad - calc->radian;
 	if (cast_angle < 0)
 		cast_angle += 2 * PI;
@@ -77,21 +77,22 @@ void	run_calc(t_render *game, t_calc *calc)
 
 double	find_hor_wall(t_render *game, t_calc *calc, int xlimit, int ylimit)
 {
-	int		mapx;
-	int		mapy;
+	int	mapx;
+	int	mapy;
 
 	while (1)
 	{
 		mapx = (int)calc->hor_ray_x;
 		mapy = (int)calc->hor_ray_y;
 		if (mapy > ylimit || mapy < 0)
-			break ;	
+			break ;
 		xlimit = ft_strlen(game->map[mapy]);
 		if (mapx > xlimit || mapx < 0)
 			break ;
 		if (game->map[mapy][mapx] == '1')
 		{
-			return (get_dist(game->player.px, game->player.py, calc->hor_ray_x, calc->hor_ray_y));
+			return (get_dist(game->player.px, game->player.py, calc->hor_ray_x,
+					calc->hor_ray_y));
 		}
 		calc->hor_ray_x += calc->hor_stepx;
 		calc->hor_ray_y += calc->hor_stepy;
@@ -101,21 +102,22 @@ double	find_hor_wall(t_render *game, t_calc *calc, int xlimit, int ylimit)
 
 double	find_ver_wall(t_render *game, t_calc *calc, int xlimit, int ylimit)
 {
-	int		mapx;
-	int		mapy;
+	int	mapx;
+	int	mapy;
 
 	while (1)
 	{
 		mapx = (int)floor(calc->ver_ray_x);
 		mapy = (int)floor(calc->ver_ray_y);
 		if (mapy > ylimit || mapy < 0)
-			break ;	
+			break ;
 		xlimit = ft_strlen(game->map[mapy]);
 		if (mapx > xlimit || mapx < 0)
-			break ; 
+			break ;
 		if (game->map[mapy][mapx] == '1')
 		{
-			return (get_dist(game->player.px, game->player.py, calc->ver_ray_x, calc->ver_ray_y));
+			return (get_dist(game->player.px, game->player.py, calc->ver_ray_x,
+					calc->ver_ray_y));
 		}
 		calc->ver_ray_x += calc->ver_stepx;
 		calc->ver_ray_y += calc->ver_stepy;
@@ -132,7 +134,8 @@ void	set_dist(t_render *game, t_calc *calc, double disH, double disV)
 			game->cast.wall_side[calc->cast_n] = EAST;
 		else
 			game->cast.wall_side[calc->cast_n] = WEST;
-		game->cast.wall_h[calc->cast_n] = calc->ver_ray_y - (int)calc->ver_ray_y;
+		game->cast.wall_h[calc->cast_n] = calc->ver_ray_y
+			- (int)calc->ver_ray_y;
 	}
 	else
 	{
@@ -141,6 +144,7 @@ void	set_dist(t_render *game, t_calc *calc, double disH, double disV)
 			game->cast.wall_side[calc->cast_n] = SOUTH;
 		else
 			game->cast.wall_side[calc->cast_n] = NORTH;
-		game->cast.wall_h[calc->cast_n] = calc->hor_ray_x - (int)calc->hor_ray_x;
+		game->cast.wall_h[calc->cast_n] = calc->hor_ray_x
+			- (int)calc->hor_ray_x;
 	}
 }

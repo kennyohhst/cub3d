@@ -15,7 +15,6 @@
 void	set_window(t_render *game);
 void	walls_loop(void *game_data);
 
-
 void	render_main(t_god *parse_data)
 {
 	t_render	*game;
@@ -24,7 +23,7 @@ void	render_main(t_god *parse_data)
 	if (mlx_image_to_window(game->mlx, game->text.img_backgrnd, 0, 0) == -1)
 	{
 		write(2, "Error: MLX_image_to_window: walls\n", 35);
-		exit (1);
+		exit(1);
 	}
 	mlx_loop_hook(game->mlx, &walls_loop, game);
 	mlx_loop_hook(game->mlx, &sl_hooks, game);
@@ -34,7 +33,7 @@ void	render_main(t_god *parse_data)
 
 void	walls_loop(void *game_data)
 {
-	t_render		*game;
+	t_render	*game;
 
 	game = (t_render *)game_data;
 	calc_distance(game);

@@ -6,7 +6,7 @@
 /*   By: jde-baai <jde-baai@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/12/22 14:59:19 by jde-baai      #+#    #+#                 */
-/*   Updated: 2024/02/15 12:10:06 by jde-baai      ########   odam.nl         */
+/*   Updated: 2024/02/15 13:05:27 by jde-baai      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,36 +22,35 @@ static void	terminate(t_render *game)
  */
 static void	move_vertical(t_render *game, double dir)
 {
-	double	moveX;
-	double	moveY;
+	double	movex;
+	double	movey;
 
-	moveX = cos(game->player.rad) * MS * dir;
-    moveY = sin(game->player.rad) * MS * dir;
-
-    if (game->map[(int)(game->player.py + moveY * 1.1)][(int)(game->player.px + moveX * 1.1)] != '1')
-    {
-        game->player.px += moveX;
-        game->player.py += moveY;
-    }
+	movex = cos(game->player.rad) * MS * dir;
+	movey = sin(game->player.rad) * MS * dir;
+	if (game->map[(int)(game->player.py + movey * 1.1)][(int)(game->player.px
+			+ movex * 1.1)] != '1')
+	{
+		game->player.px += movex;
+		game->player.py += movey;
+	}
 }
-
 
 /**
  * @todo make + and - dependant on radian
  */
 static void	move_horizontal(t_render *game, double dir)
 {
-	double	moveX;
-	double	moveY;
+	double	movex;
+	double	movey;
 
-	moveX = cos(game->player.rad + (PI * dir) / 2) * MS;
-    moveY = sin(game->player.rad + (PI * dir) / 2) * MS;
-
-    if (game->map[(int)(game->player.py + moveY * 1.1)][(int)(game->player.px + moveX * 1.1)] != '1')
-    {
-        game->player.px += moveX;
-        game->player.py += moveY;
-    }
+	movex = cos(game->player.rad + (PI * dir) / 2) * MS;
+	movey = sin(game->player.rad + (PI * dir) / 2) * MS;
+	if (game->map[(int)(game->player.py + movey * 1.1)][(int)(game->player.px
+			+ movex * 1.1)] != '1')
+	{
+		game->player.px += movex;
+		game->player.py += movey;
+	}
 }
 
 static void	change_view(t_render *game, enum keys key)

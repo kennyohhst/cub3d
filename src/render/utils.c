@@ -6,7 +6,7 @@
 /*   By: julius <julius@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/12/29 12:19:43 by julius        #+#    #+#                 */
-/*   Updated: 2024/02/15 12:52:30 by jde-baai      ########   odam.nl         */
+/*   Updated: 2024/02/15 13:08:21 by jde-baai      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,8 @@
  * @param r red
  * @param g green
  * @param b blue
-*/
-uint32_t	get_RGB(int a, int r, int g, int b)
+ */
+uint32_t	get_rgb(int a, int r, int g, int b)
 {
 	return ((r << 24) | (g << 16) | (b << 8) | a);
 }

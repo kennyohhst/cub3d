@@ -6,7 +6,7 @@
 /*   By: jde-baai <jde-baai@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/02/09 11:13:37 by jde-baai      #+#    #+#                 */
-/*   Updated: 2024/02/15 12:53:56 by jde-baai      ########   odam.nl         */
+/*   Updated: 2024/02/15 13:08:30 by jde-baai      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,14 @@ void	init_textures(t_render *game, t_god *p)
 	}
 }
 
-void init_raycasting(t_render *game)
+void	init_raycasting(t_render *game)
 {
+	game->text.img_backgrnd = mlx_new_image(game->mlx, WIDTH, HEIGHT);
+	if (!game->text.img_backgrnd)
+	{
+		write(2, "Error: MLX_new_image: background\n", 29);
+		exit(1);
+	}
 	game->cast.distance = malloc(sizeof(double) * WIDTH);
 	if (!game->cast.distance)
 	{
@@ -62,7 +68,7 @@ void init_raycasting(t_render *game)
 	}
 }
 
-void	set_radian_init_bckgrnd(t_render *game)
+void	set_radian(t_render *game)
 {
 	if (game->map[(int)game->player.py][(int)game->player.px] == 'N')
 		game->player.rad = 1.5 * PI;
@@ -72,31 +78,26 @@ void	set_radian_init_bckgrnd(t_render *game)
 		game->player.rad = 0.5 * PI;
 	if (game->map[(int)game->player.py][(int)game->player.px] == 'W')
 		game->player.rad = 1 * PI;
-	game->text.img_backgrnd = mlx_new_image(game->mlx, WIDTH, HEIGHT);
-	if (!game->text.img_backgrnd)
-	{
-		write(2, "Error: MLX_new_image: background\n", 29);
-		exit(1);
-	}
 }
-
 
 void	get_player_position(t_render *game)
 {
-	int x = 0;
-	int y = 0;
+	int	x;
+	int	y;
 
+	x = 0;
+	y = 0;
 	while (game->map[x])
 	{
 		y = 0;
 		while (game->map[x][y])
 		{
-			if (game->map[x][y] == 'N' || game->map[x][y] == 'E' ||
-				game->map[x][y] == 'S' || game->map[x][y] == 'W')
+			if (game->map[x][y] == 'N' || game->map[x][y] == 'E'
+				|| game->map[x][y] == 'S' || game->map[x][y] == 'W')
 			{
 				game->player.px = y;
 				game->player.py = x;
-				return ;
+				return (set_radian);
 			}
 			y++;
 		}
@@ -106,11 +107,14 @@ void	get_player_position(t_render *game)
 
 t_render	*init_render(t_god *p)
 {
-	t_render *game;
+	t_render	*game;
 
 	game = ft_calloc(1, sizeof(t_render));
 	if (!game)
+	{
+		write(2, "Error: malloc t_render\n", 24);
 		exit(1);
+	}
 	game->map = p->full_map;
 	game->mlx = mlx_init(WIDTH, HEIGHT, "cub3D", false);
 	if (!game->mlx)
@@ -119,13 +123,10 @@ t_render	*init_render(t_god *p)
 		exit(1);
 	}
 	get_player_position(game);
-	set_radian_init_bckgrnd(game);
-	printf("rgb floor: r: %d g: %d b: %d\n", p->floor.left, p->floor.middle, p->floor.right);
-	printf("rgb ceiling: r: %d g: %d b: %d\n", p->ceiling.left, p->ceiling.middle, p->ceiling.right);
-
-
-	game->text.floor_color = get_RGB(255, p->floor.left, p->floor.middle, p->floor.right);
-	game->text.ceiling_color = get_RGB(255, p->ceiling.left, p->ceiling.middle, p->ceiling.right);
+	game->text.floor_color = get_rgb(255, p->floor.left, p->floor.middle,
+			p->floor.right);
+	game->text.ceiling_color = get_rgb(255, p->ceiling.left, p->ceiling.middle,
+			p->ceiling.right);
 	init_textures(game, p);
 	init_raycasting(game);
 	game->parse_data = p;
