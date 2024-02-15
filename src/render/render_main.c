@@ -6,7 +6,7 @@
 /*   By: juliusdebaaij <juliusdebaaij@student.co      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/12/08 16:13:57 by juliusdebaa   #+#    #+#                 */
-/*   Updated: 2024/02/10 18:33:36 by jde-baai      ########   odam.nl         */
+/*   Updated: 2024/02/15 11:56:54 by jde-baai      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,7 @@ void	render_main(t_god *parse_data)
 {
 	t_render	*game;
 
-	(void)parse_data;
-	game = init_render();
+	game = init_render(parse_data);
 	if (mlx_image_to_window(game->mlx, game->text.img_backgrnd, 0, 0) == -1)
 	{
 		write(2, "Error: MLX_image_to_window: walls\n", 35);
@@ -30,6 +29,7 @@ void	render_main(t_god *parse_data)
 	mlx_loop_hook(game->mlx, &walls_loop, game);
 	mlx_loop_hook(game->mlx, &sl_hooks, game);
 	mlx_loop(game->mlx);
+	free_game(game);
 }
 
 void	walls_loop(void *game_data)
@@ -40,10 +40,3 @@ void	walls_loop(void *game_data)
 	calc_distance(game);
 	calc_pixels(game);
 }
-
-// int	main(void)
-// {
-// 	t_god *data = NULL;
-// 	render_main(data);
-// 	return(0);
-// }

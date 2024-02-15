@@ -10,7 +10,7 @@ MLX_DIR := lib/mlx42
 
 # Compiler flags
 CC := cc
-CFLAGS := -Wall -Werror -Wextra
+CFLAGS := -Wall -Werror -Wextra -Ofast -g -fsanitize=address
 IFLAGS := -I$(INC_DIR) -I$(MLX_DIR)/include -I$(MLX_DIR)/include/$(MLX_DIR) -I$(LIBFT_DIR)
 LFLAGS := -L$(MLX_DIR)/build -lmlx42 -lglfw -ldl -pthread -lm -L$(LIBFT_DIR) -lft
 ifeq ($(DEBUG), 1)

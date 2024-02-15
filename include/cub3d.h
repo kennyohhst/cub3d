@@ -6,7 +6,7 @@
 /*   By: code <code@student.42.fr>                    +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/12/01 16:01:38 by code          #+#    #+#                 */
-/*   Updated: 2024/02/10 17:58:52 by jde-baai      ########   odam.nl         */
+/*   Updated: 2024/02/15 11:41:18 by jde-baai      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,8 @@ bool	txt_to_ptr(t_god *data);
 
 /* render functions */
 void		render_main(t_god *data);
-t_render	*init_render(void);
+t_render	*init_render(t_god *parse_data);
+void		free_game(t_render *game);
 
 void	sl_hooks(void *param);
 void	calc_pixels(t_render *game);

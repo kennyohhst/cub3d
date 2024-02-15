@@ -6,46 +6,41 @@
 /*   By: jde-baai <jde-baai@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/02/09 11:13:37 by jde-baai      #+#    #+#                 */
-/*   Updated: 2024/02/10 18:20:17 by jde-baai      ########   odam.nl         */
+/*   Updated: 2024/02/15 12:32:44 by jde-baai      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <cub3d.h>
 
-void	init_textures(t_render *game)
+/**
+ * @todo fix parser so i dont need to put a fucking space + 1
+*/
+void	init_textures(t_render *game, t_god *p)
 {
-	game->text.img_backgrnd = mlx_new_image(game->mlx, WIDTH, HEIGHT);
-	if (!game->text.img_backgrnd)
-	{
-		write(2, "Error: MLX_new_image: walls\n", 29);
-		exit(1);
-	}
-	game->text.t_wall_n = mlx_load_png("./textures/North_wall.png");
+	game->text.t_wall_n = mlx_load_png(p->no_so_ea_we.no + 1);
 	if (!game->text.t_wall_n)
 	{
 		write(2, "Error: MLX_load_png: North_wall\n", 33);
 		exit(1);
 	}
-	game->text.t_wall_s = mlx_load_png("./textures/South_wall.png");
+	game->text.t_wall_s = mlx_load_png(p->no_so_ea_we.so + 1);
 	if (!game->text.t_wall_s)
 	{
 		write(2, "Error: MLX_load_png: South_wall\n", 33);
 		exit(1);
 	}
-	game->text.t_wall_e = mlx_load_png("./textures/East_wall.png");
+	game->text.t_wall_e = mlx_load_png(p->no_so_ea_we.ea + 1);
 	if (!game->text.t_wall_e)
 	{
 		write(2, "Error: MLX_load_png: East_wall\n", 32);
 		exit(1);
 	}
-	game->text.t_wall_w = mlx_load_png("./textures/West_wall.png");
+	game->text.t_wall_w = mlx_load_png(p->no_so_ea_we.we + 1);
 	if (!game->text.t_wall_w)
 	{
 		write(2, "Error: MLX_load_png: West_wall\n", 32);
 		exit(1);
 	}
-	game->text.ceiling_color = get_RGB(255, 255, 0, 255);
-	game->text.floor_color = get_RGB(255, 76, 28, 36);
 }
 
 void init_raycasting(t_render *game)
@@ -70,7 +65,7 @@ void init_raycasting(t_render *game)
 	}
 }
 
-void	set_radian(t_render *game)
+void	set_radian_init_bckgrnd(t_render *game)
 {
 	if (game->map[(int)game->player.py][(int)game->player.px] == 'N')
 		game->player.rad = 1.5 * PI;
@@ -80,43 +75,62 @@ void	set_radian(t_render *game)
 		game->player.rad = 0.5 * PI;
 	if (game->map[(int)game->player.py][(int)game->player.px] == 'W')
 		game->player.rad = 1 * PI;
+	game->text.img_backgrnd = mlx_new_image(game->mlx, WIDTH, HEIGHT);
+	if (!game->text.img_backgrnd)
+	{
+		write(2, "Error: MLX_new_image: background\n", 29);
+		exit(1);
+	}
 }
 
-t_render	*init_render(void)
+
+void	get_player_position(t_render *game)
+{
+	int x = 0;
+	int y = 0;
+
+	while (game->map[x])
+	{
+		y = 0;
+		while (game->map[x][y])
+		{
+			if (game->map[x][y] == 'N' || game->map[x][y] == 'E' ||
+				game->map[x][y] == 'S' || game->map[x][y] == 'W')
+			{
+				game->player.px = y;
+				game->player.py = x;
+				return ;
+			}
+			y++;
+		}
+		x++;
+	}
+}
+
+t_render	*init_render(t_god *p)
 {
 	t_render *game;
 
 	game = ft_calloc(1, sizeof(t_render));
 	if (!game)
 		exit(1);
-	char **set_map = malloc(sizeof(char *) * 9);  // 9 is the number of rows in your map
-	if (!set_map)
-	{
-	    write(2, "Error: malloc: set_map\n", 23);
- 	   exit(1);
-	}
-
-	set_map[0] = ft_strdup("11111");
-	set_map[1] = ft_strdup("10001");
-	set_map[2] = ft_strdup("10001");
-	set_map[3] = ft_strdup("10101");
-	set_map[4] = ft_strdup("10001");
-	set_map[5] = ft_strdup("10N01");
-	set_map[6] = ft_strdup("10001");
-	set_map[7] = ft_strdup("11111");
-	set_map[8] = NULL;  // NULL-terminate the array
-
-	game->map = set_map;
+	game->map = p->full_map;
 	game->mlx = mlx_init(WIDTH, HEIGHT, "cub3D", false);
 	if (!game->mlx)
 	{
 		write(2, "Error: MLX_init\n", 17);
 		exit(1);
 	}
-	game->player.px = 2.5;
-	game->player.py = 5.5;
-	set_radian(game);
-	init_textures(game);
+	get_player_position(game);
+	set_radian_init_bckgrnd(game);
+	printf("rgb floor: r: %d g: %d b: %d\n", p->floor.left, p->floor.middle, p->floor.right);
+	printf("rgb ceiling: r: %d g: %d b: %d\n", p->ceiling.left, p->ceiling.middle, p->ceiling.right);
+
+
+	game->text.floor_color = get_RGB(255, p->floor.left, p->floor.middle, p->floor.right);
+	game->text.ceiling_color = get_RGB(255, p->ceiling.left, p->ceiling.middle, p->ceiling.right);
+	init_textures(game, p);
 	init_raycasting(game);
+	game->parse_data = p;
 	return (game);
 }

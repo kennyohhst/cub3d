@@ -6,7 +6,7 @@
 /*   By: jde-baai <jde-baai@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/11 17:19:40 by jde-baai      #+#    #+#                 */
-/*   Updated: 2024/02/10 17:57:18 by jde-baai      ########   odam.nl         */
+/*   Updated: 2024/02/15 12:53:15 by jde-baai      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,12 +61,11 @@ int	get_y(t_render *game, int y, t_pixel *pxl)
 	}
 	else
 	{
-		y = pxl->wall_start;
-		while (y < 0)
+		if (pxl->wall_start < 0)
 		{
-			y++;
-			pxl->wall_y += pxl->wall_step;
-		} // change this from loop to sum
+		    pxl->wall_y += pxl->wall_step * -pxl->wall_start;
+		    y = 0;
+		}
 	}
 	return (y);
 }
@@ -110,7 +109,7 @@ uint32_t	pixel_from_texture(t_render *game, t_pixel pxl, size_t y)
 	img_y = y;
 	img_x = (size_t)(game->cast.wall_h[pxl.x] * PIXEL) % PIXEL;
 	index = (img_y * PIXEL + img_x) * 4;
-	int32_t colour = get_RGB(pxl.wall_text->pixels[index], pxl.wall_text->pixels[index + 3],\
-			pxl.wall_text->pixels[index + 2], pxl.wall_text->pixels[index + 1]);
+	int32_t colour = get_RGB(pxl.wall_text->pixels[index + 3], pxl.wall_text->pixels[index],\
+			pxl.wall_text->pixels[index + 1], pxl.wall_text->pixels[index + 2]);
 	return (colour);
 }

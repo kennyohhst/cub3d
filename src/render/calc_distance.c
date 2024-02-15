@@ -6,7 +6,7 @@
 /*   By: jde-baai <jde-baai@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/11 15:53:39 by jde-baai      #+#    #+#                 */
-/*   Updated: 2024/02/10 17:54:47 by jde-baai      ########   odam.nl         */
+/*   Updated: 2024/02/15 11:53:33 by jde-baai      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,8 @@ void	calc_distance(t_render *game)
  * @brief finds the horizontal and vertical distance
  * 		sets the distance to the shortests distance
  * 		sets the wall_side the wall hit
+ * 
+ * @todo remove xlimit from the params;
 */
 void	run_calc(t_render *game, t_calc *calc)
 {
@@ -82,8 +84,11 @@ double	find_hor_wall(t_render *game, t_calc *calc, int xlimit, int ylimit)
 	{
 		mapx = (int)calc->hor_ray_x;
 		mapy = (int)calc->hor_ray_y;
-		if (mapx > xlimit || mapy > ylimit || mapx < 0 || mapy < 0) // max x and y
-			break ; 
+		if (mapy > ylimit || mapy < 0)
+			break ;	
+		xlimit = ft_strlen(game->map[mapy]);
+		if (mapx > xlimit || mapx < 0)
+			break ;
 		if (game->map[mapy][mapx] == '1')
 		{
 			return (get_dist(game->player.px, game->player.py, calc->hor_ray_x, calc->hor_ray_y));
@@ -103,7 +108,10 @@ double	find_ver_wall(t_render *game, t_calc *calc, int xlimit, int ylimit)
 	{
 		mapx = (int)floor(calc->ver_ray_x);
 		mapy = (int)floor(calc->ver_ray_y);
-		if (mapx > xlimit || mapy > ylimit || mapx < 0 || mapy < 0)
+		if (mapy > ylimit || mapy < 0)
+			break ;	
+		xlimit = ft_strlen(game->map[mapy]);
+		if (mapx > xlimit || mapx < 0)
 			break ; 
 		if (game->map[mapy][mapx] == '1')
 		{

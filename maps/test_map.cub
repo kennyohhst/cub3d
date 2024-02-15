@@ -1,19 +1,19 @@
-EA ./path_to_the_east_texture
-NO ./path_to_the_north_texture
-SO ./path_to_the_south_texture
-WE ./path_to_the_west_texture
+EA ./textures/East_wall.png
+NO ./textures/North_wall.png
+SO ./textures/South_wall.png
+WE ./textures/West_wall.png
 
 
 
 
 
-C 92,0,1
+C 46,230,218
 
 
 
 
 
-F 22,0100,0
+F 108,213,82
 
 
 
