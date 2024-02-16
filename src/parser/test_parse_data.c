@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   test_parse_data.c                                  :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: code <code@student.42.fr>                    +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2023/12/02 13:59:46 by kkalika       #+#    #+#                 */
-/*   Updated: 2024/02/10 17:59:22 by jde-baai      ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   test_parse_data.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: code <code@student.42.fr>                  +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/12/02 13:59:46 by kkalika           #+#    #+#             */
+/*   Updated: 2024/02/16 15:01:33 by code             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ void	test_parse_data(t_god *data)
 
 	if (!data)
 	{
-		write(1, "Data is empty\n", 15);
+		write(2, "Error\nData is empty\n", 15);
 		return ;
 	}
 	temp = data;

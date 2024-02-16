@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   flood_fill.c                                       :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: code <code@student.42.fr>                    +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2023/02/15 01:02:50 by code          #+#    #+#                 */
-/*   Updated: 2024/02/16 12:12:47 by julius        ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   flood_fill.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: code <code@student.42.fr>                  +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/02/15 01:02:50 by code              #+#    #+#             */
+/*   Updated: 2024/02/16 14:59:27 by code             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,6 +130,8 @@ bool	prep_flood(char **full_map)
 	t_map	*flood;
 
 	flood = malloc(sizeof(t_map));
+	if (!flood)
+		return (write(2, "Error\nFlood_malloc_fail\n", 25), true);
 	flood->exit = 0;
 	if (sus_player(full_map))
 		return (free(flood), true);

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   parse.c                                            :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: code <code@student.42.fr>                    +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2023/12/02 14:14:43 by kkalika       #+#    #+#                 */
-/*   Updated: 2024/02/16 12:09:59 by julius        ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   parse.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: code <code@student.42.fr>                  +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/12/02 14:14:43 by kkalika           #+#    #+#             */
+/*   Updated: 2024/02/16 15:04:19 by code             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ void	new_line_err_check(char *str, size_t i, size_t x)
 {
 	if (!str)
 	{
-		write(2, "empty file\n", 12);
+		write(2, "Error\nempty file\n", 18);
 		exit(1);
 	}
 	while (str[i])
@@ -67,9 +67,9 @@ void	new_line_err_check(char *str, size_t i, size_t x)
 	newline_break(str, i, x);
 }
 
-
 /**
- * @todo get_next_line kan NULL returnen bij MALLOC_ERROR dus je moet het beveiligen... strljoin ook ..  ft_split kan ook 0 return .... 
+ * @todo get_next_line kan NULL returnen bij MALLOC_ERROR dus
+ * je moet het beveiligen... strljoin ook ..  ft_split kan ook 0 return .... 
 */
 char	**parse(char *map_input, t_god *data)
 {
@@ -94,7 +94,7 @@ char	**parse(char *map_input, t_god *data)
 	no_spaces_file = ft_split(str, '\n');
 	free(str);
 	close(fd);
-	if (dp_strlen(no_spaces_file) > 6)
+	if (no_spaces_file && dp_strlen(no_spaces_file) > 6)
 		data->full_map = &no_spaces_file[6];
 	return (no_spaces_file);
 }
