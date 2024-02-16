@@ -6,7 +6,7 @@
 /*   By: code <code@student.42.fr>                    +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/12/06 13:16:27 by code          #+#    #+#                 */
-/*   Updated: 2024/02/10 17:59:22 by jde-baai      ########   odam.nl         */
+/*   Updated: 2024/02/16 16:05:44 by jde-baai      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ static void	one_of_each(char **full_map, char *c)
 			x++;
 		if (x > 1)
 		{
-			write(2, "Error\none_of_each_1\n", 20);
+			write(2, "Error\none_of_each_1\n", 21);
 			exit(2);
 		}
 		i++;

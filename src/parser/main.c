@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: code <code@student.42.fr>                  +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/01 16:02:31 by code              #+#    #+#             */
-/*   Updated: 2024/02/16 15:29:39 by code             ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   main.c                                             :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: code <code@student.42.fr>                    +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2023/12/01 16:02:31 by code          #+#    #+#                 */
+/*   Updated: 2024/02/16 16:04:57 by jde-baai      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ int	main(int argc, char **argv)
 	game_data->no_spaces_file = parse(argv[1], game_data);
 	if (!game_data->no_spaces_file)
 	{
-		write(2, "Error\n", 6);
+		write(2, "Error\nafter parse\n", 19);
 		exit(1);
 	}
 	temp = double_array_copy(game_data->full_map);
