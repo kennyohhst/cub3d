@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   flood_fill.c                                       :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: code <code@student.42.fr>                    +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2023/02/15 01:02:50 by code          #+#    #+#                 */
-/*   Updated: 2024/02/16 15:38:49 by jde-baai      ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   flood_fill.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: kkalika <kkalika@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/02/15 01:02:50 by code              #+#    #+#             */
+/*   Updated: 2024/02/16 16:22:29 by kkalika          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	sus_player(char **full_map)
 		while (full_map[x][y])
 		{
 			if (full_map[x][y] && (full_map[x][y] == 'N'
-					|| full_map[x][y] == 'O' || full_map[x][y] == 'S'
+					|| full_map[x][y] == 'E' || full_map[x][y] == 'S'
 					|| full_map[x][y] == 'W'))
 				count++;
 			y++;
@@ -104,7 +104,7 @@ bool	player(t_map **flood, char **full_map)
 	y = 0;
 	while (full_map && full_map[x])
 	{
-		if (full_map[x][y] && (full_map[x][y] == 'N' || full_map[x][y] == 'O'
+		if (full_map[x][y] && (full_map[x][y] == 'N' || full_map[x][y] == 'E'
 				|| full_map[x][y] == 'S' || full_map[x][y] == 'W'))
 		{
 			(*flood)->player_x = x;
