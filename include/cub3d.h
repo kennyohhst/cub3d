@@ -6,7 +6,7 @@
 /*   By: code <code@student.42.fr>                    +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/12/01 16:01:38 by code          #+#    #+#                 */
-/*   Updated: 2024/02/15 14:36:03 by jde-baai      ########   odam.nl         */
+/*   Updated: 2024/02/16 15:40:35 by jde-baai      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 # include <math.h>
 # include <stdio.h>
 
-# define PIXEL 64
+# define PIXEL 1280
 # define PI 3.14159265358979323846
 # define PI2 1.57079632679489661923
 # define PI3 4.71238898038468985769

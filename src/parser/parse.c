@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   parse.c                                            :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: code <code@student.42.fr>                  +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/02 14:14:43 by kkalika           #+#    #+#             */
-/*   Updated: 2024/02/16 15:04:19 by code             ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   parse.c                                            :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: code <code@student.42.fr>                    +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2023/12/02 14:14:43 by kkalika       #+#    #+#                 */
+/*   Updated: 2024/02/16 15:35:06 by jde-baai      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	newline_break(char *str, size_t i, size_t len)
 	{
 		if (str[i] == '\n')
 			if (str[i + 1] == '\n')
-				exit(write(2, "error new_line_break\n", 22));
+				exit(write(2, "Error\nnew_line_break\n", 22));
 		i++;
 	}
 }
@@ -67,10 +67,6 @@ void	new_line_err_check(char *str, size_t i, size_t x)
 	newline_break(str, i, x);
 }
 
-/**
- * @todo get_next_line kan NULL returnen bij MALLOC_ERROR dus
- * je moet het beveiligen... strljoin ook ..  ft_split kan ook 0 return .... 
-*/
 char	**parse(char *map_input, t_god *data)
 {
 	int		fd;

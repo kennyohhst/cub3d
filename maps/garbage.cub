@@ -1,10 +1,10 @@
 C 225,30,1
 F 220,100,0
 
-EA ./textures/East_wall.png
-NO ./textures/North_wall.png
-SO ./textures/South_wall.png
-WE ./textures/West_wall.png
+EA ./textures/dr.png
+NO ./textures/ferb.png
+SO ./textures/phineas.png
+WE ./textures/perry.png
 
 
 
