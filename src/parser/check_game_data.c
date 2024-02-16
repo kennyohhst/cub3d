@@ -6,7 +6,7 @@
 /*   By: code <code@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/13 15:21:43 by code              #+#    #+#             */
-/*   Updated: 2024/02/16 17:34:07 by code             ###   ########.fr       */
+/*   Updated: 2024/02/16 19:44:49 by code             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,14 +28,17 @@ bool	convert_to_num(t_colours *c, char *str)
 	size_t	i;
 	char	**temp;
 
-	i = 0;
+	i = 1;
+	if ((str[i++] != ' '))
+		return (true);
 	while (str[i])
 	{
-		if (str[i] >= '0' && str[i] <= '9')
-			break ;
+		if (str[i] < '0' || str[i] > '9')
+			if (str[i] != ',')
+				return (true);
 		i++;
 	}
-	temp = ft_split(str + i, ',');
+	temp = ft_split(str + 2, ',');
 	if (!temp)
 		return (true);
 	i = 0;
@@ -46,8 +49,7 @@ bool	convert_to_num(t_colours *c, char *str)
 	c->left = ft_atoi(temp[0]);
 	c->middle = ft_atoi(temp[1]);
 	c->right = ft_atoi(temp[2]);
-	ft_free_s(temp);
-	return (false);
+	return (ft_free_s(temp), false);
 }
 
 bool	add_floor_ceiling(t_god *data)
@@ -86,7 +88,8 @@ bool	thing_in_map(char **full_map)
 			if (full_map[x][y] != '1' && 
 				full_map[x][y] != '0' && 
 				full_map[x][y] != 'W' && full_map[x][y] != 'E' && 
-				full_map[x][y] != 'N' && full_map[x][y] != 'S')
+				full_map[x][y] != 'N' && full_map[x][y] != 'S'
+				&& full_map[x][y] != ' ')
 				return (write(2, "Error\nThing in map\n", 20), true);
 			y++;
 		}
