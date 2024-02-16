@@ -6,7 +6,7 @@
 /*   By: code <code@student.42.fr>                    +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/12/02 14:14:43 by kkalika       #+#    #+#                 */
-/*   Updated: 2024/02/15 14:22:31 by jde-baai      ########   odam.nl         */
+/*   Updated: 2024/02/16 12:09:59 by julius        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,10 @@ void	new_line_err_check(char *str, size_t i, size_t x)
 	newline_break(str, i, x);
 }
 
+
+/**
+ * @todo get_next_line kan NULL returnen bij MALLOC_ERROR dus je moet het beveiligen... strljoin ook ..  ft_split kan ook 0 return .... 
+*/
 char	**parse(char *map_input, t_god *data)
 {
 	int		fd;

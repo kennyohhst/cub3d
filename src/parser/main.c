@@ -6,12 +6,15 @@
 /*   By: code <code@student.42.fr>                    +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/12/01 16:02:31 by code          #+#    #+#                 */
-/*   Updated: 2024/02/15 14:51:45 by jde-baai      ########   odam.nl         */
+/*   Updated: 2024/02/16 12:12:16 by julius        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <cub3d.h>
 
+/**
+ * @todo malloc die je niet beveiligt...
+*/
 char	**double_array_copy(char **array)
 {
 	char	**return_array;
@@ -39,13 +42,15 @@ int	main(int argc, char **argv)
 	char	**temp;
 
 	if (argc != 2)
-		exit((write(2, "Error\ncheck input\n", 19)));
+		return (write(2, "Error\nmissing input\n", 21), 1);
 	check_file_extension(argv[1]);
 	game_data = malloc(sizeof(t_god));
+	if (!game_data)
+		return (write(2, "Error\nmalloc failed\n", 21), 1);
 	game_data->no_spaces_file = parse(argv[1], game_data);
 	temp = double_array_copy(game_data->full_map);
 	if (check_game_data(game_data, temp))
-		exit(write(2, "Error_map_not_good\n", 20));
+		exit(1);
 	render_main(game_data);
 	free_all(game_data);
 	return (0);

@@ -6,7 +6,7 @@
 /*   By: code <code@student.42.fr>                    +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/02/15 01:02:50 by code          #+#    #+#                 */
-/*   Updated: 2024/02/15 14:53:51 by jde-baai      ########   odam.nl         */
+/*   Updated: 2024/02/16 12:12:47 by julius        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,6 +122,9 @@ bool	player(t_map **flood, char **full_map)
 	return (true);
 }
 
+/**
+ * @todo malloc die je niet beveiligt...
+*/
 bool	prep_flood(char **full_map)
 {
 	t_map	*flood;

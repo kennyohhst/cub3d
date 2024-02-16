@@ -6,7 +6,7 @@
 /*   By: code <code@student.42.fr>                    +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/12/13 15:21:43 by code          #+#    #+#                 */
-/*   Updated: 2024/02/15 14:51:39 by jde-baai      ########   odam.nl         */
+/*   Updated: 2024/02/16 12:00:03 by julius        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ bool	tab_killer(char **full_map)
 		while (full_map[x][y])
 		{
 			if (full_map[x][y] == '\t')
-				return (true);
+				return (write(2, "Error\nTab in map\n", 18), true);
 			y++;
 		}
 		y = 0;

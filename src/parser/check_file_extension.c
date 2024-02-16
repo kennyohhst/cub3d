@@ -6,7 +6,7 @@
 /*   By: code <code@student.42.fr>                    +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/12/24 23:03:01 by code          #+#    #+#                 */
-/*   Updated: 2024/02/10 17:59:22 by jde-baai      ########   odam.nl         */
+/*   Updated: 2024/02/16 12:02:15 by julius        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	check_file_extension(char *str)
 		return ;
 	else
 	{
-		write(2, "check file name\n", 17);
+		write(2, "Error\nfile extension incorrect\n", 32);
 		exit(2);
 	}
 }
