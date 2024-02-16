@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   check_game_data.c                                  :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: code <code@student.42.fr>                    +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2023/12/13 15:21:43 by code          #+#    #+#                 */
-/*   Updated: 2024/02/16 12:00:03 by julius        ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   check_game_data.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: code <code@student.42.fr>                  +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/12/13 15:21:43 by code              #+#    #+#             */
+/*   Updated: 2024/02/16 17:34:07 by code             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ bool	add_floor_ceiling(t_god *data)
 	return (false);
 }
 
-bool	tab_killer(char **full_map)
+bool	thing_in_map(char **full_map)
 {
 	size_t	x;
 	size_t	y;
@@ -83,8 +83,11 @@ bool	tab_killer(char **full_map)
 	{
 		while (full_map[x][y])
 		{
-			if (full_map[x][y] == '\t')
-				return (write(2, "Error\nTab in map\n", 18), true);
+			if (full_map[x][y] != '1' && 
+				full_map[x][y] != '0' && 
+				full_map[x][y] != 'W' && full_map[x][y] != 'E' && 
+				full_map[x][y] != 'N' && full_map[x][y] != 'S')
+				return (write(2, "Error\nThing in map\n", 20), true);
 			y++;
 		}
 		y = 0;
@@ -98,7 +101,7 @@ bool	check_game_data(t_god *data, char **flood_me)
 	bool	err;
 
 	err = false;
-	if (tab_killer(flood_me))
+	if (thing_in_map(flood_me))
 		return (true);
 	if (dp_strlen(flood_me) <= 2)
 		return (true);
