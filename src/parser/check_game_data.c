@@ -6,7 +6,7 @@
 /*   By: code <code@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/13 15:21:43 by code              #+#    #+#             */
-/*   Updated: 2024/02/16 19:44:49 by code             ###   ########.fr       */
+/*   Updated: 2024/02/17 15:40:37 by code             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,9 +85,9 @@ bool	thing_in_map(char **full_map)
 	{
 		while (full_map[x][y])
 		{
-			if (full_map[x][y] != '1' && 
-				full_map[x][y] != '0' && 
-				full_map[x][y] != 'W' && full_map[x][y] != 'E' && 
+			if (full_map[x][y] != '1' &&
+				full_map[x][y] != '0' &&
+				full_map[x][y] != 'W' && full_map[x][y] != 'E' &&
 				full_map[x][y] != 'N' && full_map[x][y] != 'S'
 				&& full_map[x][y] != ' ')
 				return (write(2, "Error\nThing in map\n", 20), true);
