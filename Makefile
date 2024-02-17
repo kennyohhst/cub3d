@@ -10,11 +10,22 @@ MLX_DIR := lib/mlx42
 
 # Compiler flags
 CC := cc
-CFLAGS := -Wall -Werror -Wextra -Ofast #-g -fsanitize=address
-IFLAGS := -I$(INC_DIR) -I$(MLX_DIR)/include -I$(MLX_DIR)/include/$(MLX_DIR) -I$(LIBFT_DIR)
-LFLAGS := -L$(MLX_DIR)/build -lmlx42 -lglfw -ldl -pthread -lm -L$(LIBFT_DIR) -lft
+CFLAGS := -Wall -Werror -Wextra -Ofast
+IFLAGS := -I lib/mlx42/include
+
+# linkers
+ifeq ($(shell uname), Darwin)
+    ifeq ($(shell uname -m), x86_64)
+        LFLAGS = -L/usr/local/lib -lglfw -framework IOKit -framework Cocoa
+    else
+        LFLAGS = -L/opt/homebrew/lib -lglfw -framework IOKit -framework Cocoa
+    endif
+else ifeq ($(shell uname), Linux)
+    LFLAGS = -ldl -lglfw -pthread -lm
+endif
+
 ifeq ($(DEBUG), 1)
-    # CFLAGS += -g
+    CFLAGS += -g -fsanitize=address
 endif
 
 # Includes
@@ -24,7 +35,6 @@ MLX42 := $(MLX_DIR)/build/libmlx42.a
 
 # Libft
 LIB				:= $(LIB_DIR)/libft.a
-
 
 # Files
 SRC_FILES :=	render/render_main.c \
@@ -61,7 +71,7 @@ all: $(MLX42) ${NAME}
 
 $(NAME): $(OBJ) $(LIB)
 	@printf "%b%s%b" "$(YELLOW)$(BOLD)" "Compiling $(NICKNAME)..." "$(RESET)"
-	@$(CC) $(CFLAGS) $(OBJ) $(LIB) -o $@ lib/mlx42/build/libmlx42.a -ldl -lglfw -lm -pthread -I mlx42/include
+	@$(CC) $(CFLAGS) $(OBJ) $(LIB) -o $@ lib/mlx42/build/libmlx42.a $(LFLAGS) $(IFLAGS)
 	@printf "\t\t%b%s%b\n" "$(GREEN)$(BOLD)" "[OK]" "$(RESET)"
 
 $(LIB):
@@ -78,11 +88,7 @@ $(OBJ_DIR)/%.o: src/%.c $(HDR)
 
 run: all
 	@printf "$(GREEN)--------------\n RUN $(NAME) \n--------------\n$(RESET)"
-	@./$(NAME)	
-
-valgrind: all
-	@printf "$(GREEN)------------------\n RUN $(NAME) with VALGRIND \n------------------\n$(RESET)"
-	@valgrind --leak-check=full ./$(NAME)
+	@./$(NAME) maps/test_map.cub
 
 debug:
 	@$(MAKE) DEBUG=1 all
@@ -108,8 +114,6 @@ fclean:
 	$(MAKE) clean/fast -C $(MLX_DIR)/build -j4 --quiet
 	@ make $(MAKEFLAGS) fclean -C $(LIB_DIR)
 
-
-
 re: fclean all
 
-.PHONY: all norminette run debug valgrind open clean fclean re
+.PHONY: all norminette run debug open clean fclean re
