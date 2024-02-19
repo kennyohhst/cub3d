@@ -10,7 +10,7 @@ MLX_DIR := lib/mlx42
 
 # Compiler flags
 CC := cc
-CFLAGS := -Wall -Werror -Wextra -Ofast
+CFLAGS := -Wall -Werror -Wextra -Ofast -Wunused-result
 IFLAGS := -I lib/mlx42/include
 
 # linkers
